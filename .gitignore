@@ -1,6 +1,7 @@
-*.dat
 autosaves/
 auto-save-list/
 elpa/
 server/
+var/
+*.dat
 *.last
