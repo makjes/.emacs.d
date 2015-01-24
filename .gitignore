@@ -3,3 +3,4 @@ autosaves/
 auto-save-list/
 elpa/
 server/
+*.last
