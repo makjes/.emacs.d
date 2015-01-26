@@ -12,6 +12,8 @@
 (show-paren-mode 1)                         ; Show matching parenthesis
 (delete-selection-mode t)
 
+(setq default-directory (concat (getenv "HOME") "/"))
+
 ;; ido-mode
 (ido-mode t)
 (setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
