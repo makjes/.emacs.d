@@ -1,16 +1,24 @@
-;; Emacs settings
-(setq inhibit-splash-screen t)              ; No splash screen
-(menu-bar-mode 0)                           ; No menu bar
-(tool-bar-mode 0)                           ; No tool bar
-(scroll-bar-mode 0)                         ; No scroll bar
-(blink-cursor-mode 0)                       ; Stop blinking cursor
-(global-linum-mode 0)                       ; No line numbers
-(column-number-mode t)                      ; Turn on column numbers
-(setq initial-scratch-message nil)          ; Clean scratch buffer.
+;; Turn off modes
+(dolist (mode
+	 '(menu-bar-mode                    ; No menu bar
+	   tool-bar-mode                    ; No tool bar
+	   scroll-bar-mode                  ; No scroll bar
+	   blink-cursor-mode                ; Stop blinking cursor
+	   global-linum-mode))              ; No line numbers
+  (funcall mode 0))
+	 
+;; Turn on modes
+(dolist (mode
+	 '(column-number-mode               ; Turn on column numbers
+	   show-paren-mode                  ; Show matching parenthesis
+	   delete-selection-mode))          ; Replace selected text
+  (funcall mode 1))
+
+;; Set values
+(setq inhibit-splash-screen t               ; No splash screen
+      initial-scratch-message nil)          ; Clean scratch buffer.
 
 (fset 'yes-or-no-p 'y-or-n-p)               ; Answer with y/n
-(show-paren-mode 1)                         ; Show matching parenthesis
-(delete-selection-mode t)
 
 (setq default-directory (concat (getenv "HOME") "/"))
 
