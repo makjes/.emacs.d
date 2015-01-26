@@ -1,26 +1,25 @@
 ;; Turn off modes
 (dolist (mode
-	 '(menu-bar-mode                    ; No menu bar
-	   tool-bar-mode                    ; No tool bar
-	   scroll-bar-mode                  ; No scroll bar
-	   blink-cursor-mode                ; Stop blinking cursor
-	   global-linum-mode))              ; No line numbers
+	 '(menu-bar-mode                                   ; No menu bar
+	   tool-bar-mode                                   ; No tool bar
+	   scroll-bar-mode                                 ; No scroll bar
+	   blink-cursor-mode                               ; Stop blinking cursor
+	   global-linum-mode))                             ; No line numbers
   (funcall mode 0))
 	 
 ;; Turn on modes
 (dolist (mode
-	 '(column-number-mode               ; Turn on column numbers
-	   show-paren-mode                  ; Show matching parenthesis
-	   delete-selection-mode))          ; Replace selected text
+	 '(column-number-mode                              ; Turn on column numbers
+	   show-paren-mode                                 ; Show matching parenthesis
+	   delete-selection-mode))                         ; Replace selected text
   (funcall mode 1))
 
 ;; Set values
-(setq inhibit-splash-screen t               ; No splash screen
-      initial-scratch-message nil)          ; Clean scratch buffer.
+(setq inhibit-splash-screen t                              ; No splash screen
+      initial-scratch-message nil                          ; Clean scratch buffer.
+      default-directory (concat (getenv "HOME") "/"))      ; Home directory as default
 
-(fset 'yes-or-no-p 'y-or-n-p)               ; Answer with y/n
-
-(setq default-directory (concat (getenv "HOME") "/"))
+(fset 'yes-or-no-p 'y-or-n-p)                              ; Answer with y/n
 
 ;; ido-mode
 (ido-mode t)
