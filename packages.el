@@ -38,6 +38,7 @@
 ;; setup-files
 (load "~/.emacs.d/packages/autocomplete.el")
 (load "~/.emacs.d/packages/prettylambda.el")
+(load "~/.emacs.d/packages/paredit.el")
 (load "~/.emacs.d/packages/scheme.el")
 (load "~/.emacs.d/packages/multiplecursors.el")
 (load "~/.emacs.d/packages/magit.el")
