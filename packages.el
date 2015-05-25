@@ -7,9 +7,9 @@
 (setq archives-refreshed nil)
 
 (setq package-archives
-      '(("gnu" . "http://elpa.gnu.org/packages/")
-	("org" . "http://orgmode.org/elpa/")
-	("MELPA" . "http://melpa.milkbox.net/packages/")))
+      '(("MELPA" . "http://melpa.milkbox.net/packages/")
+	("gnu" . "http://elpa.gnu.org/packages/")
+	("org" . "http://orgmode.org/elpa/")))
 
 (unless (file-exists-p (expand-file-name
 			(concat package-user-dir
@@ -44,3 +44,4 @@
 (load "~/.emacs.d/packages/magit.el")
 (load "~/.emacs.d/packages/gist.el")
 (load "~/.emacs.d/packages/lua.el")
+(load "~/.emacs.d/packages/snippets.el")

@@ -11,7 +11,9 @@
 (define-key custom-bindings-map (kbd "C-x C-g l") 'gist-list)                       ; ref: packages/gist.el
 (define-key custom-bindings-map (kbd "C-x C-g u") 'gist-region-or-buffer-private)   ; ref: packages/gist.el
 (define-key custom-bindings-map (kbd "C-c C-l")   'lua-send-buffer)                 ; ref: packages/lua.el
+(define-key custom-bindings-map (kbd "C-x C-y i") 'yas-insert-snippet)              ; ref: packages/snippets.el
 
 (define-minor-mode custom-bindings-mode
   "A mode that activates custom-bindings."
   t nil custom-bindings-map)
+
