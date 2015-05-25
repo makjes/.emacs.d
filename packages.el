@@ -43,3 +43,4 @@
 (load "~/.emacs.d/packages/multiplecursors.el")
 (load "~/.emacs.d/packages/magit.el")
 (load "~/.emacs.d/packages/gist.el")
+(load "~/.emacs.d/packages/lua.el")
