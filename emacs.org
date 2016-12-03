@@ -1,0 +1,208 @@
+#+TITLE: My Emacs configurations
+#+STARTUP: indent
+#+OPTIONS: H:5 num:nil tags:nil toc:nil timestamps:t
+#+LAYOUT: post
+#+DESCRIPTION: Loading emacs config using org-babel
+
+* Initialize
+** UTF-8
+#+BEGIN_SRC emacs-lisp
+(prefer-coding-system 'utf-8)
+(when (display-graphic-p)
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+#+END_SRC
+** Package setup
+#+BEGIN_SRC emacs-lisp
+(require 'cl)
+(require 'package)
+
+;; (setq package-enable-at-startup nil)
+
+(defvar gnu '("gnu" . "http://elpa.gnu.org/packages/"))
+(defvar melpa '("melpa" . "http://melpa.org/packages/"))
+(defvar melpa-stable '("melpa-stable" . "http://stable.melpa.org/packages/"))
+
+(setq package-archives nil)
+(add-to-list 'package-archives melpa-stable t)
+(add-to-list 'package-archives melpa t)
+(add-to-list 'package-archives gnu t)
+
+(package-initialize)
+(unless (and (file-exists-p "~/.emacs.d/elpa/archives/gnu")
+             (file-exists-p "~/.emacs.d/elpa/archives/melpa")
+             (file-exists-p "~/.emacs.d/elpa/archives/melpa-stable"))
+  (package-refresh-contents))
+#+END_SRC
+
+At each load the package list will be evaluated and any missing
+packages will be installed. The packages-install function deals with
+this check and takes care of any loading of the packages.
+
+#+BEGIN_SRC emacs-lisp
+(defun packages-install (&rest packages)
+  (message "running packages-install")
+  (mapc (lambda (package)
+          (let ((name (car package))
+                (repo (cdr package)))
+            (when (not (package-installed-p name))
+              (let ((package-archives (list repo)))
+                (package-initialize)
+                (package-install name)))))
+         packages)
+  (package-initialize)
+  (delete-other-windows))
+#+END_SRC
+
+Install packages, preferably only use-package
+
+#+begin_src emacs-lisp
+(defun init--install-packages ()
+  (message "Lets install some packages")
+  (packages-install
+    ;; Since use-package, this is the only entry here.
+    ;; ALWAYS try to use use-package!
+    (cons 'use-package melpa)
+    ))
+
+(condition-case nil
+    (init--install-packages)
+  (error
+    (package-refresh-contents)
+    (init--install-packages)))
+#+end_src
+** Change autosave directory
+#+begin_src emacs-lisp
+(defvar emacs-autosave-directory "~/.emacs.d/autosaves/")
+(setq backup-directory-alist
+      `((".*" . ,emacs-autosave-directory))
+      auto-save-file-name-transforms
+      `((".*" ,emacs-autosave-directory t)))
+#+end_src
+* Look and feel
+** General emacs settings
+*** Turn off menu bar
+#+BEGIN_SRC emacs-lisp
+(menu-bar-mode 0)
+#+END_SRC
+*** Turn off tool bar
+#+BEGIN_SRC emacs-lisp
+(tool-bar-mode 0)
+#+END_SRC
+*** Turn off scroll bar
+#+BEGIN_SRC emacs-lisp
+(scroll-bar-mode 0)
+#+END_SRC
+*** Stop blinking cursor
+#+BEGIN_SRC emacs-lisp
+(blink-cursor-mode 0)
+#+END_SRC
+*** Activate column numbers
+#+BEGIN_SRC emacs-lisp
+(column-number-mode 1)
+#+END_SRC
+*** Show matching parenthesis
+#+BEGIN_SRC emacs-lisp
+(show-paren-mode 1)
+#+END_SRC
+*** Replace selected text
+#+BEGIN_SRC emacs-lisp
+(delete-selection-mode 1)
+#+END_SRC
+*** Turn off splash screen
+#+BEGIN_SRC emacs-lisp
+  (setq inhibit-splash-screen t)
+#+END_SRC
+*** Turn off startup message
+#+begin_src emacs-lisp
+  (setq inhibit-startup-message t)
+#+end_src
+*** Clean the scratch buffer
+#+BEGIN_SRC emacs-lisp
+  (setq initial-scratch-message nil)
+#+END_SRC
+*** Set home directory as default
+#+BEGIN_SRC emacs-lisp
+  (setq default-directory (concat (getenv "HOME") "/"))
+#+END_SRC
+*** Answer with y/n
+#+BEGIN_SRC emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+** Navigation
+*** Swiper
+#+begin_src emacs-lisp
+(use-package counsel :ensure t)
+
+(use-package swiper
+  :ensure t
+  :bind*
+  (("C-s" . swiper)
+   ("C-c C-r" . ivy-resume)
+   ("M-x" . counsel-M-x)
+   ("C-x C-f" . counsel-find-file)
+   ("C-c h f" . counsel-describe-function)
+   ("C-c h v" . counsel-describe-variable)
+   ("C-c i u" . counsel-unicode-char)
+   ("M-i" . counsel-imenu)
+   ("C-c g" . counsel-git)
+   ("C-c j" . counsel-git-grep)
+   ("C-c l" . counsel-load-theme))
+  :config
+  (progn
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (define-key read-expression-map (kbd "C-r") #'counsel-expression-history)
+    (ivy-set-actions
+     'counsel-find-file
+     '(("d" (lambda (x) (delete-file (expand-file-name x)))
+        "delete"
+        )))
+    (ivy-set-actions
+     'ivy-switch-buffer
+     '(("k"
+        (lambda (x)
+          (kill-buffer x)
+          (ivy--reset-state ivy-last))
+        "kill")
+       ("j"
+        ivy--switch-buffer-other-window-action
+        "other window")))))
+
+(use-package ivy-hydra :ensure t)
+#+end_src
+*** Which key
+#+begin_src emacs-lisp
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+#+end_src
+** Themeing
+
+Load themes
+
+#+begin_src emacs-lisp
+
+(use-package arjen-grey-theme :ensure t)
+
+#+end_src
+
+Change font
+
+#+begin_src emacs-lisp
+
+(add-to-list 'default-frame-alist '(font . "Consolas"))
+(set-face-attribute 'default t :font "Consolas")
+
+#+end_src
+* Development
+** Magit
+#+begin_src emacs-lisp
+(use-package magit
+  :ensure t
+  :config
+  (global-set-key (kbd "C-c m") 'magit-status))
+#+end_src
+* Experiments
+** Helm
+[[http://pages.sachachua.com/.emacs.d/Sacha.html#org8b6d0da][Sacha Chua's helm config]]

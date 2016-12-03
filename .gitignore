@@ -5,3 +5,5 @@ server/
 var/
 *.dat
 *.last
+emacs.el
+recentf
