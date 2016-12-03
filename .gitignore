@@ -1,9 +1,3 @@
-autosaves/
-auto-save-list/
-elpa/
-server/
-var/
-*.dat
-*.last
-emacs.el
-recentf
+*
+!init.el
+!emacs.org
