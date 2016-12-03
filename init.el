@@ -1,5 +1,0 @@
-(load "~/.emacs.d/utf-8.el")
-(load "~/.emacs.d/general.el")
-(load "~/.emacs.d/packages.el")
-(load "~/.emacs.d/theming.el")
-(load "~/.emacs.d/keybindings.el")
