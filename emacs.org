@@ -229,16 +229,15 @@ Change font
 #+end_src
 * Usability
 ** Org
+#+BEGIN_SRC emacs-lisp
+(setq org-src-fontify-natively t)
+#+END_SRC
 *** Capture
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (global-set-key [f8] 'org-capture)
 (setq org-capture-templates
  '(("t" "Todoist" plain (file "~/Dropbox/todoist-temp/todoist.txt")
         "%?")))
-#+END_SRC
-** IO Slide
-#+BEGIN_SRC emacs-lisp
-(use-package ox-ioslide :ensure t)
 #+END_SRC
 * Development
 ** Magit
