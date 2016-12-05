@@ -1,5 +1,16 @@
-*
-!init.el
+# Directories
+auto-save-list/
+autosaves/
+elpa/
+eshell/
+server/
+
+# Extracted or exported emacs.org
+emacs.*
 !emacs.org
-!reveal.js
-!reveal.js/*
+
+# Other files
+.org-id-locations
+ac-comphist.dat
+bookmarks
+recentf
