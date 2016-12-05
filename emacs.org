@@ -177,6 +177,38 @@ Install packages, preferably only use-package
   :config
   (which-key-mode))
 #+end_src
+*** Custom keybindings
+#+begin_src emacs-lisp
+(defvar custom-bindings-map (make-keymap)
+  "A keymap for custom bindings.")
+
+;; Kills active buffer
+(define-key custom-bindings-map (kbd "C-x k") 'kill-this-buffer)
+;; Switch to other window
+(define-key custom-bindings-map (kbd "<C-tab>") 'other-window)
+
+(define-minor-mode custom-bindings-mode
+  "A mode that activates custom-bindings."
+  t nil custom-bindings-map)
+#+end_src
+** Autocomplete
+#+begin_src emacs-lisp
+(use-package auto-complete
+  :ensure t
+  :init
+  (progn
+    (ac-config-default)
+    (global-auto-complete-mode t)
+    ))
+    
+#+end_src
+** Agressive indentation
+#+begin_src emacs-lisp
+(use-package aggressive-indent
+  :ensure t
+  :config
+  (global-aggressive-indent-mode 1))
+#+end_src
 ** Themeing
 
 Load themes
@@ -195,6 +227,19 @@ Change font
 (set-face-attribute 'default t :font "Consolas")
 
 #+end_src
+* Usability
+** Org
+*** Capture
+#+BEGIN_SRC elisp
+(global-set-key [f8] 'org-capture)
+(setq org-capture-templates
+ '(("t" "Todoist" plain (file "~/Dropbox/todoist-temp/todoist.txt")
+        "%?")))
+#+END_SRC
+** IO Slide
+#+BEGIN_SRC emacs-lisp
+(use-package ox-ioslide :ensure t)
+#+END_SRC
 * Development
 ** Magit
 #+begin_src emacs-lisp
@@ -204,5 +249,3 @@ Change font
   (global-set-key (kbd "C-c m") 'magit-status))
 #+end_src
 * Experiments
-** Helm
-[[http://pages.sachachua.com/.emacs.d/Sacha.html#org8b6d0da][Sacha Chua's helm config]]
