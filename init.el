@@ -22,7 +22,7 @@
     ("#B9F" "#B8D" "#B7B" "#B69" "#B57" "#B45" "#B33" "#B11")))
  '(package-selected-packages
    (quote
-    (ox-ioslide-helper ox-ioslide aggressive-indent auto-complete magit monokai-theme arjen-grey-theme which-key ivy-hydra swiper use-package))))
+    (ox-jira ox-ioslide-helper ox-ioslide aggressive-indent auto-complete magit monokai-theme arjen-grey-theme which-key ivy-hydra swiper use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

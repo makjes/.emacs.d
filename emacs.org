@@ -1,4 +1,4 @@
-#+TITLE: My Emacs configurations
+# #+TITLE: "My Emacs configurations"
 #+STARTUP: indent
 #+OPTIONS: H:5 num:nil tags:nil toc:nil timestamps:t
 #+LAYOUT: post
@@ -236,7 +236,13 @@ Change font
  '(("t" "Todoist" plain (file "~/Dropbox/todoist-temp/todoist.txt")
         "%?")))
 #+END_SRC
-** IO Slide
+*** Jira
+#+BEGIN_SRC emacs-lisp
+(use-package ox-jira :ensure t)
+#+END_SRC
+*** TODO Confluence
+*** TODO Latex
+*** IO Slide
 #+BEGIN_SRC emacs-lisp
 (use-package ox-ioslide :ensure t)
 #+END_SRC
