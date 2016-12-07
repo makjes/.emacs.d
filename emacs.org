@@ -1,4 +1,4 @@
-# #+TITLE: "My Emacs configurations"
+# +TITLE: "My Emacs configurations"
 #+STARTUP: indent
 #+OPTIONS: H:5 num:nil tags:nil toc:nil timestamps:t
 #+LAYOUT: post
@@ -300,7 +300,7 @@ To load Org-reveal, type "M-x load-library", then type "ox-reveal".
   - solarized
   - white
   #+BEGIN_SRC emacs-lisp
-  (setq org-reveal-theme "night")
+  (setq org-reveal-theme "ng-dark")
   #+END_SRC
 - Disable controls
   #+BEGIN_SRC emacs-lisp
