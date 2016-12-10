@@ -1,3 +1,0 @@
-[submodule "impress"]
-	path = impress
-	url = git@github.com:kinjo/org-impress-js.el.git
