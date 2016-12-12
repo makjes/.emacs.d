@@ -265,7 +265,7 @@ Reload buffers when files change outside emacs
     ("UiO.org" :maxlevel . 1)
     ("NorgesGruppen.org" :maxlevel . 1)
     ("HV.org" :maxlevel . 1)
-    ("Inbox.org" :)
+    ("Inbox.org" :level . 1)
     ("Nellon.org" :maxlevel . 1)
     ("Default.org" :maxlevel . 1)))
 #+END_SRC
