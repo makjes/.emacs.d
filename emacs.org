@@ -227,10 +227,73 @@ Change font
 (set-face-attribute 'default t :font "Consolas")
 
 #+end_src
-* Usability
-** Org
+** Removed "ding"
+#+BEGIN_SRC emacs-lisp
+(defun my-ding-function ())
+(setq ring-bell-function 'my-ding-function)
+(setq visible-bell nil)
+#+END_SRC
+* General stuff
+Reload buffers when files change outside emacs
+#+BEGIN_SRC emacs-lisp
+(global-auto-revert-mode t)
+#+END_SRC
+* Org-mode
+*** Key bindings
+#+BEGIN_SRC emacs-lisp
+(use-package org
+  :bind (:map org-mode-map
+         ("<f2>" . org-refile)
+         ("C-c a" . org-agenda)))
+  
+#+END_SRC
+*** Set agenda files
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-files '("~/Dropbox/org/Privat.org"
+                         "~/Dropbox/org/NorgesGruppen.org"
+                         "~/Dropbox/org/HV.org"
+                         "~/Dropbox/org/UiO.org"
+                         "~/Dropbox/org/Nellon.org"
+                         "~/Dropbox/org/Default.org"
+                         "~/Dropbox/org/Inbox.org"))
+#+END_SRC
+*** Set refile targets
+#+BEGIN_SRC emacs-lisp
+(setq org-refile-targets
+  '((nil :maxlevel . 1)
+    ("Privat.org" :maxlevel . 1)
+    ("UiO.org" :maxlevel . 1)
+    ("NorgesGruppen.org" :maxlevel . 1)
+    ("HV.org" :maxlevel . 1)
+    ("Inbox.org" :)
+    ("Nellon.org" :maxlevel . 1)
+    ("Default.org" :maxlevel . 1)))
+#+END_SRC
+*** Set archive location
+#+BEGIN_SRC emacs-lisp
+(setq org-archive-location "~/Dropbox/org/archive/archive.org::* From %s")
+#+END_SRC
+*** Set TODO states
+#+BEGIN_SRC emacs-lisp
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "NEXT-ACTION(a!)" "WAITING(w@/!)" "|")
+        (sequence "PLANNING(l)" "PROJECT(p)" "|")
+        (sequence "|" "DONE(d!)" "CANCELED(c)")))
+#+END_SRC
+*** Activate logbook-drawer
+#+BEGIN_SRC emacs-lisp
+(setq org-log-into-drawer "LOGBOOK")
+#+END_SRC
+*** Syntax highlighting in source blocks
 #+BEGIN_SRC emacs-lisp
 (setq org-src-fontify-natively t)
+#+END_SRC
+*** Modify faces for states
+#+BEGIN_SRC emacs-lisp
+(setq org-todo-keyword-faces
+      '(("PLANNING" . (:foreground "lightblue" :weight bold))
+        ("PROJECT" . (:foreground "lightblue"))
+        ("NEXT-ACTION" . (:foreground "lightyellow" :weight bold))))
 #+END_SRC
 *** Capture
 #+BEGIN_SRC emacs-lisp
@@ -251,4 +314,40 @@ Change font
   :config
   (global-set-key (kbd "C-c m") 'magit-status))
 #+end_src
+** Lisp
+*** Paredit
+#+BEGIN_SRC emacs-lisp
+(use-package paredit
+  :ensure t
+  :diminish paredit-mode
+  :config
+  (add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode))
+#+END_SRC
+*** Use paredit everywhere
+#+BEGIN_SRC emacs-lisp
+(use-package paredit-everywhere
+  :ensure t
+  :diminish paredit-everywhere-mode
+  :config
+  (add-hook 'prog-mode-hook #'paredit-everywhere-mode))
+#+END_SRC
+*** Rainbow delimiters
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-delimiters
+  :ensure t
+  :config
+  (add-hook 'lisp-mode-hook
+            (lambda ()
+              (rainbow-delimiters-mode))))
+#+END_SRC
+** Snippets
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet
+  :ensure t
+  :diminish yas
+  :config
+  (yas/global-mode 1)
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets"))
+#+END_SRC
 * Experiments
