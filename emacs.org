@@ -239,7 +239,11 @@ Reload buffers when files change outside emacs
 (global-auto-revert-mode t)
 #+END_SRC
 * Org-mode
-*** Key bindings
+** Activate clean indentation
+#+BEGIN_SRC emacs-lisp
+(setq org-indent-mode t)
+#+END_SRC
+** Key bindings
 #+BEGIN_SRC emacs-lisp
 (use-package org
   :bind (:map org-mode-map
@@ -247,7 +251,7 @@ Reload buffers when files change outside emacs
          ("C-c a" . org-agenda)))
   
 #+END_SRC
-*** Set agenda files
+** Set agenda files
 #+BEGIN_SRC emacs-lisp
 (setq org-agenda-files '("~/Dropbox/org/Privat.org"
                          "~/Dropbox/org/NorgesGruppen.org"
@@ -257,7 +261,7 @@ Reload buffers when files change outside emacs
                          "~/Dropbox/org/Default.org"
                          "~/Dropbox/org/Inbox.org"))
 #+END_SRC
-*** Set refile targets
+** Set refile targets
 #+BEGIN_SRC emacs-lisp
 (setq org-refile-targets
   '((nil :maxlevel . 1)
@@ -269,40 +273,47 @@ Reload buffers when files change outside emacs
     ("Nellon.org" :maxlevel . 1)
     ("Default.org" :maxlevel . 1)))
 #+END_SRC
-*** Set archive location
+** Set archive location
 #+BEGIN_SRC emacs-lisp
 (setq org-archive-location "~/Dropbox/org/archive/archive.org::* From %s")
 #+END_SRC
-*** Set TODO states
+** Set TODO states
 #+BEGIN_SRC emacs-lisp
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT-ACTION(a!)" "WAITING(w@/!)" "|")
         (sequence "PLANNING(l)" "PROJECT(p)" "|")
         (sequence "|" "DONE(d!)" "CANCELED(c)")))
 #+END_SRC
-*** Activate logbook-drawer
+** Activate logbook-drawer
 #+BEGIN_SRC emacs-lisp
 (setq org-log-into-drawer "LOGBOOK")
 #+END_SRC
-*** Syntax highlighting in source blocks
+** Syntax highlighting in source blocks
 #+BEGIN_SRC emacs-lisp
 (setq org-src-fontify-natively t)
 #+END_SRC
-*** Modify faces for states
+** Modify faces for states
 #+BEGIN_SRC emacs-lisp
 (setq org-todo-keyword-faces
       '(("PLANNING" . (:foreground "lightblue" :weight bold))
         ("PROJECT" . (:foreground "lightblue"))
         ("NEXT-ACTION" . (:foreground "lightyellow" :weight bold))))
 #+END_SRC
-*** Capture
+** Capture
 #+BEGIN_SRC emacs-lisp
-(global-set-key [f8] 'org-capture)
+(global-set-key (kbd "<f3>") 'org-capture)
 (setq org-capture-templates
- '(("t" "Todoist" plain (file "~/Dropbox/todoist-temp/todoist.txt")
-        "%?")))
+ '(("w" "Weekly review" entry
+      (file+weektree "~/Dropbox/org/archive/weekly-review.org")
+      (file "~/.emacs.d/templates/weekly-review-no.org"))
+   ("e" "Email" entry
+      (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+      (file "~/.emacs.d/templates/capture-email.org"))
+   ("t" "Todo" entry
+      (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+      (file "~/.emacs.d/templates/capture-generic.org"))))
 #+END_SRC
-*** Jira
+** Jira
 #+BEGIN_SRC emacs-lisp
 (use-package ox-jira :ensure t)
 #+END_SRC

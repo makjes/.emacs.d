@@ -1,0 +1,5 @@
+* %^{Subject}
+  %?  
+  :PROPERTIES:
+  :CAPTURED-TIME: %T
+  :END:

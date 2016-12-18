@@ -1,0 +1,8 @@
+* %^{From}: %^{Subject}
+  %?  
+  :PROPERTIES:
+  :FROM: %\1
+  :SUBJECT: %\2
+  :RECEIVED-TIME: %^{Received}T
+  :CAPTURED-TIME: %T
+  :END:
