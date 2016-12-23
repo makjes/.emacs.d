@@ -311,7 +311,14 @@ Reload buffers when files change outside emacs
       (file "~/.emacs.d/templates/capture-email.org"))
    ("t" "Todo" entry
       (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
-      (file "~/.emacs.d/templates/capture-generic.org"))))
+      (file "~/.emacs.d/templates/capture-generic.org"))
+   ("j" "Jira")
+   ("jd" "DRIV" entry
+      (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+      (file "~/.emacs.d/templates/capture-jira-driv.org"))
+   ("ja" "DA" entry
+      (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+      (file "~/.emacs.d/templates/capture-jira-da.org"))))
 #+END_SRC
 ** Jira
 #+BEGIN_SRC emacs-lisp

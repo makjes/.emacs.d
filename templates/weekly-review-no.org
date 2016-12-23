@@ -43,10 +43,13 @@
     * [ ] Email Nellon
     * [ ] Assigned issues in Jira
     * [ ] Mentions in Jira
+    * [ ] Assigned issues in Remedy
     * [ ] ORG innboks
     * [ ] Innboks
 *** Empty your head [0/2]
     Put in writing and process any uncaptured new projects, action items, waiting for’s, someday maybe’s, etc.
+    - Start timer med C-c C-x 0
+    - Stopp timer med C-c C-x _
     :TRIGGER-LIST:
     [[~/.emacs.d/templates/pro-trigger.org][Professional trigger list]]
     [[~/.emacs.d/templates/priv-trigger.org][Private trigger list]]
@@ -85,6 +88,8 @@
     * [ ] Activate projects
     * [ ] Set uninteresting projects to CANCELED
 *** Be creative and courageous [0/1]
+    - Start timer med C-c C-x 0
+    - Stopp timer med C-c C-x _
     Any new, wonderful, hare-brained, creative, thought-provoking, risk-taking ideas to add into your system???
     * [ ] Set timer to 5 minutes and start dreaming
 
