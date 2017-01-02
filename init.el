@@ -15,7 +15,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yasnippet which-key use-package rainbow-delimiters paredit-everywhere ox-jira magit ivy-hydra htmlize counsel auto-complete arjen-grey-theme aggressive-indent))))
+    (org-habit yasnippet which-key use-package rainbow-delimiters paredit-everywhere ox-jira magit ivy-hydra htmlize counsel auto-complete arjen-grey-theme aggressive-indent))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

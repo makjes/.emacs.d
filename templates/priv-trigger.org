@@ -14,40 +14,40 @@
 * Civic
 * Volunteer
 * Communications to make/get
-* Family
-* Friends
-* Professional
+** Family
+** Friends
+** Professional
 * Initiate or respond to:
-* Phone calls
-* Letters
-* Cards
+** Phone calls
+** Letters
+** Cards
 * Upcoming events
 * Special occasions
-* Birthdays
-* Anniversaries
-* Weddings
-* Graduations
-* Holidays
-* Travel
-* Weekend trips
-* Vacations
-* Social events
-* Cultural events
-* Sporting events
+** Birthdays
+** Anniversaries
+** Weddings
+** Graduations
+** Holidays
+** Travel
+** Weekend trips
+** Vacations
+** Social events
+** Cultural events
+** Sporting events
 * R&D-things to do
-* Places to go
-* People to meet/invite
-* Local attractions
+** Places to go
+** People to meet/invite
+** Local attractions
 * Administration
-* Financial
-* Bills
-* Banks
-* Investments
-* Loans
-* Taxes
-* Insurance
-* Legal affairs
-* Filing
+** Financial
+** Bills
+** Banks
+** Investments
+** Loans
+** Taxes
+** Insurance
+** Legal affairs
+** Filing
 * Waiting for. . .
 * Mail order
 * Repair
@@ -104,12 +104,12 @@
 * Hobbies
 * Books/records/tapes/disks
 * Errands
-* Hardware store
-* Drugstore
-* Market
-* Bank
-* Cleaner
-* Stationer
+** Hardware store
+** Drugstore
+** Market
+** Bank
+** Cleaner
+** Stationer
 * Community
 * Neighborhood
 * Schools
