@@ -2,6 +2,7 @@
   Clock in with C-c C-x C-i
   Clock out with C-c C-x C-o
 ** Get clear
+  Clock in with C-c C-x C-i
 *** Collect loose papers and materials [0/6]
     Gather all accumulated business cards, receipts, and miscellaneous paper-based materials into your in-tray.
     * [ ] In-folder in backpack
@@ -10,6 +11,16 @@
     * [ ] Innboks hjemme
     * [ ] Postkassen
     * [ ] Loose papers laying around
+*** Empty your head [0/2]
+    Put in writing and process any uncaptured new projects, action items, waiting for’s, someday maybe’s, etc.
+    :TRIGGER-LIST:
+    [[~/.emacs.d/templates/pro-trigger.org][Professional trigger list]]
+    [[~/.emacs.d/templates/priv-trigger.org][Private trigger list]]
+    :END:
+    + [ ] Go through trigger list
+    + [ ] Set a timer for 5 minutes and write down what's on your mind
+      - Start timer med C-c C-x 0
+      - Stopp timer med C-c C-x _
 *** Get "IN" to zero [0/6]
     Process completely all outstanding paper materials, journal and meeting notes, 
     voicemails, dictation, and emails.
@@ -39,35 +50,28 @@
 	    - Datospesifikke ting i kalender eller skedulering
 	    - Neste handlingsliste
     :END:
-    * [ ] Email NG
-    * [ ] Email Nellon
-    * [ ] Assigned issues in Jira
-    * [ ] Mentions in Jira
-    * [ ] Assigned issues in Remedy
-    * [ ] ORG innboks
-    * [ ] Innboks
-*** Empty your head [0/2]
-    Put in writing and process any uncaptured new projects, action items, waiting for’s, someday maybe’s, etc.
-    - Start timer med C-c C-x 0
-    - Stopp timer med C-c C-x _
-    :TRIGGER-LIST:
-    [[~/.emacs.d/templates/pro-trigger.org][Professional trigger list]]
-    [[~/.emacs.d/templates/priv-trigger.org][Private trigger list]]
-    :END:
-    * [ ] Go through trigger list
-    * [ ] Set a timer for 5 minutes and write down what's on your mind
+    + [ ] Email NG
+    + [ ] Email Nellon
+    + [ ] Google Keep
+    + [ ] Assigned issues in Jira
+    + [ ] Mentions in Jira
+    + [ ] Assigned issues in Remedy
+    + [ ] ORG innboks
+    + [ ] Innboks
 ** Get current
-*** Review Action Lists [0/3]
-    Mark off completed actions. Review for reminders of further action steps to record.
-    * [ ] Set finished tasks to DONE
-    * [ ] Set reminders if necessary
-    * [ ] Refine further tasks
+  Clock in with C-c C-x C-i
+*** Review Action Lists [0/4]
+Mark off completed actions. Review for reminders of further action steps to record.
++ [ ] Set finished tasks to DONE
++ [ ] Set reminders if necessary
++ [ ] Refine further tasks
++ [ ] Archive DONE tasks
 *** Review previous calendar data [0/2]
     Review past calendar in detail for remaining action items, reference data, etc., and transfer into the active system.
     * [ ] Meeting minutes
     * [ ] Other reference material
     * [ ] Nellon Calendar
-*** Review Upcoming Calendar [0/2]
+*** Review upcoming calendar [0/2]
     Review upcoming calendar events–long and short term. Capture actions triggered
     * [ ] NG Calendar
     * [ ] Nellon Calendar
@@ -82,14 +86,16 @@
     * [ ] Browse support material
 *** Review Any Relevant Checklists
     Use as a trigger for any new actions.
+*** Rydd opp innboksen i Evernote
 ** Get creative
+  Clock in with C-c C-x C-i
 *** Review Someday Maybe List [0/2]
-    Review for any projects which may now have become active, and transfer to “Projects.” Delete items no longer of interest.
-    * [ ] Activate projects
-    * [ ] Set uninteresting projects to CANCELED
+Review for any projects which may now have become active, and transfer to “Projects.” Delete items no longer of interest.
+- [ ] Activate projects
+- [ ] Set uninteresting projects to CANCELED
 *** Be creative and courageous [0/1]
-    - Start timer med C-c C-x 0
-    - Stopp timer med C-c C-x _
-    Any new, wonderful, hare-brained, creative, thought-provoking, risk-taking ideas to add into your system???
-    * [ ] Set timer to 5 minutes and start dreaming
-
+Any new, wonderful, hare-brained, creative, thought-provoking, risk-taking ideas to add into your system???
++ [ ] Set timer to 5 minutes and start dreaming
+  - Start timer med C-c C-x 0
+  - Stopp timer med C-c C-x _
++ Clock out with C-c C-x C-o

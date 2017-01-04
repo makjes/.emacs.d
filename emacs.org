@@ -265,7 +265,7 @@ Reload buffers when files change outside emacs
                          "~/Dropbox/org/HV.org"
                          "~/Dropbox/org/UiO.org"
                          "~/Dropbox/org/Nellon.org"
-                         "~/Dropbox/org/Default.org"
+                         "~/Dropbox/org/Habits.org"
                          "~/Dropbox/org/Inbox.org"))
 #+END_SRC
 ** Set refile targets
@@ -278,7 +278,7 @@ Reload buffers when files change outside emacs
     ("HV.org" :maxlevel . 1)
     ("Inbox.org" :level . 1)
     ("Nellon.org" :maxlevel . 1)
-    ("Default.org" :maxlevel . 1)))
+    ("Habits.org" :maxlevel . 1)))
 #+END_SRC
 ** Set archive location
 #+BEGIN_SRC emacs-lisp
@@ -289,6 +289,7 @@ Reload buffers when files change outside emacs
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT-ACTION(a!)" "WAITING(w@/!)" "|")
         (sequence "PLANNING(l)" "PROJECT(p)" "|")
+        (sequence "SOMEDAY(s)")
         (sequence "|" "DONE(d!)" "CANCELED(c)")))
 #+END_SRC
 ** Activate logbook-drawer
