@@ -1,0 +1,6 @@
+* SOMEDAY %^{Title}
+  %?  
+  :PROPERTIES:
+  :TITLE: %\1
+  :CAPTURED-TIME: %U
+  :END:

@@ -320,6 +320,12 @@ Reload buffers when files change outside emacs
    ("t" "Todo" entry
       (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
       (file "~/.emacs.d/templates/capture-generic.org"))
+   ("m" "Movie to watch" entry
+      (file+headline "~/Dropbox/org/Privat.org" "Filmer")
+      (file "~/.emacs.d/templates/capture-movie.org"))
+   ("s" "TV series to watch" entry
+      (file+headline "~/Dropbox/org/Privat.org" "TV-serier")
+      (file "~/.emacs.d/templates/capture-tv.org"))
    ("j" "Jira")
    ("jd" "DRIV" entry
       (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
@@ -340,6 +346,49 @@ Reload buffers when files change outside emacs
 ** Jira
 #+BEGIN_SRC emacs-lisp
 (use-package ox-jira :ensure t)
+#+END_SRC
+** Custom Agenda views
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-custom-commands
+   (quote
+    (("w" "Work"
+      ((agenda ""
+	       ((org-agenda-files
+		 (quote
+		  ("~/Dropbox/org/Habits.org")))
+		(org-agenda-span 1)
+		(org-agenda-overriding-header "Habits")))
+       (agenda ""
+	       ((org-agenda-files
+		 (quote
+		  ("~/Dropbox/org/NG.org")))))
+       (todo "NEXT-ACTION"
+	     ((org-agenda-files
+	       (quote
+		("~/Dropbox/org/NG.org")))
+	      (org-agenda-overriding-header "Next actions @ NG"))))
+      nil)
+     ("h" "Home"
+      ((agenda ""
+	       ((org-agenda-files
+		 (quote
+		  ("~/Dropbox/org/Habits.org")))
+		(org-agenda-overriding-header "Habits")
+		(org-agenda-span 1)))
+       (agenda ""
+	       ((org-agenda-files
+		 (quote
+		  ("~/Dropbox/org/Privat.org" "~/Dropbox/org/HV.org" "~/Dropbox/org/UiO.org" "~/Dropbox/org/Nellon.org")))))
+       (tags-todo "home"
+		  ((org-agenda-sorting-strategy
+		    (quote
+		     (todo-state-up)))
+		   (org-agenda-overriding-header "@Home"))))
+      nil nil)
+     ("n" "Next Actions (-habit -home)" todo "NEXT-ACTION"
+      ((org-agenda-tag-filter-preset
+	(quote
+	 ("-habit" "-home"))))))))
 #+END_SRC
 ** Activate visual line mode
 #+BEGIN_SRC emacs-lisp
