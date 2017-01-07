@@ -4,22 +4,81 @@
 * Projects that need to be started
 * Commitments/promises to others
 * Boss/partners Colleagues
-* Subordinates
+** Maria
+** Rune S
+** Per Olav
+** Jon Arne
+** Torbjørn
+** Håkon
+** Logistikk
+*** Trond
+*** Espen
+*** Mikael
+*** Hilde
+*** Bjarne
+*** Pål
+*** Martin
+*** Morten
+*** Ivar
+*** Johan
+*** Magnus
+*** Mats
+** Prosjektledere
+*** Bruno
+*** Bjørn
+*** Frode
 * Other people in organization
+** Tom PP
+** Fidje
+** Sigmund
+** Arkitekter
+*** Erik J
+*** Frank B
+*** Magne O K
+*** Tore N
+*** John R
 * "Outside" people
 * Customers
+** Transport
+*** Svein S
+*** Geir A
+*** Bjarte G
+*** Kai O
+*** Arne M
+*** Marie
+** Logistikk
+*** Are B
+*** Bjørn S
+** Unil
+*** Jarle K
+*** Nina
+*** Irene
 * Other organizations
+** Ortec
+*** John L
+*** Sander G
+*** Razvan B
+*** Daniel C
+*** Erwin vR
+** TradeSolution
+*** Stephan
+*** Arnstein
+** Aptean
+*** Tobbe
+*** Reine
+** RG19
+*** Pastoren
 * Professionals
 * Communications to make/get
 * Internal/External
 * Initiate or respond to:
-* Phone calls
-* Voice-mail
-* E-mail
-* Pages
-* Faxes
-* Letters
-* Memos
+** Phone calls
+** Voice-mail
+** E-mail
+** Pages
+** Faxes
+** Letters
+** Memos
 * Other writing to finish/submit
 * Reports
 * Evaluations/reviews
@@ -87,9 +146,9 @@
 * Delegated tasks/projects
 * Completions critical to projects
 * Replies to:
-* Letters
-* Memos
-* Calls
+** Letters
+** Memos
+** Calls
 * Proposals
 * Requisitions
 * Reimbursements

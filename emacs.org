@@ -388,7 +388,16 @@ Reload buffers when files change outside emacs
      ("n" "Next Actions (-habit -home)" todo "NEXT-ACTION"
       ((org-agenda-tag-filter-preset
 	(quote
-	 ("-habit" "-home"))))))))
+	 ("-habit" "-home")))))
+     ("p" "Projects to plan" todo "PLANNING" nil))))
+#+END_SRC
+** Define stuck projects
+#+BEGIN_SRC emacs-lisp
+(setq org-stuck-projects
+   (quote
+    ("/+PROJECT"
+     ("TODO" "NEXT-ACTION" "WAITING")
+     nil "")))
 #+END_SRC
 ** Activate visual line mode
 #+BEGIN_SRC emacs-lisp
