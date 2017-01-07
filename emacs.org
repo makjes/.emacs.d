@@ -389,7 +389,12 @@ Reload buffers when files change outside emacs
       ((org-agenda-tag-filter-preset
 	(quote
 	 ("-habit" "-home")))))
-     ("p" "Projects to plan" todo "PLANNING" nil))))
+     ("p" "Projects to plan" todo "PLANNING" nil)
+     ("g" . "Agenda: Persons")
+     ("gp" "Agenda: Per Olav" tags-todo "+pos" nil)
+     ("gm" "Agenda: Maria" tags-todo "+mtc" nil)
+     ("gb" "Agenda: Jon Arne Bjerkli" tags-todo "+jab" nil)
+     ("gj" "Agenda: Janne" tags-todo "+janne" nil))))
 #+END_SRC
 ** Define stuck projects
 #+BEGIN_SRC emacs-lisp
