@@ -393,8 +393,10 @@ Reload buffers when files change outside emacs
      ("g" . "Agenda: Persons")
      ("gp" "Agenda: Per Olav" tags-todo "+pos" nil)
      ("gm" "Agenda: Maria" tags-todo "+mtc" nil)
-     ("gb" "Agenda: Jon Arne Bjerkli" tags-todo "+jab" nil)
-     ("gj" "Agenda: Janne" tags-todo "+janne" nil))))
+     ("gb" "Agenda: Jon Arne B" tags-todo "+jab" nil)
+     ("gh" "Agenda: Marie T H" tags-todo "+mth" nil)
+     ("gj" "Agenda: Janne" tags-todo "+janne" nil)
+     ("ge" "Agenda: Pål E" tags-todo "+pål" nil))))
 #+END_SRC
 ** Define stuck projects
 #+BEGIN_SRC emacs-lisp
