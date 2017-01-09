@@ -385,8 +385,23 @@ Reload buffers when files change outside emacs
 		     (todo-state-up)))
 		   (org-agenda-overriding-header "@Home"))))
       nil nil)
-     ("n" "Next Actions (-habit -home)" todo "NEXT-ACTION"
-      ((org-agenda-tag-filter-preset
+     ("n" . "Next Actions")
+     ("nn" "Next Actions: NG" todo "NEXT-ACTION"
+      ((org-agenda-overriding-header "Next Actions: NG")
+       (org-agenda-files
+	(quote
+	 ("~/Dropbox/org/NG.org")))))
+     ("np" "Next Actions: Private" todo "NEXT-ACTION"
+      ((org-agenda-overriding-header "Next Actions: Private -home (Private/UiO/HV/Nellon)")
+       (org-agenda-files
+	(quote
+	 ("~/Dropbox/org/Privat.org" "~/Dropbox/org/UiO.org" "~/Dropbox/org/HV.org" "~/Dropbox/org/Nellon.org")))
+       (org-agenda-tag-filter-preset
+	(quote
+	 ("-home")))))
+     ("na" "Next Actions: All" todo "NEXT-ACTION"
+      ((org-agenda-overriding-header "Next Actions: All (-habit -home)")
+       (org-agenda-tag-filter-preset
 	(quote
 	 ("-habit" "-home")))))
      ("p" "Projects to plan" todo "PLANNING" nil)
