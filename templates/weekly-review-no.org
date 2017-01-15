@@ -87,6 +87,7 @@ Mark off completed actions. Review for reminders of further action steps to reco
 *** Review Any Relevant Checklists
     Use as a trigger for any new actions.
 *** Rydd opp innboksen i Evernote
+*** Sjekk Tickler-file i Evernote
 ** Get creative
   Clock in with C-c C-x C-i
 *** Review Someday Maybe List [0/2]

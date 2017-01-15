@@ -326,6 +326,10 @@ Reload buffers when files change outside emacs
    ("s" "TV series to watch" entry
       (file+headline "~/Dropbox/org/Privat.org" "TV-serier")
       (file "~/.emacs.d/templates/capture-tv.org"))
+   ("d" "Documents")
+   ("dc" "Change Request" plain
+      (file "~/ONEDRI~1/crq/new.org")
+      (file "~/.emacs.d/templates/crq.org"))
    ("j" "Jira")
    ("jd" "DRIV" entry
       (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
@@ -404,14 +408,23 @@ Reload buffers when files change outside emacs
        (org-agenda-tag-filter-preset
 	(quote
 	 ("-habit" "-home")))))
-     ("p" "Projects to plan" todo "PLANNING" nil)
+     ("p" "Projects to plan" todo "PLANNING"
+      ((org-agenda-overriding-header "Projects to plan")))
      ("g" . "Agenda: Persons")
-     ("gp" "Agenda: Per Olav" tags-todo "+pos" nil)
-     ("gm" "Agenda: Maria" tags-todo "+mtc" nil)
-     ("gb" "Agenda: Jon Arne B" tags-todo "+jab" nil)
-     ("gh" "Agenda: Marie T H" tags-todo "+mth" nil)
-     ("gj" "Agenda: Janne" tags-todo "+janne" nil)
-     ("ge" "Agenda: Pål E" tags-todo "+pål" nil))))
+     ("gp" "Agenda: Per Olav" tags-todo "+pespor"
+      ((org-agenda-overriding-header "Agenda: Per Olav")))
+     ("gm" "Agenda: Maria" tags-todo "+macris"
+      ((org-agenda-overriding-header "Agenda: Maria")))
+     ("gb" "Agenda: Jon Arne B" tags-todo "+jabjer"
+      ((org-agenda-overriding-header "Agenda: Jon Arne B")))
+     ("gt" "Agenda: Marie T H" tags-todo "+mahell"
+      ((org-agenda-overriding-header "Agenda: Marie T H")))
+     ("gj" "Agenda: Janne" tags-todo "+janne"
+      ((org-agenda-overriding-header "Agenda: Janne")))
+     ("ge" "Agenda: Pål E" tags-todo "+pål"
+      ((org-agenda-overriding-header "Agenda: Pål E")))
+     ("gh" "Agenda: Håkon H" tags-todo "+hahaar"
+      ((org-agenda-overriding-header "Agenda: Håkon H"))))))
 #+END_SRC
 ** Define stuck projects
 #+BEGIN_SRC emacs-lisp

@@ -1,8 +1,8 @@
 * DA-%^{ID}: %^{Title}
-  [[https://developer.norgesgruppen.no/jira/browse/DA-%\1][Link to issue]]
-  %?
-  :PROPERTIES:
-  :JIRA-ID: DA-%\1
-  :TITLE: %\2
-  :CAPTURED-TIME: %U
-  :END:
+[[https://developer.norgesgruppen.no/jira/browse/DA-%\1][Link to issue]]
+%?
+:PROPERTIES:
+:JIRA-ID: DA-%\1
+:TITLE: %\2
+:CAPTURED-TIME: %U
+:END:

@@ -1,5 +1,5 @@
 * %^{Subject}
-  %?  
-  :PROPERTIES:
-  :CAPTURED-TIME: %U
-  :END:
+%?  
+:PROPERTIES:
+:CAPTURED-TIME: %U
+:END:
