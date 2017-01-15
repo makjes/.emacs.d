@@ -424,7 +424,12 @@ Reload buffers when files change outside emacs
      ("ge" "Agenda: Pål E" tags-todo "+pål"
       ((org-agenda-overriding-header "Agenda: Pål E")))
      ("gh" "Agenda: Håkon H" tags-todo "+hahaar"
-      ((org-agenda-overriding-header "Agenda: Håkon H"))))))
+      ((org-agenda-overriding-header "Agenda: Håkon H")))
+     ("c" . "Contexts")
+     ("cw" "Context: Weekly Architects Meeting"
+      ((tags-todo "wam"
+		  ((org-agenda-overriding-header "Weekly Architects Meeting"))))
+      nil nil)))))
 #+END_SRC
 ** Define stuck projects
 #+BEGIN_SRC emacs-lisp
