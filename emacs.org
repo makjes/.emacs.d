@@ -429,7 +429,7 @@ Reload buffers when files change outside emacs
      ("cw" "Context: Weekly Architects Meeting"
       ((tags-todo "wam"
 		  ((org-agenda-overriding-header "Weekly Architects Meeting"))))
-      nil nil)))))
+      nil nil))))
 #+END_SRC
 ** Define stuck projects
 #+BEGIN_SRC emacs-lisp
