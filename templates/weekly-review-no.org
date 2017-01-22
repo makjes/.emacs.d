@@ -52,6 +52,7 @@
     :END:
     + [ ] Email NG
     + [ ] Email Nellon
+    + [ ] Email UiO
     + [ ] Google Keep
     + [ ] Assigned issues in Jira
     + [ ] Mentions in Jira

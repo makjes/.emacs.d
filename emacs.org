@@ -354,82 +354,83 @@ Reload buffers when files change outside emacs
 ** Custom Agenda views
 #+BEGIN_SRC emacs-lisp
 (setq org-agenda-custom-commands
-   (quote
-    (("w" "Work"
-      ((agenda ""
-	       ((org-agenda-files
-		 (quote
-		  ("~/Dropbox/org/Habits.org")))
-		(org-agenda-span 1)
-		(org-agenda-overriding-header "Habits")))
-       (agenda ""
-	       ((org-agenda-files
-		 (quote
-		  ("~/Dropbox/org/NG.org")))))
-       (todo "NEXT-ACTION"
-	     ((org-agenda-files
-	       (quote
-		("~/Dropbox/org/NG.org")))
-	      (org-agenda-overriding-header "Next actions @ NG"))))
-      nil)
-     ("h" "Home"
-      ((agenda ""
-	       ((org-agenda-files
-		 (quote
-		  ("~/Dropbox/org/Habits.org")))
-		(org-agenda-overriding-header "Habits")
-		(org-agenda-span 1)))
-       (agenda ""
-	       ((org-agenda-files
-		 (quote
-		  ("~/Dropbox/org/Privat.org" "~/Dropbox/org/HV.org" "~/Dropbox/org/UiO.org" "~/Dropbox/org/Nellon.org")))))
-       (tags-todo "home"
-		  ((org-agenda-sorting-strategy
+      (quote
+       (("w" "Work"
+	 ((agenda ""
+		  ((org-agenda-files
 		    (quote
-		     (todo-state-up)))
-		   (org-agenda-overriding-header "@Home"))))
-      nil nil)
-     ("n" . "Next Actions")
-     ("nn" "Next Actions: NG" todo "NEXT-ACTION"
-      ((org-agenda-overriding-header "Next Actions: NG")
-       (org-agenda-files
-	(quote
-	 ("~/Dropbox/org/NG.org")))))
-     ("np" "Next Actions: Private" todo "NEXT-ACTION"
-      ((org-agenda-overriding-header "Next Actions: Private -home (Private/UiO/HV/Nellon)")
-       (org-agenda-files
-	(quote
-	 ("~/Dropbox/org/Privat.org" "~/Dropbox/org/UiO.org" "~/Dropbox/org/HV.org" "~/Dropbox/org/Nellon.org")))
-       (org-agenda-tag-filter-preset
-	(quote
-	 ("-home")))))
-     ("na" "Next Actions: All" todo "NEXT-ACTION"
-      ((org-agenda-overriding-header "Next Actions: All (-habit -home)")
-       (org-agenda-tag-filter-preset
-	(quote
-	 ("-habit" "-home")))))
-     ("p" "Projects to plan" todo "PLANNING"
-      ((org-agenda-overriding-header "Projects to plan")))
-     ("g" . "Agenda: Persons")
-     ("gp" "Agenda: Per Olav" tags-todo "+pespor"
-      ((org-agenda-overriding-header "Agenda: Per Olav")))
-     ("gm" "Agenda: Maria" tags-todo "+macris"
-      ((org-agenda-overriding-header "Agenda: Maria")))
-     ("gb" "Agenda: Jon Arne B" tags-todo "+jabjer"
-      ((org-agenda-overriding-header "Agenda: Jon Arne B")))
-     ("gt" "Agenda: Marie T H" tags-todo "+mahell"
-      ((org-agenda-overriding-header "Agenda: Marie T H")))
-     ("gj" "Agenda: Janne" tags-todo "+janne"
-      ((org-agenda-overriding-header "Agenda: Janne")))
-     ("ge" "Agenda: Pål E" tags-todo "+pål"
-      ((org-agenda-overriding-header "Agenda: Pål E")))
-     ("gh" "Agenda: Håkon H" tags-todo "+hahaar"
-      ((org-agenda-overriding-header "Agenda: Håkon H")))
-     ("c" . "Contexts")
-     ("cw" "Context: Weekly Architects Meeting"
-      ((tags-todo "wam"
-		  ((org-agenda-overriding-header "Weekly Architects Meeting"))))
-      nil nil))))
+		     ("~/Dropbox/org/Habits.org")))
+		   (org-agenda-span 1)
+		   (org-agenda-overriding-header "Habits")))
+	  (agenda ""
+		  ((org-agenda-files
+		    (quote
+		     ("~/Dropbox/org/NG.org")))))
+	  (todo "NEXT-ACTION"
+		((org-agenda-files
+		  (quote
+		   ("~/Dropbox/org/NG.org")))
+		 (org-agenda-overriding-header "Next actions @ NG"))))
+	 nil)
+	("h" "Home"
+	 ((agenda ""
+		  ((org-agenda-files
+		    (quote
+		     ("~/Dropbox/org/Habits.org")))
+		   (org-agenda-overriding-header "Habits")
+		   (org-agenda-span 1)))
+	  (agenda ""
+		  ((org-agenda-files
+		    (quote
+		     ("~/Dropbox/org/Privat.org" "~/Dropbox/org/HV.org" "~/Dropbox/org/UiO.org" "~/Dropbox/org/Nellon.org")))))
+	  (tags-todo "home"
+		     ((org-agenda-sorting-strategy
+		       (quote
+			(todo-state-up)))
+		      (org-agenda-overriding-header "@Home"))))
+	 nil nil)
+	("n" . "Next Actions")
+	("nn" "Next Actions: NG" todo "NEXT-ACTION"
+	 ((org-agenda-overriding-header "Next Actions: NG")
+	  (org-agenda-files
+	   (quote
+	    ("~/Dropbox/org/NG.org")))))
+	("np" "Next Actions: Private" todo "NEXT-ACTION"
+	 ((org-agenda-overriding-header "Next Actions: Private -home (Private/UiO/HV/Nellon)")
+	  (org-agenda-files
+	   (quote
+	    ("~/Dropbox/org/Privat.org" "~/Dropbox/org/UiO.org" "~/Dropbox/org/HV.org" "~/Dropbox/org/Nellon.org")))
+	  (org-agenda-tag-filter-preset
+	   (quote
+	    ("-home")))))
+	("na" "Next Actions: All" todo "NEXT-ACTION"
+	 ((org-agenda-overriding-header "Next Actions: All (-habit -home)")
+	  (org-agenda-tag-filter-preset
+	   (quote
+	    ("-habit" "-home")))))
+	("p" "Projects to plan" todo "PLANNING"
+	 ((org-agenda-overriding-header "Projects to plan")))
+	("g" . "Agenda: Persons")
+	("gp" "Agenda: Per Olav" tags-todo "+pespor"
+	 ((org-agenda-overriding-header "Agenda: Per Olav")))
+	("gm" "Agenda: Maria" tags-todo "+macris"
+	 ((org-agenda-overriding-header "Agenda: Maria")))
+	("gb" "Agenda: Jon Arne B" tags-todo "+jabjer"
+	 ((org-agenda-overriding-header "Agenda: Jon Arne B")))
+	("gt" "Agenda: Marie T H" tags-todo "+mahell"
+	 ((org-agenda-overriding-header "Agenda: Marie T H")))
+	("gj" "Agenda: Janne" tags-todo "+janne"
+	 ((org-agenda-overriding-header "Agenda: Janne")))
+	("ge" "Agenda: PÃ¥l E" tags-todo "+pÃ¥l"
+	 ((org-agenda-overriding-header "Agenda: PÃ¥l E")))
+	("gh" "Agenda: HÃ¥kon H" tags-todo "+hahaar"
+	 ((org-agenda-overriding-header "Agenda: HÃ¥kon H")))
+	("c" . "Contexts")
+	("cw" "Context: Weekly Architects Meeting" tags-todo "wam"
+	 ((org-agenda-overriding-header "Context: Weekly Architects Meeting"))
+	 nil)
+	("cb" "Context: Buy" tags-todo "buy"
+	 ((org-agenda-overriding-header "Context: Buy"))))))
 #+END_SRC
 ** Define stuck projects
 #+BEGIN_SRC emacs-lisp
@@ -488,3 +489,29 @@ Reload buffers when files change outside emacs
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets"))
 #+END_SRC
 * Experiments
+** elfeed and elfeed-org
+- First I setup elfeed.el
+#+BEGIN_SRC emacs-lisp
+(use-package elfeed
+:ensure t
+:config (setq elfeed-search-filter "@6-months-ago") ; I want to show everything, so I removed " +unread"
+:bind ("C-x w" . elfeed))
+#+END_SRC
+On Windows, libxml2 is not typically installed with Emacs, and elfeed will produce the error:
+#+BEGIN_QUOTE
+Elfeed: libxml2 functionality is unavailable
+#+END_QUOTE
+I am using Emacs 25 at the moment, on w64.
+A solution for this is descibed in [[https://github.com/cpitclaudel/company-coq/issues/20][this github-issue]], by cpitclaudel [2016-09-27 ti]:
+#+BEGIN_QUOTE
+Download emacs 25 from ftp://ftp.gnu.org/gnu/emacs/windows/emacs-25.1-x86_64-w64-mingw32.zip
+Download the dependencies from http://alpha.gnu.org/gnu/emacs/pretest/windows/emacs-25-x86_64-deps.zip
+Unpack both in the same place and try again
+#+END_QUOTE
+- Next, elfeed-org.el to read the feed-file in org-mode
+#+BEGIN_SRC emacs-lisp
+(use-package elfeed-org
+:ensure t
+:init (setq rmh-elfeed-org-files (list "~/Dropbox/org/rss-feeds.org"))
+:config (elfeed-org))
+#+END_SRC
