@@ -4,6 +4,7 @@ autosaves/
 elpa/
 eshell/
 server/
+.python-environments/
 
 # Extracted or exported emacs.org
 emacs.*
@@ -16,3 +17,4 @@ bookmarks
 recentf
 *html
 test.el
+abbrev_defs

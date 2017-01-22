@@ -255,8 +255,7 @@ Reload buffers when files change outside emacs
 (use-package org
   :bind (:map org-mode-map
          ("<f2>" . org-refile)
-         ("C-c a" . org-agenda)))
-  
+         ("C-c a" . org-agenda)))  
 #+END_SRC
 ** Set agenda files
 #+BEGIN_SRC emacs-lisp
@@ -445,6 +444,15 @@ Reload buffers when files change outside emacs
 (add-hook 'org-mode-hook (lambda () (visual-line-mode t)))
 #+END_SRC
 * Development
+** Common tools
+*** flycheck
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :init
+    (global-flycheck-mode t)
+    (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+#+END_SRC
 ** Magit
 #+begin_src emacs-lisp
 (use-package magit
@@ -479,6 +487,30 @@ Reload buffers when files change outside emacs
             (lambda ()
               (rainbow-delimiters-mode))))
 #+END_SRC
+** Python
+*** python-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package python-mode
+    :ensure t
+  ;  :bind (:map python-mode-map
+	;	("C-c C-c" . py-execute-buffer-switch))
+    :init
+    (if (eq system-type 'windows-nt) 
+    (setq py-shell-name "C:/a/Python/Python35-32/python.exe")))
+#+END_SRC
+Use M-x write-abbrev-file and just hit RET when asked for a filename.
+*** jedi
+#+BEGIN_SRC emacs-lisp
+  (use-package jedi
+    :ensure t
+    :init
+    (add-hook 'python-mode-hook 'jedi:setup)
+    (add-hook 'python-mode-hook 'jedi:ac-setup))
+#+END_SRC
+Use M-x jedi:install-server to install jedi server. Python virtual environment required.
+#+BEGIN_QUOTE
+[sudo] pip install virtualenv
+#+END_QUOTE
 ** Snippets
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
