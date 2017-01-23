@@ -11,12 +11,10 @@
 (when (display-graphic-p)
   (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
 #+END_SRC
-** Package setup
+** Package manager setup
 #+BEGIN_SRC emacs-lisp
 (require 'cl)
 (require 'package)
-
-;; (setq package-enable-at-startup nil)
 
 (defvar gnu '("gnu" . "http://elpa.gnu.org/packages/"))
 (defvar melpa '("melpa" . "http://melpa.org/packages/"))
@@ -80,97 +78,66 @@ Install packages, preferably only use-package
 #+end_src
 * Look and feel
 ** General emacs settings
-- Turn off menu bar
+Change some general settings
 #+BEGIN_SRC emacs-lisp
-(menu-bar-mode 0)
-#+END_SRC
-- Turn off tool bar
-#+BEGIN_SRC emacs-lisp
-(tool-bar-mode 0)
-#+END_SRC
-- Turn off scroll bar
-#+BEGIN_SRC emacs-lisp
-(scroll-bar-mode 0)
-#+END_SRC
-- Stop blinking cursor
-#+BEGIN_SRC emacs-lisp
-(blink-cursor-mode 0)
-#+END_SRC
-- Activate column numbers
-#+BEGIN_SRC emacs-lisp
-(column-number-mode 1)
-#+END_SRC
-- Show matching parenthesis
-#+BEGIN_SRC emacs-lisp
-(show-paren-mode 1)
-#+END_SRC
-- Replace selected text
-#+BEGIN_SRC emacs-lisp
-(delete-selection-mode 1)
-#+END_SRC
-- Turn off splash screen
-#+BEGIN_SRC emacs-lisp
-  (setq inhibit-splash-screen t)
-#+END_SRC
-- Turn off startup message
-#+begin_src emacs-lisp
-  (setq inhibit-startup-message t)
-#+end_src
-- Clean the scratch buffer
-#+BEGIN_SRC emacs-lisp
-  (setq initial-scratch-message nil)
-#+END_SRC
-- Set home directory as default
-#+BEGIN_SRC emacs-lisp
-  (setq default-directory (concat (getenv "HOME") "/"))
-#+END_SRC
-- Answer with y/n
-#+BEGIN_SRC emacs-lisp
-  (fset 'yes-or-no-p 'y-or-n-p)
+  (menu-bar-mode 0) ; Turn off menu bar
+  (tool-bar-mode 0) ; Turn off tool bar
+  (scroll-bar-mode 0) ; Turn off scroll bar
+  (blink-cursor-mode 0) ; Stop blinking cursor
+  (column-number-mode 1) ; Activate column numbers
+  (show-paren-mode 1) ; Show matching parenthesis
+  (delete-selection-mode 1) ; Replace selected text
+  (setq inhibit-splash-screen t) ; Turn off splash screen
+  (setq inhibit-startup-message t) ; Turn off startup message
+  (setq initial-scratch-message nil) ; Clean the scratch buffer
+  (setq default-directory (concat (getenv "HOME") "/")) ; Set home directory as default
+  (fset 'yes-or-no-p 'y-or-n-p) ; Answer with y/n
 #+END_SRC
 ** Navigation
 *** Swiper
 #+begin_src emacs-lisp
-(use-package counsel :ensure t)
+  (use-package counsel :ensure t)
 
-(use-package swiper
-  :ensure t
-  :bind*
-  (("C-s" . swiper)
-   ("C-c C-r" . ivy-resume)
-   ("M-x" . counsel-M-x)
-   ("C-x C-f" . counsel-find-file)
-   ("C-c h f" . counsel-describe-function)
-   ("C-c h v" . counsel-describe-variable)
-   ("C-c i u" . counsel-unicode-char)
-   ("M-i" . counsel-imenu)
-   ("C-c g" . counsel-git)
-   ("C-c j" . counsel-git-grep)
-   ("C-c l" . counsel-load-theme))
-  :config
-  (progn
-    (ivy-mode 1)
-    (setq ivy-use-virtual-buffers t)
-    (define-key read-expression-map (kbd "C-r") #'counsel-expression-history)
-    (ivy-set-actions
-     'counsel-find-file
-     '(("d" (lambda (x) (delete-file (expand-file-name x)))
-        "delete"
-        )))
-    (ivy-set-actions
-     'ivy-switch-buffer
-     '(("k"
-        (lambda (x)
-          (kill-buffer x)
-          (ivy--reset-state ivy-last))
-        "kill")
-       ("j"
-        ivy--switch-buffer-other-window-action
-        "other window")))))
+  (use-package swiper
+    :ensure t
+    :bind*
+    (("C-s" . swiper)
+     ("C-c C-r" . ivy-resume)
+     ("M-x" . counsel-M-x)
+     ("C-x C-f" . counsel-find-file)
+     ("C-c h f" . counsel-describe-function)
+     ("C-c h v" . counsel-describe-variable)
+     ("C-c i u" . counsel-unicode-char)
+     ("M-i" . counsel-imenu)
+     ("C-c g" . counsel-git)
+     ("C-c j" . counsel-git-grep)
+     ("C-c l" . counsel-load-theme))
+    :config
+    (progn
+      (ivy-mode 1)
+      (setq ivy-use-virtual-buffers t)
+      (define-key read-expression-map (kbd "C-r") #'counsel-expression-history)
+      (ivy-set-actions
+       'counsel-find-file
+       '(("d" (lambda (x) (delete-file (expand-file-name x)))
+          "delete"
+          )))
+      (ivy-set-actions
+       'ivy-switch-buffer
+       '(("k"
+          (lambda (x)
+            (kill-buffer x)
+            (ivy--reset-state ivy-last))
+          "kill")
+	 ("j"
+          ivy--switch-buffer-other-window-action
+          "other window")))))
 
-(use-package ivy-hydra :ensure t)
+  (use-package ivy-hydra :ensure t)
 #+end_src
 *** Which key
+=which-key= is a minor mode for Emacs that displays the key bindings following your currently entered incomplete command (a prefix) in a popup. For example, after enabling the minor mode if you enter =C-x= and wait for the default of 1 second the minibuffer will expand with all of the available key bindings that follow =C-x=
+Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-key]]
 #+begin_src emacs-lisp
 (use-package which-key
   :ensure t
@@ -193,14 +160,11 @@ Install packages, preferably only use-package
 #+end_src
 ** Autocomplete
 #+begin_src emacs-lisp
-(use-package auto-complete
-  :ensure t
-  :init
-  (progn
+  (use-package auto-complete
+    :ensure t
+    :init
     (ac-config-default)
-    (global-auto-complete-mode t)
-    ))
-    
+    (global-auto-complete-mode t))
 #+end_src
 ** Agressive indentation
 #+begin_src emacs-lisp
@@ -210,52 +174,46 @@ Install packages, preferably only use-package
   (global-aggressive-indent-mode 1))
 #+end_src
 ** Themeing
-
-Load themes
-
+*** Load themes
+A relaxing dark theme with subtle colors. I prefer [[https://github.com/credmp/arjen-grey-theme][arjen-grey-theme]] by [[https://www.buildfunthings.com][Arjen Wiersma]]. It's a master piece! <3
 #+begin_src emacs-lisp
-
 (use-package arjen-grey-theme :ensure t)
-
 #+end_src
 
-Change font
+*** TODO Download font if neccesary
+My preferred font is [[http://www.levien.com/type/myfonts/inconsolata.html][Inconsolata]]. Download it from [[https://fonts.google.com/specimen/Inconsolata][Google Fonts]].
 
+*** Load fonts
 #+begin_src emacs-lisp
-
-(add-to-list 'default-frame-alist '(font . "Consolas"))
-(set-face-attribute 'default t :font "Consolas")
-
+  (cond ((member "Inconsolata" (font-family-list))
+         (set-face-attribute 'default nil :font "Inconsolata-12"))
+	    ((member "Consolas" (font-family-list))
+	     (set-face-attribute 'default nil :font "Consolas")))
 #+end_src
 ** Removed "ding"
+Thanks to [[https://www.buildfunthings.com][Arjen Wiersma]] for showing how to remove the ever annoying *ding*.
 #+BEGIN_SRC emacs-lisp
-(defun my-ding-function ())
-(setq ring-bell-function 'my-ding-function)
-(setq visible-bell nil)
+  (defun my-ding-function ())
+  (setq ring-bell-function 'my-ding-function)
+  (setq visible-bell nil)
 #+END_SRC
-** Feelgood word wrapping
+** Reload buffers on file change
+Reload buffers when files change outside emacs.
 #+BEGIN_SRC emacs-lisp
-;(setq global-visual-line-mode 1)
-#+END_SRC
-* General stuff
-Reload buffers when files change outside emacs
-#+BEGIN_SRC emacs-lisp
-(global-auto-revert-mode t)
+  (global-auto-revert-mode t)
 #+END_SRC
 * Org-mode
 ** Activate clean indentation
-ølsdlfølsdf s dføs ldøfsd fløsld f sdf ls dlfs dlfø sdl fl sød opsdf
 #+BEGIN_SRC emacs-lisp
-;(setq org-indent-mode t)
 (setq org-startup-indented t)
 (setq org-startup-truncated nil)
 #+END_SRC
 ** Key bindings
 #+BEGIN_SRC emacs-lisp
-(use-package org
-  :bind (:map org-mode-map
-         ("<f2>" . org-refile)
-         ("C-c a" . org-agenda)))  
+  (use-package org
+    :bind (:map org-mode-map
+		("<f2>" . org-refile)
+		("C-c a" . org-agenda)))
 #+END_SRC
 ** Set agenda files
 #+BEGIN_SRC emacs-lisp
