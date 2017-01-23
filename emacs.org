@@ -308,34 +308,41 @@ Reload buffers when files change outside emacs
 #+END_SRC
 ** Capture
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "<f3>") 'org-capture)
-(setq org-capture-templates
- '(("w" "Weekly review" entry
-      (file+weektree "~/Dropbox/org/archive/weekly-review.org")
-      (file "~/.emacs.d/templates/weekly-review-no.org"))
-   ("e" "Email" entry
-      (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
-      (file "~/.emacs.d/templates/capture-email.org"))
-   ("t" "Todo" entry
-      (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
-      (file "~/.emacs.d/templates/capture-generic.org"))
-   ("m" "Movie to watch" entry
-      (file+headline "~/Dropbox/org/Privat.org" "Filmer")
-      (file "~/.emacs.d/templates/capture-movie.org"))
-   ("s" "TV series to watch" entry
-      (file+headline "~/Dropbox/org/Privat.org" "TV-serier")
-      (file "~/.emacs.d/templates/capture-tv.org"))
-   ("d" "Documents")
-   ("dc" "Change Request" plain
-      (file "~/ONEDRI~1/crq/new.org")
-      (file "~/.emacs.d/templates/crq.org"))
-   ("j" "Jira")
-   ("jd" "DRIV" entry
-      (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
-      (file "~/.emacs.d/templates/capture-jira-driv.org"))
-   ("ja" "DA" entry
-      (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
-      (file "~/.emacs.d/templates/capture-jira-da.org"))))
+  (global-set-key (kbd "<f3>") 'org-capture)
+  (setq org-capture-templates
+	'(("w" "Weekly review" entry
+	   (file+weektree "~/Dropbox/org/archive/weekly-review.org")
+	   (file "~/.emacs.d/templates/weekly-review-no.org"))
+	  ("e" "Email" entry
+	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+	   (file "~/.emacs.d/templates/capture-email.org"))
+	  ("t" "Todo" entry
+	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+	   (file "~/.emacs.d/templates/capture-generic.org"))
+	  ("m" "Movie to watch" entry
+	   (file+headline "~/Dropbox/org/Privat.org" "Filmer")
+	   (file "~/.emacs.d/templates/capture-movie.org"))
+	  ("s" "TV series to watch" entry
+	   (file+headline "~/Dropbox/org/Privat.org" "TV-serier")
+	   (file "~/.emacs.d/templates/capture-tv.org"))
+	  ("d" "Documents")
+	  ("dc" "Change Request" plain
+	   (file "~/ONEDRI~1/crq/new.org")
+	   (file "~/.emacs.d/templates/crq.org"))
+	  ("j" "Jira")
+	  ("jd" "DRIV" entry
+	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+	   (file "~/.emacs.d/templates/capture-jira-driv.org"))
+	  ("ja" "DA" entry
+	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+	   (file "~/.emacs.d/templates/capture-jira-da.org"))
+	  ("l" "Lecture notes")
+	  ("l1" "INF1820" entry
+	   (file+datetree "~/Dropbox/emner/inf1820/notater.org")
+	   (file "~/.emacs.d/templates/lecture.org"))
+	  ("l2" "INF2820" entry
+	   (file+datetree "~/Dropbox/emner/inf2820/notater.org")
+	   (file "~/.emacs.d/templates/lecture.org"))))
 #+END_SRC
 ** org-habit
 #+BEGIN_SRC emacs-lisp
@@ -494,8 +501,9 @@ Reload buffers when files change outside emacs
     :ensure t
     :init
     (if (eq system-type 'windows-nt) 
-    (setq py-shell-name "C:/a/Python/Python35-32/python.exe")
-    (setq py-split-window-on-execute t)))
+        (setq py-shell-name "C:/a/Python/Python35-32/python.exe"))
+    :config
+    (setq py-split-window-on-execute t))
 #+END_SRC
 Use M-x write-abbrev-file and just hit RET when asked for a filename.
 *** jedi
