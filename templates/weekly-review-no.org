@@ -1,27 +1,26 @@
 * Weekly Review %U
-  Clock in with C-c C-x C-i
-  Clock out with C-c C-x C-o
 ** Get clear
   Clock in with C-c C-x C-i
-*** Collect loose papers and materials [0/6]
-    Gather all accumulated business cards, receipts, and miscellaneous paper-based materials into your in-tray.
-    * [ ] In-folder in backpack
-    * [ ] Kvitteringer i bilen
-    * [ ] Innboks BV9
-    * [ ] Innboks hjemme
-    * [ ] Postkassen
-    * [ ] Loose papers laying around
-*** Empty your head [0/2]
-    Put in writing and process any uncaptured new projects, action items, waiting for’s, someday maybe’s, etc.
-    :TRIGGER-LIST:
-    [[~/.emacs.d/templates/pro-trigger.org][Professional trigger list]]
-    [[~/.emacs.d/templates/priv-trigger.org][Private trigger list]]
-    :END:
-    + [ ] Go through trigger list
-    + [ ] Set a timer for 5 minutes and write down what's on your mind
-      - Start timer med C-c C-x 0
-      - Stopp timer med C-c C-x _
-*** Get "IN" to zero [0/6]
+*** Samle opp løse papirer og ting [0/6]
+Samle opp akkumulerte kvitteringer, papirer og andre fysiske "ting" til innboksen.
+- [ ] Inn-folder i ryggsekken
+- [ ] Innboks BV9
+- [ ] Innboks hjemme
+- [ ] Postkassen
+- [ ] Kvitteringer i bilen
+- [ ] Løse papirer som ligger og slenger
+*** Tøm hodet [0/3]
+Skriv ned og prosesser alle nye prosjekter, handlinger, venter på, engang-kanskje osv.
+:TRIGGER-LIST:
+[[~/.emacs.d/templates/pro-trigger.org][Professional trigger list]]
+[[~/.emacs.d/templates/priv-trigger.org][Private trigger list]]
+:END:
+- [ ] Gå gjennom triggerlistene
+- [ ] Sett en timer på 5 minutter og skriv ned alt som dukker opp
+  - Start timer med C-c C-x 0
+  - Stopp timer med C-c C-x _
+- [ ] Prosesser det som dukket opp
+*** Get "IN" to zero [0/11]
     Process completely all outstanding paper materials, journal and meeting notes, 
     voicemails, dictation, and emails.
     :PROCESS:
@@ -54,11 +53,13 @@
     + [ ] Email Nellon
     + [ ] Email UiO
     + [ ] Google Keep
+    + [ ] Google Photos siden forrige review
     + [ ] Assigned issues in Jira
     + [ ] Mentions in Jira
     + [ ] Assigned issues in Remedy
+    + [ ] Moleskine
+    + [ ] Innboks (papirer)
     + [ ] ORG innboks
-    + [ ] Innboks
 ** Get current
   Clock in with C-c C-x C-i
 *** Review Action Lists [0/4]
@@ -81,12 +82,12 @@ Mark off completed actions. Review for reminders of further action steps to reco
     * [ ] Received updates?
     * [ ] Set new actions if necessary
 *** Review Project (and Larger Outcome) Lists [0/2]
-    Evaluate status of projects, goals, and outcomes, one by one, ensuring at least one current action item on each.  
-    Browse through project plans, support material, and any other work-in-progress material to trigger new actions, completions, waiting for’s, etc.
-    * [ ] Review Project List, is something stuck?
-    * [ ] Browse support material
+Evaluate status of projects, goals, and outcomes, one by one, ensuring at least one current action item on each. _Grundig vudering!_
+Browse through project plans, support material, and any other work-in-progress material to trigger new actions, completions, waiting for’s, etc.
+- [ ] Review Project List, is something stuck?
+- [ ] Browse support material
 *** Review Any Relevant Checklists
-    Use as a trigger for any new actions.
+Use as a trigger for any new actions.
 *** Rydd opp innboksen i Evernote
 *** Sjekk Tickler-file i Evernote
 ** Get creative
