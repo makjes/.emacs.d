@@ -169,3 +169,12 @@
 * Outside education
 * Research-need to find out about
 * Professional wardrobe
+* Universitetet
+** INF1820
+** INF2820
+** Obliger
+** Uklarheter
+** Oppgaver
+** Programmering
+** Lilja
+** Jan Tore
