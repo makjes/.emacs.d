@@ -181,12 +181,11 @@ A relaxing dark theme with subtle colors. I prefer [[https://github.com/credmp/a
 #+end_src
 
 *** TODO Download font if neccesary
-My preferred font is [[http://www.levien.com/type/myfonts/inconsolata.html][Inconsolata]]. Download it from [[https://fonts.google.com/specimen/Inconsolata][Google Fonts]].
-
+My preferred font is Ubuntu Mono. Download it from [[https://fonts.google.com/specimen/Ubuntu+Mono][Google Fonts]].
 *** Load fonts
 #+begin_src emacs-lisp
-  (cond ((member "Inconsolata" (font-family-list))
-         (set-face-attribute 'default nil :font "Inconsolata-12"))
+  (cond ((member "Ubuntu Mono" (font-family-list))
+         (set-face-attribute 'default nil :font "Ubuntu Mono-12"))
 	    ((member "Consolas" (font-family-list))
 	     (set-face-attribute 'default nil :font "Consolas")))
 #+end_src
@@ -247,7 +246,15 @@ Reload buffers when files change outside emacs.
       '((sequence "TODO(t)" "NEXT-ACTION(a!)" "WAITING(w@/!)" "|")
         (sequence "PLANNING(l)" "PROJECT(p)" "|")
         (sequence "SOMEDAY(s)")
+        (sequence "MATERIAL(m)")
         (sequence "|" "DONE(d!)" "CANCELED(c)")))
+#+END_SRC
+** Modify faces for states
+#+BEGIN_SRC emacs-lisp
+(setq org-todo-keyword-faces
+      '(("PLANNING" . (:foreground "lightblue" :weight bold))
+        ("PROJECT" . (:foreground "lightblue"))
+        ("NEXT-ACTION" . (:foreground "lightyellow" :weight bold))))
 #+END_SRC
 ** Activate logbook-drawer
 #+BEGIN_SRC emacs-lisp
@@ -256,13 +263,6 @@ Reload buffers when files change outside emacs.
 ** Syntax highlighting in source blocks
 #+BEGIN_SRC emacs-lisp
 (setq org-src-fontify-natively t)
-#+END_SRC
-** Modify faces for states
-#+BEGIN_SRC emacs-lisp
-(setq org-todo-keyword-faces
-      '(("PLANNING" . (:foreground "lightblue" :weight bold))
-        ("PROJECT" . (:foreground "lightblue"))
-        ("NEXT-ACTION" . (:foreground "lightyellow" :weight bold))))
 #+END_SRC
 ** Capture
 #+BEGIN_SRC emacs-lisp
