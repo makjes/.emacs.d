@@ -64,6 +64,7 @@ Skriv ned og prosesser alle nye prosjekter, handlinger, venter på, engang-kansk
   Clock in with C-c C-x C-i
 *** Review Action Lists [0/4]
 Mark off completed actions. Review for reminders of further action steps to record.
++ [ ] Refile tasks
 + [ ] Set finished tasks to DONE
 + [ ] Set reminders if necessary
 + [ ] Refine further tasks
@@ -88,6 +89,7 @@ Browse through project plans, support material, and any other work-in-progress m
 - [ ] Browse support material
 *** Review Any Relevant Checklists
 Use as a trigger for any new actions.
+*** Refile tasks
 *** Rydd opp innboksen i Evernote
 *** Sjekk Tickler-file i Evernote
 ** Get creative

@@ -227,14 +227,15 @@ Reload buffers when files change outside emacs.
 ** Set refile targets
 #+BEGIN_SRC emacs-lisp
 (setq org-refile-targets
-  '((nil :maxlevel . 1)
-    ("Privat.org" :maxlevel . 1)
-    ("UiO.org" :maxlevel . 1)
-    ("NG.org" :maxlevel . 1)
-    ("HV.org" :maxlevel . 1)
+  '((nil :todo . "PROJECT")
+    (nil :todo . "GROUP")
+    ("Privat.org" :tag . "refile")
+    ("UiO.org" :tag . "refile")
+    ("NG.org" :tag . "refile")
+    ("HV.org" :tag . "refile")
     ("Inbox.org" :level . 1)
-    ("Nellon.org" :maxlevel . 1)
-    ("Habits.org" :maxlevel . 1)))
+    ("Nellon.org" :tag . "refile")
+    ("Habits.org" :tag . "refile")))
 #+END_SRC
 ** Set archive location
 #+BEGIN_SRC emacs-lisp
@@ -247,6 +248,7 @@ Reload buffers when files change outside emacs.
         (sequence "PLANNING(l)" "PROJECT(p)" "|")
         (sequence "SOMEDAY(s)")
         (sequence "MATERIAL(m)")
+        (sequence "GROUP(g)")
         (sequence "|" "DONE(d!)" "CANCELED(c)")))
 #+END_SRC
 ** Modify faces for states
@@ -254,6 +256,7 @@ Reload buffers when files change outside emacs.
 (setq org-todo-keyword-faces
       '(("PLANNING" . (:foreground "lightblue" :weight bold))
         ("PROJECT" . (:foreground "lightblue"))
+        ("GROUP" . (:foreground "grey"))
         ("NEXT-ACTION" . (:foreground "lightyellow" :weight bold))))
 #+END_SRC
 ** Activate logbook-drawer
@@ -311,91 +314,98 @@ Reload buffers when files change outside emacs.
       org-habit-show-habits-only-for-today t
       org-habit-show-all-today t)
 #+END_SRC
-** Jira
+** Exporters
+*** Jira
 #+BEGIN_SRC emacs-lisp
 (use-package ox-jira :ensure t)
 #+END_SRC
+*** Twitter bootstrap
+#+BEGIN_SRC emacs-lisp
+(use-package ox-twbs :ensure t)
+#+END_SRC
 ** Custom Agenda views
 #+BEGIN_SRC emacs-lisp
-(setq org-agenda-custom-commands
-      (quote
-       (("w" "Work"
-	 ((agenda ""
+  (setq org-agenda-custom-commands
+	(quote
+	 (("w" "Work"
+	   ((agenda ""
+		    ((org-agenda-files
+		      (quote
+		       ("~/Dropbox/org/Habits.org")))
+		     (org-agenda-span 1)
+		     (org-agenda-overriding-header "Habits")))
+	    (agenda ""
+		    ((org-agenda-files
+		      (quote
+		       ("~/Dropbox/org/NG.org")))))
+	    (todo "NEXT-ACTION"
 		  ((org-agenda-files
 		    (quote
-		     ("~/Dropbox/org/Habits.org")))
-		   (org-agenda-span 1)
-		   (org-agenda-overriding-header "Habits")))
-	  (agenda ""
-		  ((org-agenda-files
-		    (quote
-		     ("~/Dropbox/org/NG.org")))))
-	  (todo "NEXT-ACTION"
-		((org-agenda-files
-		  (quote
-		   ("~/Dropbox/org/NG.org")))
-		 (org-agenda-overriding-header "Next actions @ NG"))))
-	 nil)
-	("h" "Home"
-	 ((agenda ""
-		  ((org-agenda-files
-		    (quote
-		     ("~/Dropbox/org/Habits.org")))
-		   (org-agenda-overriding-header "Habits")
-		   (org-agenda-span 1)))
-	  (agenda ""
-		  ((org-agenda-files
-		    (quote
-		     ("~/Dropbox/org/Privat.org" "~/Dropbox/org/HV.org" "~/Dropbox/org/UiO.org" "~/Dropbox/org/Nellon.org")))))
-	  (tags-todo "home"
-		     ((org-agenda-sorting-strategy
-		       (quote
-			(todo-state-up)))
-		      (org-agenda-overriding-header "@Home"))))
-	 nil nil)
-	("n" . "Next Actions")
-	("nn" "Next Actions: NG" todo "NEXT-ACTION"
-	 ((org-agenda-overriding-header "Next Actions: NG")
-	  (org-agenda-files
-	   (quote
-	    ("~/Dropbox/org/NG.org")))))
-	("np" "Next Actions: Private" todo "NEXT-ACTION"
-	 ((org-agenda-overriding-header "Next Actions: Private -home (Private/UiO/HV/Nellon)")
-	  (org-agenda-files
-	   (quote
-	    ("~/Dropbox/org/Privat.org" "~/Dropbox/org/UiO.org" "~/Dropbox/org/HV.org" "~/Dropbox/org/Nellon.org")))
-	  (org-agenda-tag-filter-preset
-	   (quote
-	    ("-home")))))
-	("na" "Next Actions: All" todo "NEXT-ACTION"
-	 ((org-agenda-overriding-header "Next Actions: All (-habit -home)")
-	  (org-agenda-tag-filter-preset
-	   (quote
-	    ("-habit" "-home")))))
-	("p" "Projects to plan" todo "PLANNING"
-	 ((org-agenda-overriding-header "Projects to plan")))
-	("g" . "Agenda: Persons")
-	("gp" "Agenda: Per Olav" tags-todo "+pespor"
-	 ((org-agenda-overriding-header "Agenda: Per Olav")))
-	("gm" "Agenda: Maria" tags-todo "+macris"
-	 ((org-agenda-overriding-header "Agenda: Maria")))
-	("gb" "Agenda: Jon Arne B" tags-todo "+jabjer"
-	 ((org-agenda-overriding-header "Agenda: Jon Arne B")))
-	("gt" "Agenda: Marie T H" tags-todo "+mahell"
-	 ((org-agenda-overriding-header "Agenda: Marie T H")))
-	("gj" "Agenda: Janne" tags-todo "+janne"
-	 ((org-agenda-overriding-header "Agenda: Janne")))
-	("ge" "Agenda: PÃ¥l E" tags-todo "+pÃ¥l"
-	 ((org-agenda-overriding-header "Agenda: PÃ¥l E")))
-	("gh" "Agenda: HÃ¥kon H" tags-todo "+hahaar"
-	 ((org-agenda-overriding-header "Agenda: HÃ¥kon H")))
-	("c" . "Contexts")
-	("cw" "Context: Weekly Architects Meeting" tags-todo "wam"
-	 ((org-agenda-overriding-header "Context: Weekly Architects Meeting"))
-	 nil)
-	("cb" "Context: Buy" tags-todo "buy"
-	 ((org-agenda-overriding-header "Context: Buy"))))))
+		     ("~/Dropbox/org/NG.org")))
+		   (org-agenda-overriding-header "Next actions @ NG"))))
+	   nil)
+	  ("h" "Home"
+	   ((agenda ""
+		    ((org-agenda-files
+		      (quote
+		       ("~/Dropbox/org/Habits.org")))
+		     (org-agenda-overriding-header "Habits")
+		     (org-agenda-span 1)))
+	    (agenda ""
+		    ((org-agenda-files
+		      (quote
+		       ("~/Dropbox/org/Privat.org" "~/Dropbox/org/HV.org" "~/Dropbox/org/UiO.org" "~/Dropbox/org/Nellon.org")))))
+	    (tags-todo "home"
+		       ((org-agenda-sorting-strategy
+			 (quote
+			  (todo-state-up)))
+			(org-agenda-overriding-header "@Home"))))
+	   nil nil)
+	  ("n" . "Next Actions")
+	  ("nn" "Next Actions: NG" todo "NEXT-ACTION"
+	   ((org-agenda-overriding-header "Next Actions: NG")
+	    (org-agenda-files
+	     (quote
+	      ("~/Dropbox/org/NG.org")))))
+	  ("np" "Next Actions: Private" todo "NEXT-ACTION"
+	   ((org-agenda-overriding-header "Next Actions: Private -home (Private/UiO/HV/Nellon)")
+	    (org-agenda-files
+	     (quote
+	      ("~/Dropbox/org/Privat.org" "~/Dropbox/org/UiO.org" "~/Dropbox/org/HV.org" "~/Dropbox/org/Nellon.org")))
+	    (org-agenda-tag-filter-preset
+	     (quote
+	      ("-home")))))
+	  ("na" "Next Actions: All" todo "NEXT-ACTION"
+	   ((org-agenda-overriding-header "Next Actions: All (-habit -home)")
+	    (org-agenda-tag-filter-preset
+	     (quote
+	      ("-habit" "-home")))))
+	  ("p" "Projects to plan" todo "PLANNING"
+	   ((org-agenda-overriding-header "Projects to plan")))
+	  ("g" . "Agenda: Persons")
+	  ("gp" "Agenda: Per Olav" tags-todo "+pespor"
+	   ((org-agenda-overriding-header "Agenda: Per Olav")))
+	  ("gm" "Agenda: Maria" tags-todo "+macris"
+	   ((org-agenda-overriding-header "Agenda: Maria")))
+	  ("gb" "Agenda: Jon Arne B" tags-todo "+jabjer"
+	   ((org-agenda-overriding-header "Agenda: Jon Arne B")))
+	  ("gt" "Agenda: Marie T H" tags-todo "+mahell"
+	   ((org-agenda-overriding-header "Agenda: Marie T H")))
+	  ("gj" "Agenda: Janne" tags-todo "+janne"
+	   ((org-agenda-overriding-header "Agenda: Janne")))
+	  ("ge" "Agenda: Paal E" tags-todo "+pÃ¥l"
+	   ((org-agenda-overriding-header "Agenda: PÃ¥l E")))
+	  ("gh" "Agenda: Haakon H" tags-todo "+hahaar"
+	   ((org-agenda-overriding-header "Agenda: HÃ¥kon H")))
+	  ("c" . "Contexts")
+	  ("cw" "Context: Weekly Architects Meeting" tags-todo "wam"
+	   ((org-agenda-overriding-header "Context: Weekly Architects Meeting"))
+	   nil)
+	  ("cb" "Context: Buy" tags-todo "buy"
+	   ((org-agenda-overriding-header "Context: Buy")))
+	  ("r" "Refile list" tags-todo "refile" nil))))
 #+END_SRC
+
 ** Define stuck projects
 #+BEGIN_SRC emacs-lisp
 (setq org-stuck-projects
@@ -407,6 +417,12 @@ Reload buffers when files change outside emacs.
 ** Activate visual line mode
 #+BEGIN_SRC emacs-lisp
 (add-hook 'org-mode-hook (lambda () (visual-line-mode t)))
+#+END_SRC
+** Org babel settings
+#+BEGIN_SRC emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)))
 #+END_SRC
 * Development
 ** Common tools
@@ -462,6 +478,7 @@ Reload buffers when files change outside emacs.
         (setq py-shell-name "C:/a/Python/Python35-32/python.exe"))
     :config
     (setq py-split-window-on-execute t))
+    (add-hook 'python-mode-hook (setenv "LANG" "en_US.UTF8"))
 #+END_SRC
 Use M-x write-abbrev-file and just hit RET when asked for a filename.
 *** jedi
