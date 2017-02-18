@@ -1,0 +1,11 @@
+#+TYP_TODO: TODO(t) NEXT-ACTION(a!) | DONE(d!)
+#+SEQ_TODO: WAITING(w@/!) |
+#+SEQ_TODO: | CANCELED(c)
+#+SEQ_TODO: PROJECT(p)
+#+SEQ_TODO: SOMEDAY(s)
+#+SEQ_TODO: MATERIAL(m)
+#+SEQ_TODO: GROUP(g)
+
+#+STARTUP: overview
+
+#+ARCHIVE: archive/archive.org::* From %s
