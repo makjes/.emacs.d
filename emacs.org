@@ -404,10 +404,10 @@ The prefix will be something like this: /W<week number of archive time>: <archiv
 	   ((org-agenda-overriding-header "Agenda: Marie T H")))
 	  ("gj" "Agenda: Janne" tags-todo "+janne"
 	   ((org-agenda-overriding-header "Agenda: Janne")))
-	  ("ge" "Agenda: Paal E" tags-todo "+pÃ¥l"
-	   ((org-agenda-overriding-header "Agenda: PÃ¥l E")))
+	  ("ge" "Agenda: Paal E" tags-todo "+paal"
+	   ((org-agenda-overriding-header "Agenda: Paal E")))
 	  ("gh" "Agenda: Haakon H" tags-todo "+hahaar"
-	   ((org-agenda-overriding-header "Agenda: HÃ¥kon H")))
+	   ((org-agenda-overriding-header "Agenda: Haakon H")))
 	  ("c" . "Contexts")
 	  ("cw" "Context: Weekly Architects Meeting" tags-todo "wam"
 	   ((org-agenda-overriding-header "Context: Weekly Architects Meeting"))
