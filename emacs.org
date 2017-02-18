@@ -210,11 +210,11 @@ Reload buffers when files change outside emacs.
 #+END_SRC
 *** Modify faces for states
 #+BEGIN_SRC emacs-lisp
-(setq org-todo-keyword-faces
-      '(("PLANNING" . (:foreground "lightblue"))
-        ("PROJECT" . (:foreground "lightblue" :weight bold))
-        ("GROUP" . (:foreground "grey" :weight bold))
-        ("NEXT-ACTION" . (:foreground "lightyellow" :weight bold))))
+  (setq org-todo-keyword-faces
+	'(("PLANNING" . (:foreground "lightblue"))
+	  ("PROJECT" . (:foreground "lightblue" :weight bold))
+	  ("GROUP" . (:foreground "grey" :weight bold))
+	  ("NEXT-ACTION" . (:foreground "lightyellow" :weight bold))))
 #+END_SRC
 *** Activate visual line mode
 #+BEGIN_SRC emacs-lisp
@@ -230,7 +230,7 @@ Reload buffers when files change outside emacs.
     (bind-key "<f2>" 'org-refile org-mode-map)
     (bind-key "C-c a" 'org-agenda org-mode-map))
 #+END_SRC
-** GTD setup
+** GTD Setup
 *** Set agenda files
 #+BEGIN_SRC emacs-lisp
 (setq org-agenda-files '("~/Dropbox/org/Privat.org"
@@ -317,70 +317,146 @@ Reload buffers when files change outside emacs.
       org-habit-show-all-today t)
 #+END_SRC
 *** Custom Agenda views
+**** Custom prefix formats
+I use this prefix format to get information from my archive. The properties-drawer on the items in my archive looks something like this:
+#+BEGIN_QUOTE
+:ARCHIVE_TIME: <date of archive>
+:ARCHIVE_FILE: <path>
+:ARCHIVE_OLPATH: <org-path>
+:ARCHIVE_CATEGORY: <category>
+:ARCHIVE_TODO: <state of task when archived>
+:ARCHIVE_ITAGS: <tags>
+#+END_QUOTE
+The prefix will be something like this: /W<week number of archive time>: <archive time> (<tags>)/
+#+BEGIN_SRC emacs-lisp
+  (defun my/org-entry-get-archive () 
+    (concat "W" (format-time-string "%V" (org-time-string-to-time (org-entry-get (point) "ARCHIVE_TIME")))
+	    ": " (format-time-string "%Y-%m-%d" (org-time-string-to-time (org-entry-get (point) "ARCHIVE_TIME")))
+	    " (" (org-entry-get (point) "ARCHIVE_ITAGS") ") "))
+#+END_SRC
+**** Setup of agenda views
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-custom-commands
-	(quote (("w" "Work"
-		 ((agenda ""
-			  ((org-agenda-files (quote ("~/Dropbox/org/Habits.org")))
-			   (org-agenda-span 1)
-			   (org-agenda-overriding-header "Habits")))
-		  (agenda ""
-			  ((org-agenda-files (quote ("~/Dropbox/org/NG.org")))))
-		  (todo "NEXT-ACTION"
-			((org-agenda-files (quote ("~/Dropbox/org/NG.org")))
-			 (org-agenda-overriding-header "Next actions @ NG"))))
-		 nil)
-		("h" "Home"
-		 ((agenda ""
-			  ((org-agenda-files (quote ("~/Dropbox/org/Habits.org")))
-			   (org-agenda-overriding-header "Habits")
-			   (org-agenda-span 1)))
-		  (agenda ""
-			  ((org-agenda-files (quote ("~/Dropbox/org/Privat.org"
-						     "~/Dropbox/org/HV.org"
-						     "~/Dropbox/org/UiO.org"
-						     "~/Dropbox/org/Nellon.org")))))
-		  (tags-todo "home"
-			     ((org-agenda-sorting-strategy (quote (todo-state-up)))
-			      (org-agenda-overriding-header "@Home"))))
-		 nil nil)
-		("n" . "Next Actions")
-		("nn" "Next Actions: NG" todo "NEXT-ACTION"
-		 ((org-agenda-overriding-header "Next Actions: NG")
-		  (org-agenda-files (quote ("~/Dropbox/org/NG.org")))))
-		("np" "Next Actions: Private" todo "NEXT-ACTION"
-		 ((org-agenda-overriding-header "Next Actions: Private -home (Private/UiO/HV/Nellon)")
-		  (org-agenda-files (quote ("~/Dropbox/org/Privat.org"
-					    "~/Dropbox/org/UiO.org"
-					    "~/Dropbox/org/HV.org"
-					    "~/Dropbox/org/Nellon.org")))
-		  (org-agenda-tag-filter-preset (quote ("-home")))))
-		("na" "Next Actions: All" todo "NEXT-ACTION"
-		 ((org-agenda-overriding-header "Next Actions: All (-habit -home)")
-		  (org-agenda-tag-filter-preset (quote ("-habit" "-home")))))
-		("p" "Projects to plan" todo "PLANNING"
-		 ((org-agenda-overriding-header "Projects to plan")))
-		("g" . "Agenda: Persons")
-		("gp" "Agenda: Per Olav" tags-todo "+pespor"
-		 ((org-agenda-overriding-header "Agenda: Per Olav")))
-		("gm" "Agenda: Maria" tags-todo "+macris"
-		 ((org-agenda-overriding-header "Agenda: Maria")))
-		("gb" "Agenda: Jon Arne B" tags-todo "+jabjer"
-		 ((org-agenda-overriding-header "Agenda: Jon Arne B")))
-		("gt" "Agenda: Marie T H" tags-todo "+mahell"
-		 ((org-agenda-overriding-header "Agenda: Marie T H")))
-		("gj" "Agenda: Janne" tags-todo "+janne"
-		 ((org-agenda-overriding-header "Agenda: Janne")))
-		("ge" "Agenda: Paal E" tags-todo "+paal"
-		 ((org-agenda-overriding-header "Agenda: Paal E")))
-		("gh" "Agenda: Haakon H" tags-todo "+hahaar"
-		 ((org-agenda-overriding-header "Agenda: Haakon H")))
-		("c" . "Contexts")
-		("cw" "Context: Weekly Architects Meeting" tags-todo "wam"
-		 ((org-agenda-overriding-header "Context: Weekly Architects Meeting")) nil)
-		("cb" "Context: Buy" tags-todo "buy"
-		 ((org-agenda-overriding-header "Context: Buy")))
-		("r" "Refile list" tags-todo "refile" nil))))
+	(quote
+	 (("w" "Work"
+	   ((agenda ""
+		    ((org-agenda-files
+		      (quote
+		       ("~/Dropbox/org/Habits.org")))
+		     (org-agenda-span 1)
+		     (org-agenda-overriding-header "Habits")))
+	    (agenda ""
+		    ((org-agenda-files
+		      (quote
+		       ("~/Dropbox/org/NG.org")))))
+	    (todo "NEXT-ACTION"
+		  ((org-agenda-files
+		    (quote
+		     ("~/Dropbox/org/NG.org")))
+		   (org-agenda-overriding-header "Next actions @ NG"))))
+	   nil)
+	  ("h" "Home"
+	   ((agenda ""
+		    ((org-agenda-files
+		      (quote
+		       ("~/Dropbox/org/Habits.org")))
+		     (org-agenda-overriding-header "Habits")
+		     (org-agenda-span 1)))
+	    (agenda ""
+		    ((org-agenda-files
+		      (quote
+		       ("~/Dropbox/org/Privat.org" "~/Dropbox/org/HV.org" "~/Dropbox/org/UiO.org" "~/Dropbox/org/Nellon.org")))))
+	    (tags-todo "home"
+		       ((org-agenda-sorting-strategy
+			 (quote
+			  (todo-state-up)))
+			(org-agenda-overriding-header "@Home"))))
+	   nil nil)
+	  ("n" . "Next Actions")
+	  ("nn" "Next Actions: NG" todo "NEXT-ACTION"
+	   ((org-agenda-overriding-header "Next Actions: NG")
+	    (org-agenda-files
+	     (quote
+	      ("~/Dropbox/org/NG.org")))))
+	  ("np" "Next Actions: Private" todo "NEXT-ACTION"
+	   ((org-agenda-overriding-header "Next Actions: Private -home (Private/UiO/HV/Nellon)")
+	    (org-agenda-files
+	     (quote
+	      ("~/Dropbox/org/Privat.org" "~/Dropbox/org/UiO.org" "~/Dropbox/org/HV.org" "~/Dropbox/org/Nellon.org")))
+	    (org-agenda-tag-filter-preset
+	     (quote
+	      ("-home")))))
+	  ("na" "Next Actions: All" todo "NEXT-ACTION"
+	   ((org-agenda-overriding-header "Next Actions: All (-habit -home)")
+	    (org-agenda-tag-filter-preset
+	     (quote
+	      ("-habit" "-home")))))
+	  ("p" "Projects to plan" todo "PLANNING"
+	   ((org-agenda-overriding-header "Projects to plan")))
+	  ("g" . "Agenda: Persons")
+	  ("gp" "Agenda: Per Olav" tags-todo "+pespor"
+	   ((org-agenda-overriding-header "Agenda: Per Olav")))
+	  ("gm" "Agenda: Maria" tags-todo "+macris"
+	   ((org-agenda-overriding-header "Agenda: Maria")))
+	  ("gb" "Agenda: Jon Arne B" tags-todo "+jabjer"
+	   ((org-agenda-overriding-header "Agenda: Jon Arne B")))
+	  ("gt" "Agenda: Marie T H" tags-todo "+mahell"
+	   ((org-agenda-overriding-header "Agenda: Marie T H")))
+	  ("gj" "Agenda: Janne" tags-todo "+janne"
+	   ((org-agenda-overriding-header "Agenda: Janne")))
+	  ("ge" "Agenda: Paal E" tags-todo "+pÃ¥l"
+	   ((org-agenda-overriding-header "Agenda: PÃ¥l E")))
+	  ("gh" "Agenda: Haakon H" tags-todo "+hahaar"
+	   ((org-agenda-overriding-header "Agenda: HÃ¥kon H")))
+	  ("c" . "Contexts")
+	  ("cw" "Context: Weekly Architects Meeting" tags-todo "wam"
+	   ((org-agenda-overriding-header "Context: Weekly Architects Meeting"))
+	   nil)
+	  ("cb" "Context: Buy" tags-todo "buy"
+	   ((org-agenda-overriding-header "Context: Buy")))
+	  ("r" "Refile list" tags-todo "refile" nil)
+	  ("d" . "DRIVE Status")
+	  ("ds" "DRIVE Status"
+	   ((agenda ""
+		    ((org-agenda-overriding-header "Planned activities")
+		     (org-agenda-span 14)
+		     (org-agenda-category-filter-preset
+		      (quote
+		       ("+DRIVE")))))
+	    (todo "PROJECT"
+		  ((org-agenda-overriding-header "Unfinished projects")
+		   (org-agenda-sorting-strategy
+		    (quote
+		     (tag-up priority-down)))
+		   (org-agenda-category-filter-preset
+		    (quote
+		     ("+DRIVE"))))))
+	   nil nil)
+	  ("da" "DRIVE Archive" tags "+ARCHIVE_CATEGORY=\"DRIVE\""
+	   ((org-agenda-overriding-header "DRIVE Archive")
+	    (org-agenda-files
+	     (quote
+	      ("~/Dropbox/org/archive/archive.org")))
+	    (org-agenda-skip-function
+	     (quote
+	      (if
+		  (ignore-errors
+		    (>
+		     (org-time-string-to-absolute
+		      (org-entry-get
+		       (point)
+		       "ARCHIVE_TIME"))
+		     (-
+		      (org-time-string-to-absolute
+		       (format-time-string "%Y-%m-%d"))
+		      (string-to-int
+		       (format-time-string "%u"))
+		      7)))
+		  nil
+		(save-excursion
+		  (outline-next-heading)
+		  (point)))))
+	    (org-agenda-prefix-format "%(my/org-entry-get-archive)"))))))
 #+END_SRC
 *** Define stuck projects
 #+BEGIN_SRC emacs-lisp

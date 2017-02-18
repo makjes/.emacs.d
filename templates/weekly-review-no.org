@@ -68,7 +68,7 @@ Mark off completed actions. Review for reminders of further action steps to reco
 + [ ] Set finished tasks to DONE
 + [ ] Set reminders if necessary
 + [ ] Refine further tasks
-+ [ ] Archive DONE tasks
++ [ ] Archive completed projects!
 *** Review previous calendar data [0/2]
     Review past calendar in detail for remaining action items, reference data, etc., and transfer into the active system.
     * [ ] Meeting minutes
