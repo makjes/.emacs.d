@@ -345,7 +345,6 @@ I use a tag for releases, and for some views I want to only show the release tag
 (defun mk/org-get-release-from-tags (tags)
   "Input a list of strings. Use (split-string TAGSTRING \":\")
 Returns the tag matching r[0-9]+(\\.[0-9]+)? or nil"
-  (message (car tags))
   (cond ((null tags) nil)
 	((string-match "r[0-9]+\\(\\.[0-9]+\\)?" (car tags)) (car tags))
 	((null (cdr tags)) nil)
@@ -378,7 +377,7 @@ The prefix will be something like this: /W<week number of archive time>: <archiv
 #+END_SRC
 ***** Reference property
 :PROPERTIES:
-:ID:       a1b79d90-a7cc-4abf-9cc7-83d60c0912e4
+:REF: JiraID
 :END:
 For a weekly status report, I report progress on Jira issues and other internal references. I store these references as a property called =REF=.
 #+BEGIN_SRC emacs-lisp
