@@ -1,4 +1,4 @@
-# +TITLE: "My Emacs configurations"
+#+TITLE: My Emacs configurations
 #+STARTUP: indent
 #+OPTIONS: H:5 num:nil tags:nil toc:nil timestamps:t
 #+LAYOUT: post
@@ -15,6 +15,7 @@ Using a norwegian keyboard on linux may cause issues with [[https://www.emacswik
 #+BEGIN_SRC emacs-lisp
   (require 'iso-transl)
 #+END_SRC
+
 ** Package manager setup
 #+BEGIN_SRC emacs-lisp
 (require 'cl)
@@ -72,6 +73,7 @@ Install packages, preferably only use-package
     (package-refresh-contents)
     (init--install-packages)))
 #+end_src
+
 ** Change autosave directory
 #+begin_src emacs-lisp
 (defvar emacs-autosave-directory "~/.emacs.d/autosaves/")
@@ -80,6 +82,7 @@ Install packages, preferably only use-package
       auto-save-file-name-transforms
       `((".*" ,emacs-autosave-directory t)))
 #+end_src
+
 * Look and feel
 ** General emacs settings
 Change some general settings
@@ -97,6 +100,7 @@ Change some general settings
   (setq default-directory (concat (getenv "HOME") "/")) ; Set home directory as default
   (fset 'yes-or-no-p 'y-or-n-p) ; Answer with y/n
 #+END_SRC
+
 ** Navigation
 *** Swiper
 #+begin_src emacs-lisp
@@ -139,6 +143,7 @@ Change some general settings
 
   (use-package ivy-hydra :ensure t)
 #+end_src
+
 *** Which key
 =which-key= is a minor mode for Emacs that displays the key bindings following your currently entered incomplete command (a prefix) in a popup. For example, after enabling the minor mode if you enter =C-x= and wait for the default of 1 second the minibuffer will expand with all of the available key bindings that follow =C-x=
 Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-key]]
@@ -148,6 +153,7 @@ Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-k
   :config
   (which-key-mode))
 #+end_src
+
 *** Custom keybindings
 #+begin_src emacs-lisp
 (defvar custom-bindings-map (make-keymap)
@@ -162,6 +168,7 @@ Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-k
   "A mode that activates custom-bindings."
   t nil custom-bindings-map)
 #+end_src
+
 ** Autocomplete
 #+begin_src emacs-lisp
   (use-package auto-complete
@@ -170,6 +177,7 @@ Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-k
     (ac-config-default)
     (global-auto-complete-mode t))
 #+end_src
+
 ** Agressive indentation
 #+begin_src emacs-lisp
 (use-package aggressive-indent
@@ -177,6 +185,7 @@ Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-k
   :config
   (global-aggressive-indent-mode 1))
 #+end_src
+
 ** Themeing
 *** Load themes
 A relaxing dark theme with subtle colors. I prefer [[https://github.com/credmp/arjen-grey-theme][arjen-grey-theme]] by [[https://www.buildfunthings.com][Arjen Wiersma]]. It's a master piece! <3
@@ -193,6 +202,7 @@ My preferred font is Ubuntu Mono. Download it from [[https://fonts.google.com/sp
 	    ((member "Consolas" (font-family-list))
 	     (set-face-attribute 'default nil :font "Consolas")))
 #+end_src
+
 ** Removed "ding"
 Thanks to [[https://www.buildfunthings.com][Arjen Wiersma]] for showing how to remove the ever annoying *ding*.
 #+BEGIN_SRC emacs-lisp
@@ -200,11 +210,13 @@ Thanks to [[https://www.buildfunthings.com][Arjen Wiersma]] for showing how to r
   (setq ring-bell-function 'my-ding-function)
   (setq visible-bell nil)
 #+END_SRC
+
 ** Reload buffers on file change
 Reload buffers when files change outside emacs.
 #+BEGIN_SRC emacs-lisp
   (global-auto-revert-mode t)
 #+END_SRC
+
 * Org-mode
 ** Visual & highligting
 *** Activate clean indentation
@@ -212,6 +224,7 @@ Reload buffers when files change outside emacs.
 (setq org-startup-indented t)
 (setq org-startup-truncated nil)
 #+END_SRC
+
 *** Modify faces for states
 #+BEGIN_SRC emacs-lisp
   (setq org-todo-keyword-faces
@@ -220,13 +233,22 @@ Reload buffers when files change outside emacs.
 	  ("GROUP" . (:foreground "grey" :weight bold))
 	  ("NEXT-ACTION" . (:foreground "lightyellow" :weight bold))))
 #+END_SRC
+
 *** Activate visual line mode
 #+BEGIN_SRC emacs-lisp
 (add-hook 'org-mode-hook (lambda () (visual-line-mode t)))
 #+END_SRC
+
 *** Syntax highlighting in source blocks
 #+BEGIN_SRC emacs-lisp
 (setq org-src-fontify-natively t)
+#+END_SRC
+
+*** Fancy UTF-8 bullets
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :ensure t
+    :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+END_SRC
 ** Key bindings
 #+BEGIN_SRC emacs-lisp
@@ -234,6 +256,7 @@ Reload buffers when files change outside emacs.
     (bind-key "<f2>" 'org-refile org-mode-map)
     (bind-key "C-c a" 'org-agenda org-mode-map))
 #+END_SRC
+
 ** GTD Setup
 *** Set agenda files
 #+BEGIN_SRC emacs-lisp
@@ -245,6 +268,7 @@ Reload buffers when files change outside emacs.
                          "~/Dropbox/org/Habits.org"
                          "~/Dropbox/org/Inbox.org"))
 #+END_SRC
+
 *** Set refile targets
 #+BEGIN_SRC emacs-lisp
 (setq org-refile-targets
@@ -258,10 +282,12 @@ Reload buffers when files change outside emacs.
     ("Nellon.org" :tag . "refile")
     ("Habits.org" :tag . "refile")))
 #+END_SRC
+
 *** Activate logbook-drawer
 #+BEGIN_SRC emacs-lisp
 (setq org-log-into-drawer "LOGBOOK")
 #+END_SRC
+
 *** Capture templates
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<f3>") 'org-capture)
@@ -307,6 +333,7 @@ Reload buffers when files change outside emacs.
 	   (file "~/.emacs.d/templates/oblig2820.org"))
 	  ))
 #+END_SRC
+
 *** Habits module
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'org-modules 'org-habit)
@@ -316,8 +343,29 @@ Reload buffers when files change outside emacs.
       org-habit-show-habits-only-for-today t
       org-habit-show-all-today t)
 #+END_SRC
+
 *** Custom Agenda views
+
+**** Functions for structuring data
+I use a tag for releases, and for some views I want to only show the release tag.
+#+BEGIN_SRC emacs-lisp
+(defun mk/org-get-release-from-tags (tags)
+  "Input a list of strings. Use (split-string TAGSTRING \":\")
+Returns the tag matching r[0-9]+(\\.[0-9]+)? or nil"
+  (message (car tags))
+  (cond ((null tags) nil)
+	((string-match "r[0-9]+\\(\\.[0-9]+\\)?" (car tags)) (car tags))
+	((null (cdr tags)) nil)
+	((mk/org-get-release-from-tags (cdr tags)))))
+
+(defun mk/org-get-release-from-string (tagstring)
+  "Input a string of tags seperated with \:
+Returns the tag matching r[0-9]+(\\.[0-9]+)? or nil"
+  (if (null tagstring) nil
+    (mk/get-release-from-tags (split-string tagstring ":"))))
+#+END_SRC
 **** Custom prefix formats
+***** Archive times
 I use this prefix format to get information from my archive. The properties-drawer on the items in my archive looks something like this:
 #+BEGIN_QUOTE
 ARCHIVE_TIME: <date of archive>
@@ -329,135 +377,120 @@ ARCHIVE_ITAGS: <tags>
 #+END_QUOTE
 The prefix will be something like this: /W<week number of archive time>: <archive time> (<tags>)/
 #+BEGIN_SRC emacs-lisp
-  (defun my/org-entry-get-archive () 
-    (concat "W" (format-time-string "%V" (org-time-string-to-time (org-entry-get (point) "ARCHIVE_TIME")))
-	    ": " (format-time-string "%Y-%m-%d" (org-time-string-to-time (org-entry-get (point) "ARCHIVE_TIME")))
-	    " (" (org-entry-get (point) "ARCHIVE_ITAGS") ") "))
+  (defun mk/org-entry-get-archive ()
+    (let* ((week-number (concat "W" (format-time-string "%V" (org-time-string-to-time (org-entry-get (point) "ARCHIVE_TIME")))))
+	   (archive-date (format-time-string "%Y-%m-%d" (org-time-string-to-time (org-entry-get (point) "ARCHIVE_TIME"))))
+	   (release (mk/org-get-release-from-string (or (org-entry-get (point) "ARCHIVE_ITAGS") (org-entry-get (point) "TAGS")))))
+      (concat week-number " | " archive-date " | " (format "%-5s" release))))
+#+END_SRC
+***** Reference property
+:PROPERTIES:
+:ID:       a1b79d90-a7cc-4abf-9cc7-83d60c0912e4
+:END:
+For a weekly status report, I report progress on Jira issues and other internal references. I store these references as a property called =REF=.
+#+BEGIN_SRC emacs-lisp
+  (defun mk/org-entry-get-ref ()
+    (let* ((maxlen 12)
+	   (ref (format (concat "%-" (int-to-string maxlen) "s") (or (org-entry-get (point) "REF" t) ""))))
+      (format (concat "%-" (int-to-string (+ 1 maxlen)) "s")
+	      (subseq ref 0 (or (search ":" ref) maxlen)))))
+#+END_SRC
+**** Custom skip functions
+For my weekly status report, I want to know what has been archived the current and last week.
+#+BEGIN_SRC emacs-lisp
+  (defun mk/org-agenda-skip-archive ()
+    (let* ((today (org-time-string-to-absolute (format-time-string "%Y-%m-%d")))
+	   (archive-date (org-time-string-to-absolute (org-entry-get (point) "ARCHIVE_TIME")))
+	   (day-of-week (string-to-number (format-time-string "%u"))))
+      (if (org-time> archive-date (- today day-of-week 7))
+	  nil
+	(save-excursion (outline-next-heading) (point)))))
 #+END_SRC
 **** Setup of agenda views
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-custom-commands
-	(quote
-	 (("w" "Work"
-	   ((agenda ""
-		    ((org-agenda-files
-		      (quote
-		       ("~/Dropbox/org/Habits.org")))
-		     (org-agenda-span 1)
-		     (org-agenda-overriding-header "Habits")))
-	    (agenda ""
-		    ((org-agenda-files
-		      (quote
-		       ("~/Dropbox/org/NG.org")))))
-	    (todo "NEXT-ACTION"
-		  ((org-agenda-files
-		    (quote
-		     ("~/Dropbox/org/NG.org")))
-		   (org-agenda-overriding-header "Next actions @ NG"))))
-	   nil)
-	  ("h" "Home"
-	   ((agenda ""
-		    ((org-agenda-files
-		      (quote
-		       ("~/Dropbox/org/Habits.org")))
-		     (org-agenda-overriding-header "Habits")
-		     (org-agenda-span 1)))
-	    (agenda ""
-		    ((org-agenda-files
-		      (quote
-		       ("~/Dropbox/org/Privat.org" "~/Dropbox/org/HV.org" "~/Dropbox/org/UiO.org" "~/Dropbox/org/Nellon.org")))))
-	    (tags-todo "home"
-		       ((org-agenda-sorting-strategy
-			 (quote
-			  (todo-state-up)))
-			(org-agenda-overriding-header "@Home"))))
-	   nil nil)
-	  ("n" . "Next Actions")
-	  ("nn" "Next Actions: NG" todo "NEXT-ACTION"
-	   ((org-agenda-overriding-header "Next Actions: NG")
-	    (org-agenda-files
-	     (quote
-	      ("~/Dropbox/org/NG.org")))))
-	  ("np" "Next Actions: Private" todo "NEXT-ACTION"
-	   ((org-agenda-overriding-header "Next Actions: Private -home (Private/UiO/HV/Nellon)")
-	    (org-agenda-files
-	     (quote
-	      ("~/Dropbox/org/Privat.org" "~/Dropbox/org/UiO.org" "~/Dropbox/org/HV.org" "~/Dropbox/org/Nellon.org")))
-	    (org-agenda-tag-filter-preset
-	     (quote
-	      ("-home")))))
-	  ("na" "Next Actions: All" todo "NEXT-ACTION"
-	   ((org-agenda-overriding-header "Next Actions: All (-habit -home)")
-	    (org-agenda-tag-filter-preset
-	     (quote
-	      ("-habit" "-home")))))
-	  ("p" "Projects to plan" todo "PLANNING"
-	   ((org-agenda-overriding-header "Projects to plan")))
-	  ("g" . "Agenda: Persons")
-	  ("gp" "Agenda: Per Olav" tags-todo "+pespor"
-	   ((org-agenda-overriding-header "Agenda: Per Olav")))
-	  ("gm" "Agenda: Maria" tags-todo "+macris"
-	   ((org-agenda-overriding-header "Agenda: Maria")))
-	  ("gb" "Agenda: Jon Arne B" tags-todo "+jobjer"
-	   ((org-agenda-overriding-header "Agenda: Jon Arne B")))
-	  ("gt" "Agenda: Marie T H" tags-todo "+mahell"
-	   ((org-agenda-overriding-header "Agenda: Marie T H")))
-	  ("gj" "Agenda: Janne" tags-todo "+janne"
-	   ((org-agenda-overriding-header "Agenda: Janne")))
-	  ("ge" "Agenda: Paal E" tags-todo "+paal"
-	   ((org-agenda-overriding-header "Agenda: Paal E")))
-	  ("gh" "Agenda: Haakon H" tags-todo "+hahaar"
-	   ((org-agenda-overriding-header "Agenda: Haakon H")))
-	  ("c" . "Contexts")
-	  ("cw" "Context: Weekly Architects Meeting" tags-todo "wam"
-	   ((org-agenda-overriding-header "Context: Weekly Architects Meeting"))
-	   nil)
-	  ("cb" "Context: Buy" tags-todo "buy"
-	   ((org-agenda-overriding-header "Context: Buy")))
-	  ("r" "Refile list" tags-todo "refile" nil)
-	  ("d" . "DRIVE Status")
-	  ("ds" "DRIVE Status"
-	   ((agenda ""
-		    ((org-agenda-overriding-header "Planned activities")
-		     (org-agenda-span 14)
-		     (org-agenda-category-filter-preset
-		      (quote
-		       ("+DRIVE")))))
-	    (todo "PROJECT"
-		  ((org-agenda-overriding-header "Unfinished projects")
-		   (org-agenda-sorting-strategy
-		    (quote
-		     (tag-up priority-down)))
-		   (org-agenda-category-filter-preset
-		    (quote
-		     ("+DRIVE"))))))
-	   nil nil)
-	  ("da" "DRIVE Archive" tags "+ARCHIVE_CATEGORY=\"DRIVE\""
-	   ((org-agenda-overriding-header "DRIVE Archive")
-	    (org-agenda-files
-	     (quote
-	      ("~/Dropbox/org/archive/archive.org")))
-	    (org-agenda-skip-function
-	     (quote
-	      (if
-		  (ignore-errors
-		    (>
-		     (org-time-string-to-absolute
-		      (org-entry-get
-		       (point)
-		       "ARCHIVE_TIME"))
-		     (-
-		      (org-time-string-to-absolute
-		       (format-time-string "%Y-%m-%d"))
-		      (string-to-int
-		       (format-time-string "%u"))
-		      7)))
-		  nil
-		(save-excursion
-		  (outline-next-heading)
-		  (point)))))
-	    (org-agenda-prefix-format "%(my/org-entry-get-archive)"))))))
+	(quote (("w" "Work"
+		 ((agenda ""
+			  ((org-agenda-files (quote ("~/Dropbox/org/Habits.org")))
+			   (org-agenda-span 1)
+			   (org-agenda-overriding-header "Habits")))
+		  (agenda ""
+			  ((org-agenda-files (quote ("~/Dropbox/org/NG.org")))))
+		  (todo "NEXT-ACTION"
+			((org-agenda-files (quote ("~/Dropbox/org/NG.org")))
+			 (org-agenda-overriding-header "Next actions @ NG"))))
+		 nil)
+		("h" "Home"
+		 ((agenda ""
+			  ((org-agenda-files (quote ("~/Dropbox/org/Habits.org")))
+			   (org-agenda-overriding-header "Habits")
+			   (org-agenda-span 1)))
+		  (agenda ""
+			  ((org-agenda-files (quote ("~/Dropbox/org/Privat.org"
+						     "~/Dropbox/org/HV.org"
+						     "~/Dropbox/org/UiO.org"
+						     "~/Dropbox/org/Nellon.org")))))
+		  (tags-todo "home"
+			     ((org-agenda-sorting-strategy (quote (todo-state-up)))
+			      (org-agenda-overriding-header "@Home"))))
+		 nil nil)
+		("n" . "Next Actions")
+		("nn" "Next Actions: NG" todo "NEXT-ACTION"
+		 ((org-agenda-overriding-header "Next Actions: NG")
+		  (org-agenda-files (quote ("~/Dropbox/org/NG.org")))))
+		("np" "Next Actions: Private" todo "NEXT-ACTION"
+		 ((org-agenda-overriding-header "Next Actions: Private -home (Private/UiO/HV/Nellon)")
+		  (org-agenda-files (quote ("~/Dropbox/org/Privat.org"
+					    "~/Dropbox/org/UiO.org"
+					    "~/Dropbox/org/HV.org"
+					    "~/Dropbox/org/Nellon.org")))
+		  (org-agenda-tag-filter-preset (quote ("-home")))))
+		("na" "Next Actions: All" todo "NEXT-ACTION"
+		 ((org-agenda-overriding-header "Next Actions: All (-habit -home)")
+		  (org-agenda-tag-filter-preset (quote ("-habit" "-home")))))
+		("p" "Projects to plan" todo "PLANNING"
+		 ((org-agenda-overriding-header "Projects to plan")))
+		("g" . "Agenda: Persons")
+		("gp" "Agenda: Per Olav" tags-todo "+pespor"
+		 ((org-agenda-overriding-header "Agenda: Per Olav")))
+		("gm" "Agenda: Maria" tags-todo "+macris"
+		 ((org-agenda-overriding-header "Agenda: Maria")))
+		("gb" "Agenda: Jon Arne B" tags-todo "+jobjer"
+		 ((org-agenda-overriding-header "Agenda: Jon Arne B")))
+		("gt" "Agenda: Marie T H" tags-todo "+mahell"
+		 ((org-agenda-overriding-header "Agenda: Marie T H")))
+		("gj" "Agenda: Janne" tags-todo "+janne"
+		 ((org-agenda-overriding-header "Agenda: Janne")))
+		("ge" "Agenda: Paal E" tags-todo "+paal"
+		 ((org-agenda-overriding-header "Agenda: Paal E")))
+		("gh" "Agenda: Haakon H" tags-todo "+hahaar"
+		 ((org-agenda-overriding-header "Agenda: Haakon H")))
+		("c" . "Contexts")
+		("cw" "Context: Weekly Architects Meeting" tags-todo "wam"
+		 ((org-agenda-overriding-header "Context: Weekly Architects Meeting")) nil)
+		("cb" "Context: Buy" tags-todo "buy"
+		 ((org-agenda-overriding-header "Context: Buy")))
+		("r" "Refile list" tags-todo "refile" nil)
+		("d" . "DRIVE Status")
+		("ds" "DRIVE Status"
+		 ((agenda ""
+			  ((org-agenda-overriding-header "Planned activities")
+			   (org-agenda-span 14)
+			   (org-agenda-category-filter-preset (quote ("+DRIVE")))
+			   (org-agenda-prefix-format "%(mk/org-entry-get-ref)")))
+		  (todo "PROJECT"
+			((org-agenda-overriding-header "Unfinished projects")
+			 (org-agenda-sorting-strategy (quote (tag-up priority-down)))
+			 (org-agenda-category-filter-preset (quote ("+DRIVE")))
+			 (org-agenda-prefix-format "%(mk/org-entry-get-ref)"))))
+		 nil nil)
+		("da" "DRIVE Archive" tags "+ARCHIVE_CATEGORY=\"DRIVE\""
+		 ((org-agenda-overriding-header "DRIVE Archive")
+		  (org-agenda-files (quote ("~/Dropbox/org/archive/archive.org")))
+		  (org-agenda-skip-function (quote (mk/org-agenda-skip-archive)))
+		  (org-agenda-prefix-format "%(mk/org-entry-get-archive)"))))))
 #+END_SRC
+
 *** Define stuck projects
 #+BEGIN_SRC emacs-lisp
 (setq org-stuck-projects
@@ -466,15 +499,18 @@ The prefix will be something like this: /W<week number of archive time>: <archiv
      ("TODO" "NEXT-ACTION" "WAITING")
      nil "")))
 #+END_SRC
+
 ** Exporters
 *** Jira
 #+BEGIN_SRC emacs-lisp
 (use-package ox-jira :ensure t)
 #+END_SRC
+
 *** Twitter bootstrap
 #+BEGIN_SRC emacs-lisp
 (use-package ox-twbs :ensure t)
 #+END_SRC
+
 ** Org babel settings
 #+BEGIN_SRC emacs-lisp
   (org-babel-do-load-languages
@@ -484,6 +520,7 @@ The prefix will be something like this: /W<week number of archive time>: <archiv
      (shell . t)))
   (setq org-babel-python-command "python3")
 #+END_SRC
+
 * Development
 ** Common tools
 *** flycheck
@@ -494,6 +531,7 @@ The prefix will be something like this: /W<week number of archive time>: <archiv
     (global-flycheck-mode t)
     (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 #+END_SRC
+
 ** Magit
 #+begin_src emacs-lisp
 (use-package magit
@@ -501,6 +539,7 @@ The prefix will be something like this: /W<week number of archive time>: <archiv
   :config
   (global-set-key (kbd "C-c m") 'magit-status))
 #+end_src
+
 ** Lisp
 *** Paredit
 #+BEGIN_SRC emacs-lisp
@@ -511,6 +550,7 @@ The prefix will be something like this: /W<week number of archive time>: <archiv
   (add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode)
   (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode))
 #+END_SRC
+
 *** Use paredit everywhere
 #+BEGIN_SRC emacs-lisp
 (use-package paredit-everywhere
@@ -519,6 +559,7 @@ The prefix will be something like this: /W<week number of archive time>: <archiv
   :config
   (add-hook 'prog-mode-hook #'paredit-everywhere-mode))
 #+END_SRC
+
 *** Rainbow delimiters
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-delimiters
@@ -528,6 +569,7 @@ The prefix will be something like this: /W<week number of archive time>: <archiv
             (lambda ()
               (rainbow-delimiters-mode))))
 #+END_SRC
+
 ** Python
 *** python-mode
 #+BEGIN_SRC emacs-lisp
@@ -554,6 +596,7 @@ Use M-x jedi:install-server to install jedi server. Python virtual environment r
 #+BEGIN_QUOTE
 [sudo] pip install virtualenv
 #+END_QUOTE
+
 ** Snippets
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
@@ -563,9 +606,10 @@ Use M-x jedi:install-server to install jedi server. Python virtual environment r
   (yas/global-mode 1)
   (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets"))
 #+END_SRC
+
 * Experiments
 ** elfeed and elfeed-org
-- First I setup elfeed.el
+*** First I setup elfeed.el
 #+BEGIN_SRC emacs-lisp
 (use-package elfeed
 :ensure t
@@ -576,14 +620,14 @@ On Windows, libxml2 is not typically installed with Emacs, and elfeed will produ
 #+BEGIN_QUOTE
 Elfeed: libxml2 functionality is unavailable
 #+END_QUOTE
-I am using Emacs 25 at the moment, on w64.
+One of my computers is a Windows box on which I am using Emacs 25.
 A solution for this is descibed in [[https://github.com/cpitclaudel/company-coq/issues/20][this github-issue]], by cpitclaudel [2016-09-27 ti]:
 #+BEGIN_QUOTE
 Download emacs 25 from ftp://ftp.gnu.org/gnu/emacs/windows/emacs-25.1-x86_64-w64-mingw32.zip
 Download the dependencies from http://alpha.gnu.org/gnu/emacs/pretest/windows/emacs-25-x86_64-deps.zip
 Unpack both in the same place and try again
 #+END_QUOTE
-- Next, elfeed-org.el to read the feed-file in org-mode
+*** Next, load elfeed-org.el to read the feed-file in org-mode
 #+BEGIN_SRC emacs-lisp
 (use-package elfeed-org
 :ensure t
