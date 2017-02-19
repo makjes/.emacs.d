@@ -244,12 +244,6 @@ Reload buffers when files change outside emacs.
 (setq org-src-fontify-natively t)
 #+END_SRC
 
-*** Fancy UTF-8 bullets
-#+BEGIN_SRC emacs-lisp
-  (use-package org-bullets
-    :ensure t
-    :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-#+END_SRC
 ** Key bindings
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org
@@ -345,7 +339,6 @@ Reload buffers when files change outside emacs.
 #+END_SRC
 
 *** Custom Agenda views
-
 **** Functions for structuring data
 I use a tag for releases, and for some views I want to only show the release tag.
 #+BEGIN_SRC emacs-lisp
@@ -362,7 +355,7 @@ Returns the tag matching r[0-9]+(\\.[0-9]+)? or nil"
   "Input a string of tags seperated with \:
 Returns the tag matching r[0-9]+(\\.[0-9]+)? or nil"
   (if (null tagstring) nil
-    (mk/get-release-from-tags (split-string tagstring ":"))))
+    (mk/org-get-release-from-tags (split-string tagstring ":"))))
 #+END_SRC
 **** Custom prefix formats
 ***** Archive times
