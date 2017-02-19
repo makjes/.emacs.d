@@ -352,7 +352,6 @@ I use a tag for releases, and for some views I want to only show the release tag
 (defun mk/org-get-release-from-tags (tags)
   "Input a list of strings. Use (split-string TAGSTRING \":\")
 Returns the tag matching r[0-9]+(\\.[0-9]+)? or nil"
-  (message (car tags))
   (cond ((null tags) nil)
 	((string-match "r[0-9]+\\(\\.[0-9]+\\)?" (car tags)) (car tags))
 	((null (cdr tags)) nil)
