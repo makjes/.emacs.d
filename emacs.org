@@ -385,7 +385,7 @@ The prefix will be something like this: /W<week number of archive time>: <archiv
 #+END_SRC
 ***** Reference property
 :PROPERTIES:
-:ID:       a1b79d90-a7cc-4abf-9cc7-83d60c0912e4
+:REF: JiraID
 :END:
 For a weekly status report, I report progress on Jira issues and other internal references. I store these references as a property called =REF=.
 #+BEGIN_SRC emacs-lisp
