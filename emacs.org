@@ -488,11 +488,15 @@ For my weekly status report, I want to know what has been archived the current a
 (setq org-stuck-projects
    (quote
     ("/+PROJECT"
-     ("TODO" "NEXT-ACTION" "WAITING")
+     ("NEXT-ACTION" "WAITING")
      nil "")))
 #+END_SRC
 
 ** Exporters
+Setting UTF8 for exports
+#+BEGIN_SRC emacs-lisp
+  (setq org-export-coding-system 'utf-8)
+#+END_SRC
 *** Jira
 #+BEGIN_SRC emacs-lisp
 (use-package ox-jira :ensure t)

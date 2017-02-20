@@ -1,106 +1,71 @@
-* Weekly Review %U
-** Get clear
-  Clock in with C-c C-x C-i
-*** Samle opp løse papirer og ting [0/6]
-Samle opp akkumulerte kvitteringer, papirer og andre fysiske "ting" til innboksen.
+* Tøm alt
+** Samle løsark og spredt materiell [0%]
+Samle sammen alle visittkort, kvitteringer og ulikt papirbasert materiale i innboksen.
 - [ ] Inn-folder i ryggsekken
 - [ ] Innboks BV9
 - [ ] Innboks hjemme
 - [ ] Postkassen
 - [ ] Kvitteringer i bilen
 - [ ] Løse papirer som ligger og slenger
-*** Tøm hodet [0/3]
-Skriv ned og prosesser alle nye prosjekter, handlinger, venter på, engang-kanskje osv.
-:TRIGGER-LIST:
+** Behandle innboksen til den er tom [0%]
+Behandle ferdig alt uferdig papirmateriale, journaler og møtenotater, beskjeder på telefonsvarer, diktafon og eposter.
+- [ ] Email NG
+- [ ] Email Nellon
+- [ ] Email UiO
+- [ ] Google Keep
+- [ ] Google Photos siden forrige review
+- [ ] Assigned issues i Jira
+- [ ] Mentions i Jira
+- [ ] Assigned issues i Remedy
+- [ ] Moleskine
+- [ ] Innboks (papirer)
+- [ ] Innboksen i Evernote
+- [ ] Inbox.org
+** Tøm hodet [0%]
+Skriv ned og behandle alle nye prosjekter som ikke er samlet, saker som krever neste handlig, ventende saker, engang-kanskje og lignende.
 [[~/.emacs.d/templates/pro-trigger.org][Professional trigger list]]
 [[~/.emacs.d/templates/priv-trigger.org][Private trigger list]]
-:END:
 - [ ] Gå gjennom triggerlistene
-- [ ] Sett en timer på 5 minutter og skriv ned alt som dukker opp
-  - Start timer med C-c C-x 0
-  - Stopp timer med C-c C-x _
-- [ ] Prosesser det som dukket opp
-*** Get "IN" to zero [0/11]
-    Process completely all outstanding paper materials, journal and meeting notes, 
-    voicemails, dictation, and emails.
-    :PROCESS:
-    - Hva er det?
-    - Det kan ikke handles på
-      + Kast det
-      + Ruge på
-	- Someday / maybe
-	- Datospesifikke påminnelser
-      + Arkivere
-	- Privat i Evernote
-	- NG i OneDrive/OneNote
-    - Det kan handles på
-      + Det er flere steg
-	- Hva er det ønskede utfall?
-	- Lag prosjekt
-	- Prosjektstøttemateriell
-      + Hva er den neste handlingen?
-	- Definer arbeidet
-	  * Tar det mindre enn 2 minutter?
-	    - Gjør det
-	  * Deleger
-	    1. Forespørsel
-	    2. Oppfølging
-	  * Utsett
-	    - Datospesifikke ting i kalender eller skedulering
-	    - Neste handlingsliste
-    :END:
-    + [ ] Email NG
-    + [ ] Email Nellon
-    + [ ] Email UiO
-    + [ ] Google Keep
-    + [ ] Google Photos siden forrige review
-    + [ ] Assigned issues in Jira
-    + [ ] Mentions in Jira
-    + [ ] Assigned issues in Remedy
-    + [ ] Moleskine
-    + [ ] Innboks (papirer)
-    + [ ] ORG innboks
-** Get current
-  Clock in with C-c C-x C-i
-*** Review Action Lists [0/4]
-Mark off completed actions. Review for reminders of further action steps to record.
-+ [ ] Refile tasks
-+ [ ] Set finished tasks to DONE
-+ [ ] Set reminders if necessary
-+ [ ] Refine further tasks
-+ [ ] Archive completed projects!
-*** Review previous calendar data [0/2]
-    Review past calendar in detail for remaining action items, reference data, etc., and transfer into the active system.
-    * [ ] Meeting minutes
-    * [ ] Other reference material
-    * [ ] Nellon Calendar
-*** Review upcoming calendar [0/2]
-    Review upcoming calendar events–long and short term. Capture actions triggered
-    * [ ] NG Calendar
-    * [ ] Nellon Calendar
-*** Review Waiting For List [0/2]
-    Record appropriate actions for any needed follow-up. Check off received ones.
-    * [ ] Received updates?
-    * [ ] Set new actions if necessary
-*** Review Project (and Larger Outcome) Lists [0/2]
-Evaluate status of projects, goals, and outcomes, one by one, ensuring at least one current action item on each. _Grundig vudering!_
-Browse through project plans, support material, and any other work-in-progress material to trigger new actions, completions, waiting for’s, etc.
-- [ ] Review Project List, is something stuck?
-- [ ] Browse support material
-*** Review Any Relevant Checklists
-Use as a trigger for any new actions.
-*** Refile tasks
-*** Rydd opp innboksen i Evernote
-*** Sjekk Tickler-file i Evernote
-** Get creative
-  Clock in with C-c C-x C-i
-*** Review Someday Maybe List [0/2]
-Review for any projects which may now have become active, and transfer to “Projects.” Delete items no longer of interest.
-- [ ] Activate projects
-- [ ] Set uninteresting projects to CANCELED
-*** Be creative and courageous [0/1]
-Any new, wonderful, hare-brained, creative, thought-provoking, risk-taking ideas to add into your system???
-+ [ ] Set timer to 5 minutes and start dreaming
-  - Start timer med C-c C-x 0
-  - Stopp timer med C-c C-x _
-+ Clock out with C-c C-x C-o
+- [ ] Prosesser det som dukker opp
+* Kom deg ajour
+** Se gjennom listene over neste handlinger [0%]
+Kryss av fullførte handlinger. Se gjennom påminnelser om flere =NEXT-ACTION= som skal skrives ned.
+- [ ] Refile tasks
+- [ ] Sett avsluttede =NEXT-ACTIONS= til =DONE=
+- [ ] Lag påminnelser hvis nødvendig
+** Se gjennom tidligere avtaler i kalenderen [0%]
+Gå gjennom tidligere avtaler i kalenderen for å finne flere saker som trenger handling, referansedata osv., og flytt disse over i det aktive systemet.
+- [ ] NG-kalender
+- [ ] Møtereferater
+- [ ] Annet referansemateriale
+- [ ] Nellon-kalender
+** Se gjennom kommende avtaler i kalenderen [0%]
+Se gjennom kommende avtaler i kalenderen og samle løse tråder som dukker opp. Fang opp =NEXT-ACTION= som trigges.
+- [ ] NG Calendar
+- [ ] Nellon Calendar
+- [ ] Ticker-file i Evernote
+** Se gjennom venter-på listen [0%]
+Beslutt hvilke ting du skal følge opp denne uken, kryss av for ting som er utførte.
+- [ ] Fått oppdateringer?
+- [ ] Opprett =NEXT-ACTION= hvis nødvendig
+** Revidere prosjekt og viktige utfall [0%]
+Evaluer status for prosjekter, målsetninger og utfall.
+Se over en etter en og sørg for å ha minst én neste handling for hvert prosjekt.
+Se gjennom prosjektplaner, støttemateriale og annet materiale som er under arbeid og som kan sette i sving nye neste handlinger, venter på osv.
+_Grundig vurdering av hvert prosjekt!_
+- [ ] Prosjekter som sitter fast?
+- [ ] Opprett =NEXT-ACTION=
+- [ ] Arkiver fullførte prosjekter
+- [ ] Bla gjennom prosjektmateriale i OneNote
+- [ ] Bla gjennom prosjektmateriale i Evernote
+- [ ] Bla gjennom prosjektmateriale i Org
+- [ ] Bla gjennom fysisk prosjektmateriale
+** Revidere alle relevante sjekklister
+Bruk disse for å få satt i sving nye handlinger.
+* Vær kreativ
+** Se over engang-kanskje
+Revider =SOMEDAY= som nå kan ha blitt aktive og overfør dem til =PROJECT=. Slett saker som har mistet interesse.
+- [ ] Aktiver =PROJECT=
+- [ ] Sett uinteressante til =CANCELED=
+** Vær kreativ og modig
+Har du nye, fantastiske, kreative, tankevekkende og risikable ideer som kan føres inn i systemet?
