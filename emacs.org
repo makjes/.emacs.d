@@ -412,6 +412,14 @@ Important habits for all agenda views
 		   (org-agenda-tag-filter-preset (quote ("-habit")))
 		   (org-agenda-overriding-header "Habits"))))
 #+END_SRC
+All habits
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-component-habits-all
+	'(agenda ""
+		  ((org-agenda-files (quote ("~/Dropbox/org/Habits.org")))
+		   (org-agenda-span 1)
+		   (org-agenda-overriding-header "Habits"))))
+#+END_SRC
 ****** Agenda
 ******* NG
 #+BEGIN_SRC emacs-lisp
@@ -514,10 +522,20 @@ Important habits for all agenda views
   (defun mk/org-agenda-custom-command-agenda-generic (key name tag)
     (mk/org-agenda-custom-command-generic (concat "g" key) (concat "Agenda: " name) tag))
 #+END_SRC
-****** Refile list
+****** Org maintenance
 #+BEGIN_SRC emacs-lisp
-  (setq mk/org-agenda-custom-command-refile
-    (mk/org-agenda-custom-command-generic "r" "Refile list" "refile"))
+  (setq mk/org-agenda-custom-command-maintenance
+	'("o" . "ORG maintenance"))
+#+END_SRC
+******* Refile list
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-command-maintenance-refile
+    (mk/org-agenda-custom-command-generic "or" "Refile list" "refile"))
+#+END_SRC
+****** Habits
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-command-habits
+	(list "h" "Habits" (list mk/org-agenda-custom-component-habits-all)))
 #+END_SRC
 ***** DRIVE
 #+BEGIN_SRC emacs-lisp
@@ -567,10 +585,13 @@ Important habits for all agenda views
             (mk/org-agenda-custom-command-agenda-generic "h" "Haakon" "hahaar")
             (mk/org-agenda-custom-command-agenda-generic "l" "John" "jlo")
 	      mk/org-agenda-custom-command-context
-            (mk/org-agenda-custom-command-context-generic "b" "Shopping list" "buy")
+            (mk/org-agenda-custom-command-context-generic "s" "Shopping list" "buy")
             (mk/org-agenda-custom-command-context-generic "w" "Weekly Architects Meeting" "wam")
             (mk/org-agenda-custom-command-context-generic "h" "Home" "home")
-	      mk/org-agenda-custom-command-refile
+            (mk/org-agenda-custom-command-context-generic "b" "BV9" "bv9")
+	      mk/org-agenda-custom-command-maintenance
+            mk/org-agenda-custom-command-maintenance-refile
+            mk/org-agenda-custom-command-habits
 	      mk/org-agenda-custom-drive
 	      mk/org-agenda-custom-drive-status
 	      mk/org-agenda-custom-drive-archive))
