@@ -1,6 +1,6 @@
 #+TITLE: My Emacs configurations
 #+STARTUP: indent
-#+OPTIONS: H:5 num:nil tags:nil toc:nil timestamps:t
+#+OPTIONS: num:nil tags:nil ^:nil timestamps:t
 #+LAYOUT: post
 #+DESCRIPTION: Loading emacs config using org-babel
 
@@ -383,9 +383,11 @@ For a weekly status report, I report progress on Jira issues and other internal 
 #+BEGIN_SRC emacs-lisp
   (defun mk/org-entry-get-ref ()
     (let* ((maxlen 12)
-	   (ref (format (concat "%-" (int-to-string maxlen) "s") (or (org-entry-get (point) "REF" t) ""))))
-      (format (concat "%-" (int-to-string (+ 1 maxlen)) "s")
-	      (subseq ref 0 (or (search ":" ref) maxlen)))))
+	   (ref (format (concat "%-" (int-to-string maxlen) "s") (or (org-entry-get (point) "REF" t) "")))
+	   (release (format "%-5s" (or (mk/org-get-release-from-string (or (org-entry-get (point) "TAGS" t)
+									   (org-entry-get (point) "ITAGS"))) ""))))
+      (concat (format (concat "%-" (int-to-string (+ 1 maxlen)) "s") (subseq ref 0 (or (search ":" ref) maxlen)))
+	      " " release)))
 #+END_SRC
 **** Custom skip functions
 For my weekly status report, I want to know what has been archived the current and last week.
@@ -399,88 +401,179 @@ For my weekly status report, I want to know what has been archived the current a
 	(save-excursion (outline-next-heading) (point)))))
 #+END_SRC
 **** Setup of agenda views
+***** Components
+****** Habits
+Important habits for all agenda views
 #+BEGIN_SRC emacs-lisp
-  (setq org-agenda-custom-commands
-	(quote (("w" "Work"
-		 ((agenda ""
-			  ((org-agenda-files (quote ("~/Dropbox/org/Habits.org")))
-			   (org-agenda-span 1)
-			   (org-agenda-overriding-header "Habits")))
-		  (agenda ""
-			  ((org-agenda-files (quote ("~/Dropbox/org/NG.org")))))
-		  (todo "NEXT-ACTION"
-			((org-agenda-files (quote ("~/Dropbox/org/NG.org")))
-			 (org-agenda-overriding-header "Next actions @ NG"))))
-		 nil)
-		("h" "Home"
-		 ((agenda ""
-			  ((org-agenda-files (quote ("~/Dropbox/org/Habits.org")))
-			   (org-agenda-overriding-header "Habits")
-			   (org-agenda-span 1)))
-		  (agenda ""
-			  ((org-agenda-files (quote ("~/Dropbox/org/Privat.org"
-						     "~/Dropbox/org/HV.org"
-						     "~/Dropbox/org/UiO.org"
-						     "~/Dropbox/org/Nellon.org")))))
-		  (tags-todo "home"
-			     ((org-agenda-sorting-strategy (quote (todo-state-up)))
-			      (org-agenda-overriding-header "@Home"))))
-		 nil nil)
-		("n" . "Next Actions")
-		("nn" "Next Actions: NG" todo "NEXT-ACTION"
-		 ((org-agenda-overriding-header "Next Actions: NG")
-		  (org-agenda-files (quote ("~/Dropbox/org/NG.org")))))
-		("np" "Next Actions: Private" todo "NEXT-ACTION"
-		 ((org-agenda-overriding-header "Next Actions: Private -home (Private/UiO/HV/Nellon)")
-		  (org-agenda-files (quote ("~/Dropbox/org/Privat.org"
+  (setq mk/org-agenda-custom-component-habits-important
+	'(agenda ""
+		  ((org-agenda-files (quote ("~/Dropbox/org/Habits.org")))
+		   (org-agenda-span 1)
+		   (org-agenda-tag-filter-preset (quote ("-habit")))
+		   (org-agenda-overriding-header "Habits"))))
+#+END_SRC
+****** Agenda
+******* NG
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-component-agenda-ng
+	'(agenda ""
+		 ((org-agenda-files (quote ("~/Dropbox/org/NG.org")))
+		  (org-agenda-tag-filter-preset (quote "-habit")))))
+#+END_SRC
+******* Private
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-component-agenda-private
+	'(agenda ""
+		 ((org-agenda-files (quote ("~/Dropbox/org/Privat.org"
 					    "~/Dropbox/org/UiO.org"
 					    "~/Dropbox/org/HV.org"
 					    "~/Dropbox/org/Nellon.org")))
-		  (org-agenda-tag-filter-preset (quote ("-home")))))
-		("na" "Next Actions: All" todo "NEXT-ACTION"
-		 ((org-agenda-overriding-header "Next Actions: All (-habit -home)")
-		  (org-agenda-tag-filter-preset (quote ("-habit" "-home")))))
-		("p" "Projects to plan" todo "PLANNING"
-		 ((org-agenda-overriding-header "Projects to plan")))
-		("g" . "Agenda: Persons")
-		("gp" "Agenda: Per Olav" tags-todo "+pespor"
-		 ((org-agenda-overriding-header "Agenda: Per Olav")))
-		("gm" "Agenda: Maria" tags-todo "+macris"
-		 ((org-agenda-overriding-header "Agenda: Maria")))
-		("gb" "Agenda: Jon Arne B" tags-todo "+jobjer"
-		 ((org-agenda-overriding-header "Agenda: Jon Arne B")))
-		("gt" "Agenda: Marie T H" tags-todo "+mahell"
-		 ((org-agenda-overriding-header "Agenda: Marie T H")))
-		("gj" "Agenda: Janne" tags-todo "+janne"
-		 ((org-agenda-overriding-header "Agenda: Janne")))
-		("ge" "Agenda: Paal E" tags-todo "+paal"
-		 ((org-agenda-overriding-header "Agenda: Paal E")))
-		("gh" "Agenda: Haakon H" tags-todo "+hahaar"
-		 ((org-agenda-overriding-header "Agenda: Haakon H")))
-		("c" . "Contexts")
-		("cw" "Context: Weekly Architects Meeting" tags-todo "wam"
-		 ((org-agenda-overriding-header "Context: Weekly Architects Meeting")) nil)
-		("cb" "Context: Buy" tags-todo "buy"
-		 ((org-agenda-overriding-header "Context: Buy")))
-		("r" "Refile list" tags-todo "refile" nil)
-		("d" . "DRIVE Status")
-		("ds" "DRIVE Status"
-		 ((agenda ""
-			  ((org-agenda-overriding-header "Planned activities")
-			   (org-agenda-span 14)
-			   (org-agenda-category-filter-preset (quote ("+DRIVE")))
-			   (org-agenda-prefix-format "%(mk/org-entry-get-ref)")))
-		  (todo "PROJECT"
-			((org-agenda-overriding-header "Unfinished projects")
-			 (org-agenda-sorting-strategy (quote (tag-up priority-down)))
-			 (org-agenda-category-filter-preset (quote ("+DRIVE")))
-			 (org-agenda-prefix-format "%(mk/org-entry-get-ref)"))))
-		 nil nil)
-		("da" "DRIVE Archive" tags "+ARCHIVE_CATEGORY=\"DRIVE\""
-		 ((org-agenda-overriding-header "DRIVE Archive")
-		  (org-agenda-files (quote ("~/Dropbox/org/archive/archive.org")))
-		  (org-agenda-skip-function (quote (mk/org-agenda-skip-archive)))
-		  (org-agenda-prefix-format "%(mk/org-entry-get-archive)"))))))
+		  (org-agenda-tag-filter-preset (quote "-habit")))))
+#+END_SRC
+****** Todo
+******* NG
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-component-nextaction-ng
+	'(todo "NEXT-ACTION"
+	       ((org-agenda-files (quote ("~/Dropbox/org/NG.org")))
+		(org-agenda-tag-filter-preset (quote ("-habit")))
+		(org-agenda-overriding-header "Next actions @ NG"))))
+#+END_SRC
+******* Private
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-component-nextaction-private
+	'(todo "NEXT-ACTION"
+	       ((org-agenda-files (quote ("~/Dropbox/org/Privat.org"
+					  "~/Dropbox/org/UiO.org"
+					  "~/Dropbox/org/HV.org"
+					  "~/Dropbox/org/Nellon.org")))
+		(org-agenda-tag-filter-preset (quote ("-habit" "-buy")))
+		(org-agenda-overriding-header "Next actions: Private"))))
+#+END_SRC
+***** Commands
+****** Generic command
+#+BEGIN_SRC emacs-lisp
+  (defun mk/org-agenda-custom-command-generic (key name tag) 
+    (list key name 'tags-todo (concat "+" tag)
+	  (list(list 'org-agenda-overriding-header name))))
+#+END_SRC
+****** Work
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-command-work
+	(list "w" "Work" (list mk/org-agenda-custom-component-habits-important
+			       mk/org-agenda-custom-component-agenda-ng
+			       mk/org-agenda-custom-component-nextaction-ng)))
+#+END_SRC
+****** Home
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-command-private
+	(list "p" "Private" (list mk/org-agenda-custom-component-habits-important
+				  mk/org-agenda-custom-component-agenda-private
+				  mk/org-agenda-custom-component-nextaction-private)))
+#+END_SRC
+****** Next Actions
+******* Description
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-command-nextactions
+	'("n" . "Next Actions"))
+#+END_SRC
+******* NG
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-command-nextactions-ng
+	(list "nn" "Next Actions: NG" (list mk/org-agenda-custom-component-nextaction-ng)))
+#+END_SRC
+******* Private
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-command-nextactions-private
+	(list "np" "Next Actions: Private" (list mk/org-agenda-custom-component-nextaction-private)))
+#+END_SRC
+******* All
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-command-nextactions-all
+	(list "na" "Next Actions: All" (list mk/org-agenda-custom-component-nextaction-ng
+					     mk/org-agenda-custom-component-nextaction-private)))
+#+END_SRC
+****** Contexts
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-command-context
+	'("c" . "Contexts"))
+#+END_SRC
+******* Generic context command
+#+BEGIN_SRC emacs-lisp
+  (defun mk/org-agenda-custom-command-context-generic (key name tag)
+    (mk/org-agenda-custom-command-generic (concat "c" key) (concat "Context: " name) tag))
+#+END_SRC
+****** Agenda
+******* Description
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-command-agenda
+	'("g" . "Agenda: Persons"))
+#+END_SRC
+******* Generic agenda command
+#+BEGIN_SRC emacs-lisp
+  (defun mk/org-agenda-custom-command-agenda-generic (key name tag)
+    (mk/org-agenda-custom-command-generic (concat "g" key) (concat "Agenda: " name) tag))
+#+END_SRC
+****** Refile list
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-command-refile
+    (mk/org-agenda-custom-command-generic "r" "Refile list" "refile"))
+#+END_SRC
+***** DRIVE
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-drive
+	'("d" . "DRIVE Status"))
+#+END_SRC
+****** DRIVE Status
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-drive-status
+	'("ds" "DRIVE Status"
+	  ((agenda ""
+		   ((org-agenda-overriding-header "Planned activities")
+		    (org-agenda-span 14)
+		    (org-agenda-category-filter-preset (quote ("+DRIVE")))
+		    (org-agenda-prefix-format "%(mk/org-entry-get-ref)")))
+	   (todo "PROJECT"
+		 ((org-agenda-overriding-header "Unfinished projects")
+		  (org-agenda-sorting-strategy (quote (tag-up priority-down)))
+		  (org-agenda-category-filter-preset (quote ("+DRIVE")))
+		  (org-agenda-prefix-format "%(mk/org-entry-get-ref)"))))
+	  nil nil))
+#+END_SRC
+****** DRIVE Archive
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-drive-archive
+	'("da" "DRIVE Archive" tags "+ARCHIVE_CATEGORY=\"DRIVE\""
+	  ((org-agenda-overriding-header "DRIVE Archive")
+	   (org-agenda-files (quote ("~/Dropbox/org/archive/archive.org")))
+	   (org-agenda-skip-function (quote (mk/org-agenda-skip-archive)))
+	   (org-agenda-prefix-format "%(mk/org-entry-get-archive)"))))
+#+END_SRC
+***** Setup
+#+BEGIN_SRC emacs-lisp :results none
+  (setq org-agenda-custom-commands
+	(list mk/org-agenda-custom-command-work
+	      mk/org-agenda-custom-command-private
+	      mk/org-agenda-custom-command-nextactions
+	      mk/org-agenda-custom-command-nextactions-ng
+	      mk/org-agenda-custom-command-nextactions-private
+	      mk/org-agenda-custom-command-nextactions-all
+	      mk/org-agenda-custom-command-agenda
+	      (mk/org-agenda-custom-command-agenda-generic "p" "Per Olav" "pespor")
+            (mk/org-agenda-custom-command-agenda-generic "m" "Maria" "macris")
+            (mk/org-agenda-custom-command-agenda-generic "j" "Jon Arne" "jobjer")
+            (mk/org-agenda-custom-command-agenda-generic "a" "Marie" "mahell")
+            (mk/org-agenda-custom-command-agenda-generic "e" "Paal" "paal")
+            (mk/org-agenda-custom-command-agenda-generic "h" "Haakon" "hahaar")
+            (mk/org-agenda-custom-command-agenda-generic "l" "John" "jlo")
+	      mk/org-agenda-custom-command-context
+            (mk/org-agenda-custom-command-context-generic "b" "Shopping list" "buy")
+            (mk/org-agenda-custom-command-context-generic "w" "Weekly Architects Meeting" "wam")
+            (mk/org-agenda-custom-command-context-generic "h" "Home" "home")
+	      mk/org-agenda-custom-command-refile
+	      mk/org-agenda-custom-drive
+	      mk/org-agenda-custom-drive-status
+	      mk/org-agenda-custom-drive-archive))
 #+END_SRC
 
 *** Define stuck projects
