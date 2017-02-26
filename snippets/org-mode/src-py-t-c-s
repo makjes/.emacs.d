@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: org src python tangle session comments
+# key: <pytcs
+# --
+#+BEGIN_SRC python :tangle yes :comments org :session $1
+$0
+#+END_SRC

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: org src python tangle comments
+# key: <pytc
+# --
+#+BEGIN_SRC python :tangle yes :comments org
+$0
+#+END_SRC

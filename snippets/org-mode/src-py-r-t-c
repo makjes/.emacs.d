@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: org src python results tangle comments
+# key: <pyrtc
+# --
+#+BEGIN_SRC python :tangle yes :comments org :results $1
+$0
+#+END_SRC

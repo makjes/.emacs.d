@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: org src python results session tangle
+# key: <pyrst
+# --
+#+BEGIN_SRC python :tangle yes :session $1 :results $2
+$0
+#+END_SRC

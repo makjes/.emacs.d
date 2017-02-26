@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: org src python comments tangle session results
+# key: <pyctsr
+# --
+#+BEGIN_SRC python :tangle yes :comments org :session $1 :results $2
+$0
+#+END_SRC
