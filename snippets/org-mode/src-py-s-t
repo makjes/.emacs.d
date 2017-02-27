@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: org src python session tangle
-# key: <pyst
-# --
-#+BEGIN_SRC python :tangle yes :session $1
-$0
-#+END_SRC

@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: org src python results session tangle comments
-# key: <pyrstc
-# --
-#+BEGIN_SRC python :tangle yes :comments org :session $1 :results $2
-$0
-#+END_SRC

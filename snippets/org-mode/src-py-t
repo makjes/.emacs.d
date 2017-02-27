@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: org src py tangle
-# key: <pyt
-# --
-#+BEGIN_SRC python :tangle yes
-$0
-#+END_SRC

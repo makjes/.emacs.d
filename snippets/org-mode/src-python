@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: src python generic
+# key: <p
+# --
+#+BEGIN_SRC python${1: :tangle ${2:yes}}${3: :session ${4:sname}}${5: :results ${6:output}}${7: :comments ${8:org}}${9: :exports ${10:both}}
+$0${11:#Use C-d to delete an option and move to the next}
+#+END_SRC

@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: org src python results tangle session
-# key: <pyrts
-# --
-#+BEGIN_SRC python :tangle yes :session $1 :results $2
-$0
-#+END_SRC

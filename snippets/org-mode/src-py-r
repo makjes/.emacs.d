@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: org src python results
-# key: <pyr
-# --
-#+BEGIN_SRC python :results $1
-$0
-#+END_SRC

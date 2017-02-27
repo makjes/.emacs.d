@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: org src python session
-# key: <pys
-# --
-#+BEGIN_SRC python :session $1
-$0
-#+END_SRC
