@@ -50,7 +50,7 @@ Beslutt hvilke ting du skal følge opp denne uken, kryss av for ting som er utf�
 - [ ] Opprett =NEXT-ACTION= hvis nødvendig
 ** Revidere prosjekt og viktige utfall [0%]
 Evaluer status for prosjekter, målsetninger og utfall.
-Se over en etter en og sørg for å ha minst Ã©n neste handling for hvert prosjekt.
+Se over en etter en og sørg for å ha minst én neste handling for hvert prosjekt.
 Se gjennom prosjektplaner, støttemateriale og annet materiale som er under arbeid og som kan sette i sving nye neste handlinger, venter på osv.
 _Grundig vurdering av hvert prosjekt!_
 - [ ] Prosjekter som sitter fast?
