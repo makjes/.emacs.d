@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: org project ref
-# key: <prj
-# --
-* PROJECT $1
-:PROPERTIES:
-:REF:  $2
-:END:$0

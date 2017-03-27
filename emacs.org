@@ -290,6 +290,10 @@ Reload buffers when files change outside emacs.
 	  ("e" "Email" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
 	   (file "~/.emacs.d/templates/capture-email.org"))
+    ("p" "Project" entry
+	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+	   (file "~/.emacs.d/templates/capture-project.org")
+     :prepend t)
 	  ("t" "Todo" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
 	   (file "~/.emacs.d/templates/capture-generic.org"))
@@ -616,7 +620,12 @@ Setting UTF8 for exports
 
 *** Twitter bootstrap
 #+BEGIN_SRC emacs-lisp
-(use-package ox-twbs :ensure t)
+  (use-package ox-twbs :ensure t)
+#+END_SRC
+
+*** Nikola
+#+BEGIN_SRC emacs-lisp
+  (use-package ox-nikola :ensure t)
 #+END_SRC
 
 ** Org babel settings

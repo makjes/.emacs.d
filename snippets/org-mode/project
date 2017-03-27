@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: org project
+# key: <prj
+# --
+* PROJECT ${1:Sluttsituasjon}${2:
+:PROPERTIES:
+${3::REF: ${4:Referanse}
+}${5::CATEGORY: ${6:Kategori}
+}:END:}$0
