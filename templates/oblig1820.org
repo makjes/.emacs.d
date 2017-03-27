@@ -1,25 +1,22 @@
 #+TITLE: Obligatorisk oppgave %^{Oblig nummer}
 #+AUTHOR: %n
 #+SUBTITLE: INF1820 - Introduksjon til språk og kommunikasjonsteori
-#+DATE: %u
+#+DATE: %<%Y-%m-%d>
 #+OPTIONS: num:nil toc:nil ^:nil
 # Link: [[http://orgmode.org/manual/Specific-header-arguments.html#Specific-header-arguments][Org source block - header arguments]]
 
 * Setup                                                            :noexport:
 ** Environment
-#+BEGIN_SRC python :prologue "# -*- coding: utf-8 -*-" :tangle yes :shebang "#!/usr/bin/env python" :session Oblig :results none
+#+BEGIN_SRC python :prologue "# -*- coding: utf-8 -*-" :tangle yes :shebang "#!/usr/bin/env python" :session oblig :results none
   """INF1820 - Introduksjon til språk og kommunikasjonsteori
   Obligatorisk oppgave %\1
   %n
-  %u"""
+  %<%Y-%m-%d>"""
 #+END_SRC
 ** Imports
-#+BEGIN_SRC python :tangle yes :session Oblig :results none
+#+BEGIN_SRC python :tangle yes :session oblig :results none
   import re
   import nltk
 #+END_SRC
 
-* 1:
-#+BEGIN_SRC python :tangle yes :session Oblig :results output :comments org
-  
-#+END_SRC
+** Oppgave 1: 
