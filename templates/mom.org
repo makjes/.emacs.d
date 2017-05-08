@@ -1,0 +1,8 @@
+* %^{Subject}
+| Meeting Date | %<%Y-%m-%d>   |
+| Location     | %^{Location}  |
+| Attendees    | %^{Attendees} |
+| Absent       | %^{Absent}    |
+| Next meeting |               |
+** Minutes
+*** %?

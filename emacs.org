@@ -287,13 +287,16 @@ Reload buffers when files change outside emacs.
 	'(("w" "Weekly review" entry
 	   (file+weektree "~/Dropbox/org/archive/weekly-review.org")
 	   (file "~/.emacs.d/templates/weekly-review-no.org"))
+	  ("m" "Meeting minutes" entry
+	   (file+datetree "~/ONEDRI~1/mom.org")
+	   (file "~/.emacs.d/templates/mom.org"))
 	  ("e" "Email" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
 	   (file "~/.emacs.d/templates/capture-email.org"))
-    ("p" "Project" entry
+	  ("p" "Project" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
 	   (file "~/.emacs.d/templates/capture-project.org")
-     :prepend t)
+	   :prepend t)
 	  ("t" "Todo" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
 	   (file "~/.emacs.d/templates/capture-generic.org"))
@@ -328,7 +331,7 @@ Reload buffers when files change outside emacs.
 	   (file "~/Dropbox/emner/inf2820/oblig.org")
 	   (file "~/.emacs.d/templates/oblig2820.org"))
 	  ))
-#+END_SRC
+          #+END_SRC
 
 *** Habits module
 #+BEGIN_SRC emacs-lisp
