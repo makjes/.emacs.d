@@ -290,47 +290,49 @@ Reload buffers when files change outside emacs.
 	  ("m" "Meeting minutes" entry
 	   (file+datetree "~/ONEDRI~1/mom.org")
 	   (file "~/.emacs.d/templates/mom.org"))
-	  ("e" "Email" entry
+	  ("n" "MoM task to inbox" entry
+	  (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+	  (file "~/.emacs.d/templates/mom-task.org") :immediate-finish t)
+	   ("e" "Email" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
 	   (file "~/.emacs.d/templates/capture-email.org"))
-	  ("p" "Project" entry
+	   ("p" "Project" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
-	   (file "~/.emacs.d/templates/capture-project.org")
-	   :prepend t)
-	  ("t" "Todo" entry
+	   (file "~/.emacs.d/templates/capture-project.org") :prepend t)
+	   ("t" "Todo" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
 	   (file "~/.emacs.d/templates/capture-generic.org"))
-	  ("m" "Movie to watch" entry
+	   ("m" "Movie to watch" entry
 	   (file+headline "~/Dropbox/org/Privat.org" "Filmer")
 	   (file "~/.emacs.d/templates/capture-movie.org"))
-	  ("s" "TV series to watch" entry
+	   ("s" "TV series to watch" entry
 	   (file+headline "~/Dropbox/org/Privat.org" "TV-serier")
 	   (file "~/.emacs.d/templates/capture-tv.org"))
-	  ("d" "Documents")
-	  ("dc" "Change Request" plain
+	   ("d" "Documents")
+	   ("dc" "Change Request" plain
 	   (file "~/ONEDRI~1/crq/new.org")
 	   (file "~/.emacs.d/templates/crq.org"))
-	  ("j" "Jira")
-	  ("jd" "DRIV" entry
+	   ("j" "Jira")
+	   ("jd" "DRIV" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
 	   (file "~/.emacs.d/templates/capture-jira-driv.org"))
-	  ("ja" "DA" entry
+	   ("ja" "DA" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
 	   (file "~/.emacs.d/templates/capture-jira-da.org"))
-	  ("u" "University")
-	  ("u1" "INF1820 lecture notes" entry
+	   ("u" "University")
+	   ("u1" "INF1820 lecture notes" entry
 	   (file+datetree "~/Dropbox/emner/inf1820/notater.org")
 	   (file "~/.emacs.d/templates/lecture.org"))
-	  ("u2" "INF2820 lecture notes" entry
+	   ("u2" "INF2820 lecture notes" entry
 	   (file+datetree "~/Dropbox/emner/inf2820/notater.org")
 	   (file "~/.emacs.d/templates/lecture.org"))
-	  ("u3" "INF1820 assignment" plain
+	   ("u3" "INF1820 assignment" plain
 	   (file "~/Dropbox/emner/inf1820/oblig.org")
 	   (file "~/.emacs.d/templates/oblig1820.org"))
-	  ("u4" "INF2820 assignment" plain
+	   ("u4" "INF2820 assignment" plain
 	   (file "~/Dropbox/emner/inf2820/oblig.org")
 	   (file "~/.emacs.d/templates/oblig2820.org"))
-	  ))
+	   ))
           #+END_SRC
 
 *** Habits module
@@ -445,12 +447,20 @@ All habits
 #+END_SRC
 ****** Todo
 ******* NG
+Next actions
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-component-nextaction-ng
 	'(todo "NEXT-ACTION"
 	       ((org-agenda-files (quote ("~/Dropbox/org/NG.org")))
 		(org-agenda-tag-filter-preset (quote ("-habit")))
 		(org-agenda-overriding-header "Next actions @ NG"))))
+#+END_SRC
+Minutes of meeting
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-component-mom-ng
+  '(todo "TODO"
+	       ((org-agenda-files (quote ("~/ONEDRI~1/mom.org")))
+		(org-agenda-overriding-header "Minutes of meeting"))))
 #+END_SRC
 ******* Private
 #+BEGIN_SRC emacs-lisp
@@ -537,6 +547,11 @@ All habits
   (setq mk/org-agenda-custom-command-maintenance-refile
     (mk/org-agenda-custom-command-generic "or" "Refile list" "refile"))
 #+END_SRC
+******* Minutes of meeting
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-command-maintenance-mom
+    (list "om" "Minutes of Meeting: NG" (list mk/org-agenda-custom-component-mom-ng)))
+#+END_SRC
 ****** Habits
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-command-habits
@@ -575,7 +590,7 @@ All habits
 ***** Setup
 #+BEGIN_SRC emacs-lisp :results none
   (setq org-agenda-custom-commands
-	(list mk/org-agenda-custom-command-work
+  (list mk/org-agenda-custom-command-work
 	      mk/org-agenda-custom-command-private
 	      mk/org-agenda-custom-command-nextactions
 	      mk/org-agenda-custom-command-nextactions-ng
@@ -583,20 +598,21 @@ All habits
 	      mk/org-agenda-custom-command-nextactions-all
 	      mk/org-agenda-custom-command-agenda
 	      (mk/org-agenda-custom-command-agenda-generic "p" "Per Olav" "pespor")
-            (mk/org-agenda-custom-command-agenda-generic "m" "Maria" "macris")
-            (mk/org-agenda-custom-command-agenda-generic "j" "Jon Arne" "jobjer")
-            (mk/org-agenda-custom-command-agenda-generic "a" "Marie" "mahell")
-            (mk/org-agenda-custom-command-agenda-generic "e" "Paal" "paal")
-            (mk/org-agenda-custom-command-agenda-generic "h" "Haakon" "hahaar")
-            (mk/org-agenda-custom-command-agenda-generic "l" "John" "jlo")
+	      (mk/org-agenda-custom-command-agenda-generic "m" "Maria" "macris")
+	      (mk/org-agenda-custom-command-agenda-generic "j" "Jon Arne" "jobjer")
+	      (mk/org-agenda-custom-command-agenda-generic "a" "Marie" "mahell")
+	      (mk/org-agenda-custom-command-agenda-generic "e" "Paal" "paal")
+	      (mk/org-agenda-custom-command-agenda-generic "h" "Haakon" "hahaar")
+	      (mk/org-agenda-custom-command-agenda-generic "l" "John" "jlo")
 	      mk/org-agenda-custom-command-context
-            (mk/org-agenda-custom-command-context-generic "s" "Shopping list" "buy")
-            (mk/org-agenda-custom-command-context-generic "w" "Weekly Architects Meeting" "wam")
-            (mk/org-agenda-custom-command-context-generic "h" "Home" "home")
-            (mk/org-agenda-custom-command-context-generic "b" "BV9" "bv9")
+	      (mk/org-agenda-custom-command-context-generic "s" "Shopping list" "buy")
+	      (mk/org-agenda-custom-command-context-generic "w" "Weekly Architects Meeting" "wam")
+	      (mk/org-agenda-custom-command-context-generic "h" "Home" "home")
+	      (mk/org-agenda-custom-command-context-generic "b" "BV9" "bv9")
 	      mk/org-agenda-custom-command-maintenance
-            mk/org-agenda-custom-command-maintenance-refile
-            mk/org-agenda-custom-command-habits
+	      mk/org-agenda-custom-command-maintenance-refile
+	      mk/org-agenda-custom-command-maintenance-mom
+	      mk/org-agenda-custom-command-habits
 	      mk/org-agenda-custom-drive
 	      mk/org-agenda-custom-drive-status
 	      mk/org-agenda-custom-drive-archive))

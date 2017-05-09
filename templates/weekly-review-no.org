@@ -20,6 +20,7 @@ Behandle ferdig alt uferdig papirmateriale, journaler og møtenotater, beskjeder
 - [ ] Moleskine
 - [ ] Innboks (papirer)
 - [ ] Innboksen i Evernote
+- [ ] Møtenotater (agenda-view)
 - [ ] Inbox.org
 ** Tøm hodet [0%]
 Skriv ned og behandle alle nye prosjekter som ikke er samlet, saker som krever neste handlig, ventende saker, engang-kanskje og lignende.
