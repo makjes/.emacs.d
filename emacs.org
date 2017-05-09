@@ -302,6 +302,9 @@ Reload buffers when files change outside emacs.
 	   ("t" "Todo" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
 	   (file "~/.emacs.d/templates/capture-generic.org"))
+	   ("r" "Incident Remedy" entry
+	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+	   (file "~/.emacs.d/templates/capture-remedy.org"))
 	   ("m" "Movie to watch" entry
 	   (file+headline "~/Dropbox/org/Privat.org" "Filmer")
 	   (file "~/.emacs.d/templates/capture-movie.org"))
@@ -333,7 +336,7 @@ Reload buffers when files change outside emacs.
 	   (file "~/Dropbox/emner/inf2820/oblig.org")
 	   (file "~/.emacs.d/templates/oblig2820.org"))
 	   ))
-          #+END_SRC
+#+END_SRC
 
 *** Habits module
 #+BEGIN_SRC emacs-lisp
