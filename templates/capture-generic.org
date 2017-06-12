@@ -1,4 +1,0 @@
-* %^{Subject}%?
-:PROPERTIES:
-:CAPTURED-TIME: %U
-:END:

@@ -1,11 +1,15 @@
 #+TYP_TODO: TODO(t) NEXT-ACTION(a!) | DONE(d!)
 #+SEQ_TODO: WAITING(w@/!) |
+#+SEQ_TODO: HABIT(h) |
 #+SEQ_TODO: | CANCELED(c)
-#+SEQ_TODO: PROJECT(p)
-#+SEQ_TODO: SOMEDAY(s)
+#+SEQ_TODO: PROJECT(p!)
 #+SEQ_TODO: MATERIAL(m)
 #+SEQ_TODO: GROUP(g)
-
+#+TAGS: SOMEDAY(s) ON_HOLD(h) BUY(b)
+#+TAGS: BV9(9) LV34(3)
+#+TAGS: PESPOR(p) MACRIS(m) HAHAAR(a) RUSKOG(r) RUHAAG(g)
+#+TAGS: JOBJER(j) MAHELL(l) JLO(o)
+#+TAGS: PAAL(e)
 #+STARTUP: overview
 
 #+ARCHIVE: archive/archive.org::* From %s

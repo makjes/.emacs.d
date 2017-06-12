@@ -1,6 +1,0 @@
-* PROJECT %^{End state}%?
-:PROPERTIES:
-:CAPTURED-TIME: %U%^{Parameter| |
-:REF:|
-:CATEGORY:}
-:END:

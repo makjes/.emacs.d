@@ -1,7 +1,0 @@
-* %^{Title}
-:PROPERTIES:
-:LECTURER: %^{Lecturer}
-:DATE: %u
-:END:
-%?
-

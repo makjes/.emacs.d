@@ -286,55 +286,50 @@ Reload buffers when files change outside emacs.
   (setq org-capture-templates
 	'(("w" "Weekly review" entry
 	   (file+weektree "~/Dropbox/org/archive/weekly-review.org")
-	   (file "~/.emacs.d/templates/weekly-review-no.org"))
-	  ("m" "Meeting minutes" entry
-	   (file+datetree "~/ONEDRI~1/mom.org")
-	   (file "~/.emacs.d/templates/mom.org"))
-	  ("n" "MoM task to inbox" entry
-	  (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
-	  (file "~/.emacs.d/templates/mom-task.org") :immediate-finish t)
+	   (file "~/Dropbox/org/templates/weekly-review-no.org"))
 	   ("e" "Email" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
-	   (file "~/.emacs.d/templates/capture-email.org"))
-	   ("p" "Project" entry
-	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
-	   (file "~/.emacs.d/templates/capture-project.org") :prepend t)
+	   (file "~/Dropbox/org/templates/capture-email.org"))
 	   ("t" "Todo" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
-	   (file "~/.emacs.d/templates/capture-generic.org"))
-	   ("r" "Incident Remedy" entry
-	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
-	   (file "~/.emacs.d/templates/capture-remedy.org"))
-	   ("m" "Movie to watch" entry
+	   (file "~/Dropbox/org/templates/capture-generic.org"))
+	   ("s" "See or read")
+	   ("sm" "Movie to watch" entry
 	   (file+headline "~/Dropbox/org/Privat.org" "Filmer")
-	   (file "~/.emacs.d/templates/capture-movie.org"))
-	   ("s" "TV series to watch" entry
+	   (file "~/Dropbox/org/templates/capture-movie.org"))
+	   ("sb" "Book to read" entry
+	   (file+headline "~/Dropbox/org/Privat.org" "Bøker")
+	   (file "~/Dropbox/org/templates/capture-book.org"))
+	   ("st" "TV series to watch" entry
 	   (file+headline "~/Dropbox/org/Privat.org" "TV-serier")
-	   (file "~/.emacs.d/templates/capture-tv.org"))
-	   ("d" "Documents")
-	   ("dc" "Change Request" plain
+	   (file "~/Dropbox/org/templates/capture-tv.org"))
+	   ("n" "NG")
+	   ("nc" "Change Request" plain
 	   (file "~/ONEDRI~1/crq/new.org")
-	   (file "~/.emacs.d/templates/crq.org"))
-	   ("j" "Jira")
-	   ("jd" "DRIV" entry
+	   (file "~/Dropbox/org/templates/crq.org"))
+	   ("nd" "Jira DRIV" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
-	   (file "~/.emacs.d/templates/capture-jira-driv.org"))
-	   ("ja" "DA" entry
+	   (file "~/Dropbox/org/templates/capture-jira-driv.org"))
+	   ("na" "Jira DA" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
-	   (file "~/.emacs.d/templates/capture-jira-da.org"))
+	   (file "~/Dropbox/org/templates/capture-jira-da.org"))
+	   ("nr" "Incident Remedy" entry
+	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+	   (file "~/Dropbox/org/templates/capture-remedy.org"))
+	   ("nm" "Meeting minutes" entry
+	   (file+datetree "~/ONEDRI~1/mom.org")
+	   (file "~/Dropbox/org/templates/mom.org"))
 	   ("u" "University")
 	   ("u1" "INF1820 lecture notes" entry
 	   (file+datetree "~/Dropbox/emner/inf1820/notater.org")
-	   (file "~/.emacs.d/templates/lecture.org"))
-	   ("u2" "INF2820 lecture notes" entry
-	   (file+datetree "~/Dropbox/emner/inf2820/notater.org")
-	   (file "~/.emacs.d/templates/lecture.org"))
+	   (file "~/Dropbox/org/templates/lecture.org"))
 	   ("u3" "INF1820 assignment" plain
 	   (file "~/Dropbox/emner/inf1820/oblig.org")
-	   (file "~/.emacs.d/templates/oblig1820.org"))
-	   ("u4" "INF2820 assignment" plain
-	   (file "~/Dropbox/emner/inf2820/oblig.org")
-	   (file "~/.emacs.d/templates/oblig2820.org"))
+	   (file "~/Dropbox/org/templates/oblig1820.org"))
+	   ("T" "Travel")
+	   ("Tp" "Pre travel checklist" entry
+	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+	   (file "~/Dropbox/org/templates/pre-travel.org") :immediate-finish t)
 	   ))
 #+END_SRC
 
@@ -411,8 +406,9 @@ For my weekly status report, I want to know what has been archived the current a
 	(save-excursion (outline-next-heading) (point)))))
 #+END_SRC
 **** Setup of agenda views
-***** Components
-****** Habits
+***** Old components
+****** Components
+******* Habits
 Important habits for all agenda views
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-component-habits-important
@@ -430,15 +426,15 @@ All habits
 		   (org-agenda-span 1)
 		   (org-agenda-overriding-header "Habits"))))
 #+END_SRC
-****** Agenda
-******* NG
+******* Agenda
+******** NG
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-component-agenda-ng
 	'(agenda ""
 		 ((org-agenda-files (quote ("~/Dropbox/org/NG.org")))
-		  (org-agenda-tag-filter-preset (quote "-habit")))))
+            (org-agenda-tag-filter-preset (quote ("-SOMEDAY" "-ON_HOLD"))))))
 #+END_SRC
-******* Private
+******** Private
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-component-agenda-private
 	'(agenda ""
@@ -448,14 +444,14 @@ All habits
 					    "~/Dropbox/org/Nellon.org")))
 		  (org-agenda-tag-filter-preset (quote "-habit")))))
 #+END_SRC
-****** Todo
-******* NG
+******* Todo
+******** NG
 Next actions
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-component-nextaction-ng
 	'(todo "NEXT-ACTION"
 	       ((org-agenda-files (quote ("~/Dropbox/org/NG.org")))
-		(org-agenda-tag-filter-preset (quote ("-habit")))
+		(org-agenda-tag-filter-preset (quote ("-SOMEDAY" "-ON_HOLD")))
 		(org-agenda-overriding-header "Next actions @ NG"))))
 #+END_SRC
 Minutes of meeting
@@ -465,7 +461,23 @@ Minutes of meeting
 	       ((org-agenda-files (quote ("~/ONEDRI~1/mom.org")))
 		(org-agenda-overriding-header "Minutes of meeting"))))
 #+END_SRC
-******* Private
+Projects on hold
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-component-on-hold-ng
+	'(todo "PROJECT"
+	       ((org-agenda-files (quote ("~/Dropbox/org/NG.org")))
+		(org-agenda-tag-filter-preset (quote ("+ON_HOLD")))
+		(org-agenda-overriding-header "Projects on hold @ NG"))))
+#+END_SRC
+Someday / maybe
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-component-someday-ng
+	'(todo "PROJECT"
+	       ((org-agenda-files (quote ("~/Dropbox/org/NG.org")))
+		(org-agenda-tag-filter-preset (quote ("+SOMEDAY")))
+		(org-agenda-overriding-header "Someday / maybe @ NG"))))
+#+END_SRC
+******** Private
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-component-nextaction-private
 	'(todo "NEXT-ACTION"
@@ -476,96 +488,104 @@ Minutes of meeting
 		(org-agenda-tag-filter-preset (quote ("-habit" "-buy")))
 		(org-agenda-overriding-header "Next actions: Private"))))
 #+END_SRC
-***** Commands
-****** Generic command
+****** Commands
+******* Generic command
 #+BEGIN_SRC emacs-lisp
   (defun mk/org-agenda-custom-command-generic (key name tag) 
     (list key name 'tags-todo (concat "+" tag)
 	  (list(list 'org-agenda-overriding-header name))))
 #+END_SRC
-****** Work
+******* Work
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-command-work
 	(list "w" "Work" (list mk/org-agenda-custom-component-habits-important
 			       mk/org-agenda-custom-component-agenda-ng
 			       mk/org-agenda-custom-component-nextaction-ng)))
 #+END_SRC
-****** Home
+
+******* Home
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-command-private
 	(list "p" "Private" (list mk/org-agenda-custom-component-habits-important
 				  mk/org-agenda-custom-component-agenda-private
 				  mk/org-agenda-custom-component-nextaction-private)))
 #+END_SRC
-****** Next Actions
-******* Description
+******* Next Actions
+******** Description
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-command-nextactions
 	'("n" . "Next Actions"))
 #+END_SRC
-******* NG
+******** NG
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-command-nextactions-ng
 	(list "nn" "Next Actions: NG" (list mk/org-agenda-custom-component-nextaction-ng)))
 #+END_SRC
-******* Private
+******** Private
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-command-nextactions-private
 	(list "np" "Next Actions: Private" (list mk/org-agenda-custom-component-nextaction-private)))
 #+END_SRC
-******* All
+******** All
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-command-nextactions-all
 	(list "na" "Next Actions: All" (list mk/org-agenda-custom-component-nextaction-ng
 					     mk/org-agenda-custom-component-nextaction-private)))
 #+END_SRC
-****** Contexts
+******* Contexts
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-command-context
 	'("c" . "Contexts"))
 #+END_SRC
-******* Generic context command
+******** Generic context command
 #+BEGIN_SRC emacs-lisp
   (defun mk/org-agenda-custom-command-context-generic (key name tag)
     (mk/org-agenda-custom-command-generic (concat "c" key) (concat "Context: " name) tag))
 #+END_SRC
-****** Agenda
-******* Description
+******* Agenda
+******** Description
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-command-agenda
-	'("g" . "Agenda: Persons"))
+	'("g" . "Agenda lists"))
 #+END_SRC
-******* Generic agenda command
-#+BEGIN_SRC emacs-lisp
-  (defun mk/org-agenda-custom-command-agenda-generic (key name tag)
-    (mk/org-agenda-custom-command-generic (concat "g" key) (concat "Agenda: " name) tag))
-#+END_SRC
-****** Org maintenance
+******* Org maintenance
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-command-maintenance
 	'("o" . "ORG maintenance"))
 #+END_SRC
-******* Refile list
+******** Refile list
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-command-maintenance-refile
     (mk/org-agenda-custom-command-generic "or" "Refile list" "refile"))
 #+END_SRC
-******* Minutes of meeting
+******** Minutes of meeting
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-command-maintenance-mom
     (list "om" "Minutes of Meeting: NG" (list mk/org-agenda-custom-component-mom-ng)))
 #+END_SRC
-****** Habits
+******* Someday / maybe & on hold
+******** Description
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-command-someday
+  '("l" . "On hold & Someday / maybe"))
+#+END_SRC
+******** NG
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-agenda-custom-command-someday-ng
+    (list "lw" "Work" (list mk/org-agenda-custom-component-on-hold-ng
+                            mk/org-agenda-custom-component-someday-ng)))
+#+END_SRC
+******* Habits
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-command-habits
 	(list "h" "Habits" (list mk/org-agenda-custom-component-habits-all)))
 #+END_SRC
-***** DRIVE
+****** DRIVE
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-drive
 	'("d" . "DRIVE Status"))
 #+END_SRC
-****** DRIVE Status
+******* DRIVE Status
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-drive-status
 	'("ds" "DRIVE Status"
@@ -581,7 +601,7 @@ Minutes of meeting
 		  (org-agenda-prefix-format "%(mk/org-entry-get-ref)"))))
 	  nil nil))
 #+END_SRC
-****** DRIVE Archive
+******* DRIVE Archive
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-agenda-custom-drive-archive
 	'("da" "DRIVE Archive" tags "+ARCHIVE_CATEGORY=\"DRIVE\""
@@ -590,42 +610,161 @@ Minutes of meeting
 	   (org-agenda-skip-function (quote (mk/org-agenda-skip-archive)))
 	   (org-agenda-prefix-format "%(mk/org-entry-get-archive)"))))
 #+END_SRC
+***** New components
+****** Next actions list
+#+BEGIN_SRC emacs-lisp
+  (defun mk/org-custom-generic-nextaction (files)
+    (list 'todo "NEXT-ACTION"
+          (list (list 'org-agenda-files files)
+           (list 'org-agenda-tag-filter-preset (quote '("-SOMEDAY" "-ON_HOLD")))
+           (list 'org-agenda-overriding-header "Next Actions"))))
+#+END_SRC
+****** Active projects list
+#+BEGIN_SRC emacs-lisp
+  (defun mk/org-custom-generic-project (files)
+    (list 'todo "PROJECT"
+          (list (list 'org-agenda-files files)
+           (list 'org-agenda-tag-filter-preset (quote '("-SOMEDAY" "-ON_HOLD")))
+           (list 'org-agenda-overriding-header "Projects"))))
+#+END_SRC
+****** Someday / maybe list
+#+BEGIN_SRC emacs-lisp
+  (defun mk/org-custom-generic-someday (files)
+    (list 'todo "PROJECT"
+          (list (list 'org-agenda-files files)
+           (list 'org-agenda-tag-filter-preset (quote '("+SOMEDAY")))
+           (list 'org-agenda-overriding-header "Someday / Maybe"))))
+#+END_SRC
+****** Projects on hold
+#+BEGIN_SRC emacs-lisp
+  (defun mk/org-custom-generic-onhold (files)
+    (list 'todo "PROJECT"
+          (list (list 'org-agenda-files files)
+           (list 'org-agenda-tag-filter-preset (quote '("+ON_HOLD")))
+           (list 'org-agenda-overriding-header "Projects On Hold"))))
+#+END_SRC
+****** Waiting for list
+#+BEGIN_SRC emacs-lisp
+  (defun mk/org-custom-generic-waiting (files)
+    (list 'todo "WAITING"
+          (list (list 'org-agenda-files files)
+           (list 'org-agenda-tag-filter-preset (quote '("-SOMEDAY" "-ON_HOLD")))
+           (list 'org-agenda-overriding-header "Waiting For"))))
+#+END_SRC
+****** Agenda list
+#+BEGIN_SRC emacs-lisp
+  (defun mk/org-custom-generic-agenda (key name tag)
+    (list (concat "g" key) name 'tags-todo (concat "+" tag)
+      (list(list 'org-agenda-tag-filter-preset (quote '("-SOMEDAY" "-ON_HOLD")))
+           (list 'org-agenda-overriding-header (concat "Agenda for " name)))))
+#+END_SRC
+****** Contexts
+#+BEGIN_SRC emacs-lisp
+  (defun mk/org-custom-generic-context (key name tag)
+    (list (concat "c" key) name 'tags-todo (concat "+" tag)
+      (list(list 'org-agenda-tag-filter-preset (quote '("-SOMEDAY" "-ON_HOLD")))
+           (list 'org-agenda-overriding-header (concat "Context: " name)))))
+#+END_SRC
+****** Maintenance
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-custom-refile
+    (list "or" "Refile list" 'tags-todo "+REFILE"
+      (list(list 'org-agenda-overriding-header "Refile list"))))
+
+  (setq mk/org-custom-mom
+    (list "om" "Minutes of Meeting" 'todo "TODO"
+      (list(list 'org-agenda-files (quote '("~/ONEDRI~1/mom.org")))
+           (list 'org-agenda-overriding-header "Minutes of meeting"))))
+#+END_SRC
 ***** Setup
 #+BEGIN_SRC emacs-lisp :results none
   (setq org-agenda-custom-commands
-  (list mk/org-agenda-custom-command-work
-	      mk/org-agenda-custom-command-private
-	      mk/org-agenda-custom-command-nextactions
-	      mk/org-agenda-custom-command-nextactions-ng
-	      mk/org-agenda-custom-command-nextactions-private
-	      mk/org-agenda-custom-command-nextactions-all
-	      mk/org-agenda-custom-command-agenda
-	      (mk/org-agenda-custom-command-agenda-generic "p" "Per Olav" "pespor")
-	      (mk/org-agenda-custom-command-agenda-generic "m" "Maria" "macris")
-	      (mk/org-agenda-custom-command-agenda-generic "j" "Jon Arne" "jobjer")
-	      (mk/org-agenda-custom-command-agenda-generic "a" "Marie" "mahell")
-	      (mk/org-agenda-custom-command-agenda-generic "e" "Paal" "paal")
-	      (mk/org-agenda-custom-command-agenda-generic "h" "Haakon" "hahaar")
-	      (mk/org-agenda-custom-command-agenda-generic "l" "John" "jlo")
-	      mk/org-agenda-custom-command-context
-	      (mk/org-agenda-custom-command-context-generic "s" "Shopping list" "buy")
-	      (mk/org-agenda-custom-command-context-generic "w" "Weekly Architects Meeting" "wam")
-	      (mk/org-agenda-custom-command-context-generic "h" "Home" "home")
-	      (mk/org-agenda-custom-command-context-generic "b" "BV9" "bv9")
-	      mk/org-agenda-custom-command-maintenance
-	      mk/org-agenda-custom-command-maintenance-refile
-	      mk/org-agenda-custom-command-maintenance-mom
-	      mk/org-agenda-custom-command-habits
-	      mk/org-agenda-custom-drive
-	      mk/org-agenda-custom-drive-status
-	      mk/org-agenda-custom-drive-archive))
+        (list '("w" . "Work")
+              (append '("wn" "Next Actions")    (mk/org-custom-generic-nextaction (quote '("~/Dropbox/org/NG.org"))))
+              (append '("wp" "Projects")        (mk/org-custom-generic-project    (quote '("~/Dropbox/org/NG.org"))))
+              (append '("ws" "Someday/Maybe")   (mk/org-custom-generic-someday    (quote '("~/Dropbox/org/NG.org"))))
+              (append '("wh" "On hold")         (mk/org-custom-generic-onhold     (quote '("~/Dropbox/org/NG.org"))))
+              (append '("ww" "Waiting for")     (mk/org-custom-generic-waiting    (quote '("~/Dropbox/org/NG.org"))))
+              '("p" . "Private")
+              (append '("pn" "Next Actions")    (mk/org-custom-generic-nextaction (quote '("~/Dropbox/org/Privat.org"
+                                                                                           "~/Dropbox/org/UiO.org"
+                                                                                           "~/Dropbox/org/HV.org"
+                                                                                           "~/Dropbox/org/Nellon.org"
+                                                                                           "~/Dropbox/org/Habits.org"))))
+              (append '("pp" "Projects")        (mk/org-custom-generic-project    (quote '("~/Dropbox/org/Privat.org"
+                                                                                           "~/Dropbox/org/UiO.org"
+                                                                                           "~/Dropbox/org/HV.org"
+                                                                                           "~/Dropbox/org/Nellon.org"
+                                                                                           "~/Dropbox/org/Habits.org"))))
+              (append '("ps" "Someday/Maybe") (mk/org-custom-generic-someday      (quote '("~/Dropbox/org/Privat.org"
+                                                                                           "~/Dropbox/org/UiO.org"
+                                                                                           "~/Dropbox/org/HV.org"
+                                                                                           "~/Dropbox/org/Nellon.org"
+                                                                                           "~/Dropbox/org/Habits.org"))))
+              (append '("ph" "On hold")         (mk/org-custom-generic-onhold     (quote '("~/Dropbox/org/Privat.org"
+                                                                                           "~/Dropbox/org/UiO.org"
+                                                                                           "~/Dropbox/org/HV.org"
+                                                                                           "~/Dropbox/org/Nellon.org"
+                                                                                           "~/Dropbox/org/Habits.org"))))
+              (append '("pw" "Waiting for")     (mk/org-custom-generic-waiting    (quote '("~/Dropbox/org/Privat.org"
+                                                                                           "~/Dropbox/org/UiO.org"
+                                                                                           "~/Dropbox/org/HV.org"
+                                                                                           "~/Dropbox/org/Nellon.org"
+                                                                                           "~/Dropbox/org/Habits.org"))))
+              '("l" . "All")
+              (append '("ln" "Next Actions")    (mk/org-custom-generic-nextaction (quote '("~/Dropbox/org/Privat.org"
+                                                                                           "~/Dropbox/org/NG.org"
+                                                                                           "~/Dropbox/org/UiO.org"
+                                                                                           "~/Dropbox/org/HV.org"
+                                                                                           "~/Dropbox/org/Nellon.org"
+                                                                                           "~/Dropbox/org/Habits.org"))))
+              (append '("lp" "Projects")        (mk/org-custom-generic-project    (quote '("~/Dropbox/org/Privat.org"
+                                                                                           "~/Dropbox/org/NG.org"
+                                                                                           "~/Dropbox/org/UiO.org"
+                                                                                           "~/Dropbox/org/HV.org"
+                                                                                           "~/Dropbox/org/Nellon.org"
+                                                                                           "~/Dropbox/org/Habits.org"))))
+              (append '("ls" "Someday/Maybe") (mk/org-custom-generic-someday      (quote '("~/Dropbox/org/Privat.org"
+                                                                                           "~/Dropbox/org/NG.org"
+                                                                                           "~/Dropbox/org/UiO.org"
+                                                                                           "~/Dropbox/org/HV.org"
+                                                                                           "~/Dropbox/org/Nellon.org"
+                                                                                           "~/Dropbox/org/Habits.org"))))
+              (append '("lh" "On hold")         (mk/org-custom-generic-onhold     (quote '("~/Dropbox/org/Privat.org"
+                                                                                           "~/Dropbox/org/NG.org"
+                                                                                           "~/Dropbox/org/UiO.org"
+                                                                                           "~/Dropbox/org/HV.org"
+                                                                                           "~/Dropbox/org/Nellon.org"
+                                                                                           "~/Dropbox/org/Habits.org"))))
+              (append '("lw" "Waiting for")     (mk/org-custom-generic-waiting    (quote '("~/Dropbox/org/Privat.org"
+                                                                                           "~/Dropbox/org/NG.org"
+                                                                                           "~/Dropbox/org/UiO.org"
+                                                                                           "~/Dropbox/org/HV.org"
+                                                                                           "~/Dropbox/org/Nellon.org"
+                                                                                           "~/Dropbox/org/Habits.org"))))
+	        '("g" . "Agenda lists")
+	        (mk/org-custom-generic-agenda "p" "Per Olav" "PESPOR")
+	        (mk/org-custom-generic-agenda "m" "Maria" "MACRIS")
+	        (mk/org-custom-generic-agenda "j" "Jon Arne" "JOBJER")
+	        (mk/org-custom-generic-agenda "a" "Marie" "MAHELL")
+	        (mk/org-custom-generic-agenda "e" "Paal" "PAAL")
+	        (mk/org-custom-generic-agenda "h" "Haakon" "HAHAAR")
+              (mk/org-custom-generic-agenda "r" "Rune S" "RUSKOG")
+              (mk/org-custom-generic-agenda "h" "Rune H" "RUHAAG")
+	        (mk/org-custom-generic-agenda "l" "John" "JLO")
+              '("c" . "Contexts")
+	        (mk/org-custom-generic-context "s" "Shopping list" "BUY")
+	        (mk/org-custom-generic-context "h" "Home" "HOME")
+	        (mk/org-custom-generic-context "b" "BV9" "BV9")
+              '("o" . "ORG Maintenance")
+              mk/org-custom-refile
+              mk/org-custom-mom))
 #+END_SRC
-
 *** Define stuck projects
 #+BEGIN_SRC emacs-lisp
 (setq org-stuck-projects
    (quote
-    ("/+PROJECT"
+    ("-ON_HOLD-SOMEDAY/+PROJECT"
      ("NEXT-ACTION" "WAITING")
      nil "")))
 #+END_SRC
@@ -750,10 +889,10 @@ Use M-x jedi:install-server to install jedi server. Python virtual environment r
 ** elfeed and elfeed-org
 *** First I setup elfeed.el
 #+BEGIN_SRC emacs-lisp
-(use-package elfeed
-:ensure t
-:config (setq elfeed-search-filter "@6-months-ago") ; I want to show everything, so I removed " +unread"
-:bind ("C-x w" . elfeed))
+  (use-package elfeed
+  :ensure t
+  :config (setq elfeed-search-filter "@6-months-ago") ; I want to show everything, so I removed " +unread"
+  :bind ("C-x w" . elfeed))
 #+END_SRC
 On Windows, libxml2 is not typically installed with Emacs, and elfeed will produce the error:
 #+BEGIN_QUOTE
@@ -768,8 +907,8 @@ Unpack both in the same place and try again
 #+END_QUOTE
 *** Next, load elfeed-org.el to read the feed-file in org-mode
 #+BEGIN_SRC emacs-lisp
-(use-package elfeed-org
-:ensure t
-:init (setq rmh-elfeed-org-files (list "~/Dropbox/org/rss-feeds.org"))
-:config (elfeed-org))
+  (use-package elfeed-org
+  :ensure t
+  :init (setq rmh-elfeed-org-files (list "~/Dropbox/org/rss-feeds.org"))
+  :config (elfeed-org))
 #+END_SRC

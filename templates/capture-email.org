@@ -1,8 +1,0 @@
-* %^{From}: %^{Subject}
-%?  
-:PROPERTIES:
-:FROM: %\1
-:SUBJECT: %\2
-:RECEIVED-TIME: %^{Received}U
-:CAPTURED-TIME: %U
-:END:

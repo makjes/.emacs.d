@@ -1,8 +1,0 @@
-* DRIV-%^{ID}: %^{Title}
-[[https://developer.norgesgruppen.no/jira/browse/DRIV-%\1][Link to issue]]
-%?
-:PROPERTIES:
-:JIRA-ID: DRIV-%\1
-:TITLE: %\2
-:CAPTURED-TIME: %U
-:END:

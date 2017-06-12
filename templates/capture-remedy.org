@@ -1,7 +1,0 @@
-* INC%^{ID}: %^{Title}
-%?
-:PROPERTIES:
-:INCIDENT: INC%\1
-:TITLE: %\2
-:CAPTURED-TIME: %U
-:END:
