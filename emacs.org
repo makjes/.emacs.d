@@ -284,15 +284,15 @@ Reload buffers when files change outside emacs.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<f3>") 'org-capture)
   (setq org-capture-templates
-	'(("w" "Weekly review" entry
-	   (file+weektree "~/Dropbox/org/archive/weekly-review.org")
-	   (file "~/Dropbox/org/templates/weekly-review-no.org"))
+	'(("t" "Todo" entry
+	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+	   (file "~/Dropbox/org/templates/capture-generic.org"))
 	   ("e" "Email" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
 	   (file "~/Dropbox/org/templates/capture-email.org"))
-	   ("t" "Todo" entry
-	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
-	   (file "~/Dropbox/org/templates/capture-generic.org"))
+	   ("b" "Buy" entry
+	   (file+headline "~/Dropbox/org/Privat.org" "Handel")
+	   (file "~/Dropbox/org/templates/capture-nextaction.org") :immediate-finish t)
 	   ("s" "See or read")
 	   ("sm" "Movie to watch" entry
 	   (file+headline "~/Dropbox/org/Privat.org" "Filmer")
@@ -319,6 +319,9 @@ Reload buffers when files change outside emacs.
 	   ("nm" "Meeting minutes" entry
 	   (file+datetree "~/ONEDRI~1/mom.org")
 	   (file "~/Dropbox/org/templates/mom.org"))
+	   ("nk" "Kilometers driven" entry
+	   (file+headline "~/Dropbox/org/km.org" "New")
+	   (file "~/Dropbox/org/templates/capture-km.org") :immediate-finish t)
 	   ("u" "University")
 	   ("u1" "INF1820 lecture notes" entry
 	   (file+datetree "~/Dropbox/emner/inf1820/notater.org")
@@ -326,13 +329,68 @@ Reload buffers when files change outside emacs.
 	   ("u3" "INF1820 assignment" plain
 	   (file "~/Dropbox/emner/inf1820/oblig.org")
 	   (file "~/Dropbox/org/templates/oblig1820.org"))
+     ("d" "Getting Things Done")
+	   ("dw" "Weekly review" entry
+	   (file+weektree "~/Dropbox/org/archive/weekly-review.org")
+	   (file "~/Dropbox/org/templates/weekly-review-no.org") :immediate-finish t)
+	   ("di" "Empty all inboxes             (C-0 <F3> to insert at point)" entry
+	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+	   (file "~/Dropbox/org/templates/empty-inboxes.org") :immediate-finish t)
 	   ("T" "Travel")
-	   ("Tp" "Pre travel checklist" entry
+	   ("Tp" "Pre travel checklist             (C-0 <F3> to insert at point)" entry
 	   (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
 	   (file "~/Dropbox/org/templates/pre-travel.org") :immediate-finish t)
+     ("Tb" "Project: Business trip multi-day" entry
+     (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
+     (file "~/Dropbox/org/templates/trip-business.org") :immediate-finish t)
+     ("g" "Gift idea")
+	   ("g1" "Mariann" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Mariann")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
+	   ("g2" "Egil" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Egil")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
+	   ("g3" "Petrine" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Petrine")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
+	   ("g4" "Karoline" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Karoline")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
+	   ("g5" "Joachim" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Joachim")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
+	   ("g6" "Mikael" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Mikael")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
+	   ("g7" "Agnes" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Agnes")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
+	   ("g8" "Noralf" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Noralf")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
+	   ("g9" "Emilie" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Emilie")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
+	   ("g0" "Pål" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Pål")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
+	   ("ga" "Lars" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Lars")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
+	   ("gb" "Marius" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Marius")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
+	   ("gc" "Ella" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Ella")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
+	   ("gd" "Ludvik" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Ludvik")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
+	   ("ge" "Kristine" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Kristine")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
 	   ))
 #+END_SRC
-
 *** Habits module
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'org-modules 'org-habit)
@@ -675,6 +733,11 @@ Someday / maybe
     (list "om" "Minutes of Meeting" 'todo "TODO"
       (list(list 'org-agenda-files (quote '("~/ONEDRI~1/mom.org")))
            (list 'org-agenda-overriding-header "Minutes of meeting"))))
+
+  (setq mk/org-custom-km
+    (list "wk" "Kilometers to expence" 'todo "TODO"
+      (list(list 'org-agenda-files (quote '("~/Dropbox/org/km.org")))
+           (list 'org-agenda-overriding-header "Kilometers to expence"))))
 #+END_SRC
 ***** Setup
 #+BEGIN_SRC emacs-lisp :results none
@@ -685,6 +748,7 @@ Someday / maybe
               (append '("ws" "Someday/Maybe")   (mk/org-custom-generic-someday    (quote '("~/Dropbox/org/NG.org"))))
               (append '("wh" "On hold")         (mk/org-custom-generic-onhold     (quote '("~/Dropbox/org/NG.org"))))
               (append '("ww" "Waiting for")     (mk/org-custom-generic-waiting    (quote '("~/Dropbox/org/NG.org"))))
+              (append '("wk" "Kms to expence")  (mk/org-custom-generic-nextaction (quote '("~/Dropbox/org/km.org"))))
               '("p" . "Private")
               (append '("pn" "Next Actions")    (mk/org-custom-generic-nextaction (quote '("~/Dropbox/org/Privat.org"
                                                                                            "~/Dropbox/org/UiO.org"
@@ -742,20 +806,21 @@ Someday / maybe
                                                                                            "~/Dropbox/org/HV.org"
                                                                                            "~/Dropbox/org/Nellon.org"
                                                                                            "~/Dropbox/org/Habits.org"))))
-	        '("g" . "Agenda lists")
-	        (mk/org-custom-generic-agenda "p" "Per Olav" "PESPOR")
-	        (mk/org-custom-generic-agenda "m" "Maria" "MACRIS")
-	        (mk/org-custom-generic-agenda "j" "Jon Arne" "JOBJER")
-	        (mk/org-custom-generic-agenda "a" "Marie" "MAHELL")
-	        (mk/org-custom-generic-agenda "e" "Paal" "PAAL")
-	        (mk/org-custom-generic-agenda "h" "Haakon" "HAHAAR")
+              '("g" . "Agenda lists")
+              (mk/org-custom-generic-agenda "p" "Per Olav" "PESPOR")
+              (mk/org-custom-generic-agenda "m" "Maria" "MACRIS")
+              (mk/org-custom-generic-agenda "j" "Jon Arne" "JOBJER")
+              (mk/org-custom-generic-agenda "a" "Marie" "MAHELL")
+              (mk/org-custom-generic-agenda "e" "Paal" "PAAL")
+              (mk/org-custom-generic-agenda "h" "Haakon" "HAHAAR")
+              (mk/org-custom-generic-agenda "o" "Johan H" "JOHANS")
               (mk/org-custom-generic-agenda "r" "Rune S" "RUSKOG")
               (mk/org-custom-generic-agenda "h" "Rune H" "RUHAAG")
-	        (mk/org-custom-generic-agenda "l" "John" "JLO")
+              (mk/org-custom-generic-agenda "l" "John" "JLO")
               '("c" . "Contexts")
-	        (mk/org-custom-generic-context "s" "Shopping list" "BUY")
-	        (mk/org-custom-generic-context "h" "Home" "HOME")
-	        (mk/org-custom-generic-context "b" "BV9" "BV9")
+              (mk/org-custom-generic-context "s" "Shopping list" "BUY")
+              (mk/org-custom-generic-context "h" "Home" "HOME")
+              (mk/org-custom-generic-context "b" "BV9" "BV9")
               '("o" . "ORG Maintenance")
               mk/org-custom-refile
               mk/org-custom-mom))
