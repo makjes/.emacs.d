@@ -1,8 +1,9 @@
 #+TITLE: My Emacs configuration
 #+STARTUP: indent
-#+OPTIONS: num:nil tags:nil ^:nil timestamps:t
 #+DESCRIPTION: Loading emacs config using org-babel
+#+OPTIONS: toc:nil num:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" />
 
 * Initialize
 ** UTF-8
@@ -100,7 +101,8 @@ Change some general settings
 #+END_SRC
 
 ** Navigation
-*** Swiper
+*** Counsel & Swiper
+Deactivated while I'm testing out helm
 #+begin_src emacs-lisp
   ;; (use-package counsel :ensure t)
 
@@ -189,12 +191,15 @@ Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-k
 (define-key custom-bindings-map (kbd "C-x k") 'kill-this-buffer)
 ;; Switch to other window
 (define-key custom-bindings-map (kbd "<C-tab>") 'other-window)
+;; Capture templates
+(define-key custom-bindings-map (kbd "<f3>") 'org-capture)
+;; Magit
+(define-key custom-bindings-map (kbd "C-c m") 'magit-status)
 
 (define-minor-mode custom-bindings-mode
   "A mode that activates custom-bindings."
   t nil custom-bindings-map)
 #+end_src
-
 ** Autocomplete
 #+begin_src emacs-lisp
   (use-package auto-complete
@@ -326,7 +331,6 @@ A custom capture function for capturing tasks from my meeting minutes document
 #+END_SRC
 I have a lot of capture templates. These are just a few of them:
 #+BEGIN_SRC emacs-lisp :tangle no
-  (global-set-key (kbd "<f3>") 'org-capture)
   (setq org-capture-templates
         '(("t" "Todo" entry
            (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
@@ -484,21 +488,21 @@ These are my actual templates
 #+BEGIN_SRC emacs-lisp
   (defun mk/org-custom-agenda (key name tag)
     (list (concat "g" key) name 'tags-todo (concat "+" tag)
-      (list(list 'org-agenda-tag-filter-preset (quote '("-SOMEDAY" "-ON_HOLD")))
-           (list 'org-agenda-overriding-header (concat "Agenda for " name)))))
+          (list (list 'org-agenda-tag-filter-preset (quote '("-SOMEDAY" "-ON_HOLD")))
+                (list 'org-agenda-overriding-header (concat "Agenda for " name)))))
 #+END_SRC
 **** Contexts
 #+BEGIN_SRC emacs-lisp
   (defun mk/org-custom-context (key name tag)
     (list (concat "c" key) name 'tags-todo (concat "+" tag)
-      (list(list 'org-agenda-tag-filter-preset (quote '("-SOMEDAY" "-ON_HOLD")))
-           (list 'org-agenda-overriding-header (concat "Context: " name)))))
+          (list (list 'org-agenda-tag-filter-preset (quote '("-SOMEDAY" "-ON_HOLD")))
+                (list 'org-agenda-overriding-header (concat "Context: " name)))))
 #+END_SRC
 **** Maintenance
 #+BEGIN_SRC emacs-lisp
   (setq mk/org-custom-refile
-    (list "or" "Refile list" 'tags-todo "+REFILE"
-      (list(list 'org-agenda-overriding-header "Refile list"))))
+        (list "or" "Refile list" 'tags-todo "+REFILE"
+              (list(list 'org-agenda-overriding-header "Refile list"))))
 #+END_SRC
 **** File lists
 #+BEGIN_SRC emacs-lisp :results none
@@ -515,18 +519,24 @@ These are my actual templates
   (setq mk/org-files-all
         (cons 'quote (list (append (cadr mk/org-files-ng)
                                    (cadr mk/org-files-private)))))
+
+  (setq mk/org-files-km
+        (quote '("~/Dropbox/org/km.org")))
+
+  (setq mk/org-files-mom
+        (quote '("~/ONEDRI~1/mom.org")))
 #+END_SRC
 **** Setup
 #+BEGIN_SRC emacs-lisp :results none
   (setq org-agenda-custom-commands
         (list '("w" . "Work")
-              (mk/org-custom-todo "wn" "Next Actions"     "NEXT-ACTION" mk/org-files-ng '("-SOMEDAY" "-ON_HOLD"))
-              (mk/org-custom-todo "wp" "Projects"         "PROJECT"     mk/org-files-ng '("-SOMEDAY" "-ON_HOLD"))
-              (mk/org-custom-todo "ws" "Someday/Maybe"    "PROJECT"     mk/org-files-ng '("+SOMEDAY"))
-              (mk/org-custom-todo "wh" "Projects On Hold" "PROJECT"     mk/org-files-ng '("+ON_HOLD"))
-              (mk/org-custom-todo "ww" "Waiting For"      "WAITING"     mk/org-files-ng '("-SOMEDAY" "-ON_HOLD"))
-              (mk/org-custom-todo "wk" "Kms to expence"   "TODO"        (quote '("~/Dropbox/org/km.org")) '())
-              (mk/org-custom-todo "wm" "TODO @ MoM"       "TODO"        (quote '("~/ONEDRI~1/mom.org")) '())
+              (mk/org-custom-todo "wn" "Next Actions"     "NEXT-ACTION" mk/org-files-ng  '("-SOMEDAY" "-ON_HOLD"))
+              (mk/org-custom-todo "wp" "Projects"         "PROJECT"     mk/org-files-ng  '("-SOMEDAY" "-ON_HOLD"))
+              (mk/org-custom-todo "ws" "Someday/Maybe"    "PROJECT"     mk/org-files-ng  '("+SOMEDAY"))
+              (mk/org-custom-todo "wh" "Projects On Hold" "PROJECT"     mk/org-files-ng  '("+ON_HOLD"))
+              (mk/org-custom-todo "ww" "Waiting For"      "WAITING"     mk/org-files-ng  '("-SOMEDAY" "-ON_HOLD"))
+              (mk/org-custom-todo "wk" "Kms to expence"   "TODO"        mk/org-files-km  '())
+              (mk/org-custom-todo "wm" "TODO @ MoM"       "TODO"        mk/org-files-mom '())
               '("p" . "Private")
               (mk/org-custom-todo "pn" "Next Actions"     "NEXT-ACTION" mk/org-files-private '("-SOMEDAY" "-ON_HOLD"))
               (mk/org-custom-todo "pp" "Projects"         "PROJECT"     mk/org-files-private '("-SOMEDAY" "-ON_HOLD"))
@@ -560,14 +570,12 @@ These are my actual templates
 
 *** Define stuck projects
 #+BEGIN_SRC emacs-lisp
-(setq org-stuck-projects
-   (quote
-    ("-ON_HOLD-SOMEDAY/+PROJECT"
-     ("NEXT-ACTION" "WAITING")
-     nil "")))
+  (setq org-stuck-projects
+        (quote ("-ON_HOLD-SOMEDAY/+PROJECT"
+                ("NEXT-ACTION" "WAITING") nil "")))
 #+END_SRC
 
-** Exporters
+** Org export
 Setting UTF8 for exports
 #+BEGIN_SRC emacs-lisp
   (setq org-export-coding-system 'utf-8)
@@ -582,29 +590,43 @@ Setting UTF8 for exports
   (use-package ox-twbs :ensure t)
 #+END_SRC
 
-*** Nikola
-#+BEGIN_SRC emacs-lisp
-  (use-package ox-nikola :ensure t)
-#+END_SRC
-
 ** Org babel settings
 #+BEGIN_SRC emacs-lisp
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((python . t)
-     (emacs-lisp . t)
-     (shell . t)))
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               '((python . t)
+                                 (emacs-lisp . t)
+                                 (shell . t)))
+
   (setq org-babel-python-command "python3")
 #+END_SRC
 
 ** Publishing
+Navbar for my website
+#+BEGIN_SRC emacs-lisp
+  (setq mk/org-twbs-preamble "<nav class=\"navbar navbar-inverse navbar-fixed-top\">
+        <div class=\"container\">
+          <div class=\"navbar-header\">
+            <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">
+              <span class=\"sr-only\">Toggle navigation</span>
+              <span class=\"icon-bar\"></span>
+              <span class=\"icon-bar\"></span>
+            </button>
+            <a class=\"navbar-brand\" href=\"#\">Mats Kjesrud</a>
+          </div>
+          <div id=\"navbar\" class=\"collapse navbar-collapse\">
+            <ul class=\"nav navbar-nav\">
+              <li class=\"active\"><a href=\"#\">Emacs</a></li>
+              <li><a href=\"#contact\">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>")
+#+END_SRC
+
 #+BEGIN_SRC emacs-lisp
   (setq org-export-with-section-numbers nil)
   (setq org-html-include-timestamps nil)
   (setq org-export-with-sub-superscripts nil)
-  (setq org-export-with-toc nil)
-  (setq org-export-htmlize-output-type 'css)
-  (setq org-html-doctype "html5")
 
   (defun ask-user-about-lock (file opponent) "Always steal lock." t)
 
@@ -618,8 +640,9 @@ Setting UTF8 for exports
 Just as [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sasha Chua]], I also want to publish without having to say yes to code blocks all the time.
 #+BEGIN_SRC emacs-lisp
   (defun mk/org-publish-trustingly (plist filename pub-dir)
-    (let ((org-confirm-babel-evaluate nil))
-    (org-html-publish-to-html plist filename pub-dir)))
+    (let ((org-confirm-babel-evaluate nil)
+          (org-twbs-preamble-format (list (list "en" mk/org-twbs-preamble))))
+      (org-twbs-publish-to-html plist filename pub-dir)))
 #+END_SRC
 * Development
 ** Common tools
@@ -635,11 +658,8 @@ Just as [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sasha Chua]], I also w
 ** Magit
 #+begin_src emacs-lisp
 (use-package magit
-  :ensure t
-  :config
-  (global-set-key (kbd "C-c m") 'magit-status))
+  :ensure t)
 #+end_src
-
 ** Lisp
 *** Paredit
 #+BEGIN_SRC emacs-lisp
@@ -651,23 +671,13 @@ Just as [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sasha Chua]], I also w
   (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode))
 #+END_SRC
 
-*** Use paredit everywhere
+Use paredit everywhere
 #+BEGIN_SRC emacs-lisp
 (use-package paredit-everywhere
   :ensure t
   :diminish paredit-everywhere-mode
   :config
   (add-hook 'prog-mode-hook #'paredit-everywhere-mode))
-#+END_SRC
-
-*** Rainbow delimiters
-#+BEGIN_SRC emacs-lisp
-(use-package rainbow-delimiters
-  :ensure t
-  :config
-  (add-hook 'lisp-mode-hook
-            (lambda ()
-              (rainbow-delimiters-mode))))
 #+END_SRC
 
 ** Python
