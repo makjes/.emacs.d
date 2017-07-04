@@ -102,10 +102,20 @@ Change some general settings
 #+END_SRC
 
 ** Navigation
-
 *** Hydra
 #+BEGIN_SRC emacs-lisp
-(use-package hydra :ensure t)
+  (use-package hydra
+    :ensure t
+    :bind ("<f4>" . mk/hydra-macro/body))
+#+END_SRC
+I really want to use macros more, and making a hydra for it will help me remember to use it.
+#+BEGIN_SRC emacs-lisp
+  (defhydra mk/hydra-macro ()
+    "Keyboard Macro"
+    ("d" kmacro-start-macro "Define" :exit t)
+    ("e" kmacro-end-macro "End")
+    ("c" kmacro-call-macro "Call")
+    ("i" kmacro-insert-counter "Insert counter" :exit t))
 #+END_SRC
 *** Counsel & Swiper
 Deactivated while I'm testing out helm
