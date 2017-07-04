@@ -240,9 +240,9 @@ I use an Emacs version of [[https://github.com/ChrisKempson/Tomorrow-Theme][Chri
   (use-package color-theme-sanityinc-tomorrow
     :ensure t
     :config (color-theme-sanityinc-tomorrow-night)
-    :bind ("C-c t" . hydra-theme/body))
+    :bind ("C-c t" . mk/hydra-theme/body))
 
-  (defhydra hydra-theme ()
+  (defhydra mk/hydra-theme ()
     "Switch theme"
     ("b" color-theme-sanityinc-tomorrow-blue "Blue" :exit t)
     ("d" color-theme-sanityinc-tomorrow-day "Day" :exit t)
