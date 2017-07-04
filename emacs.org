@@ -2,8 +2,9 @@
 #+STARTUP: indent
 #+DESCRIPTION: Loading emacs config using org-babel
 #+OPTIONS: toc:nil num:nil
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" />
+#+HTML_HEAD: <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+#+HTML_HEAD: <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+#+HTML_HEAD: <link rel="stylesheet" href="style.css">
 
 * Initialize
 ** UTF-8
@@ -101,6 +102,11 @@ Change some general settings
 #+END_SRC
 
 ** Navigation
+
+*** Hydra
+#+BEGIN_SRC emacs-lisp
+(use-package hydra :ensure t)
+#+END_SRC
 *** Counsel & Swiper
 Deactivated while I'm testing out helm
 #+begin_src emacs-lisp
@@ -219,9 +225,20 @@ Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-k
 
 ** Themeing
 *** Load themes
-A relaxing dark theme with subtle colors. I prefer [[https://github.com/credmp/arjen-grey-theme][arjen-grey-theme]] by [[https://www.buildfunthings.com][Arjen Wiersma]]. It's a master piece! <3
+I use an Emacs version of [[https://github.com/ChrisKempson/Tomorrow-Theme][Chris Kempson's "Tomorrow" themes]], with much more extensive face definitions than the "official" Emacs variant.
 #+begin_src emacs-lisp
-(use-package arjen-grey-theme :ensure t)
+  (use-package color-theme-sanityinc-tomorrow
+    :ensure t
+    :config (color-theme-sanityinc-tomorrow-night)
+    :bind ("C-c t" . hydra-theme/body))
+
+  (defhydra hydra-theme ()
+    "Switch theme"
+    ("b" color-theme-sanityinc-tomorrow-blue "Blue" :exit t)
+    ("d" color-theme-sanityinc-tomorrow-day "Day" :exit t)
+    ("n" color-theme-sanityinc-tomorrow-night "Night" :exit t)
+    ("r" color-theme-sanityinc-tomorrow-bright "bRight" :exit t)
+    ("e" color-theme-sanityinc-tomorrow-eighties "Eighties" :exit t))
 #+end_src
 
 *** Download font if neccesary
@@ -601,9 +618,9 @@ Setting UTF8 for exports
 #+END_SRC
 
 ** Publishing
-Navbar for my website
+Boilerplate for bootstrap
 #+BEGIN_SRC emacs-lisp
-  (setq mk/org-twbs-preamble "<nav class=\"navbar navbar-inverse navbar-fixed-top\">
+  (setq mk/org-twbs-pre-nav "<nav class=\"navbar navbar-inverse navbar-fixed-top\">
         <div class=\"container\">
           <div class=\"navbar-header\">
             <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">
@@ -611,16 +628,30 @@ Navbar for my website
               <span class=\"icon-bar\"></span>
               <span class=\"icon-bar\"></span>
             </button>
-            <a class=\"navbar-brand\" href=\"#\">Mats Kjesrud</a>
+            <a class=\"navbar-brand\" href=\"index.html\">Mats Kjesrud</a>
           </div>
           <div id=\"navbar\" class=\"collapse navbar-collapse\">
-            <ul class=\"nav navbar-nav\">
-              <li class=\"active\"><a href=\"#\">Emacs</a></li>
-              <li><a href=\"#contact\">Contact</a></li>
-            </ul>
+            <ul class=\"nav navbar-nav\">")
+  (setq mk/org-twbs-post-nav "            </ul>
           </div><!--/.nav-collapse -->
         </div>
       </nav>")
+
+  (defun mk/org-twbs-nav (filename)
+    (concat (if (equal (file-name-base filename) "emacs" )
+                "<li class=\"active\"><a href=\"#\">Emacs</a></li>"
+              "<li><a href=\"emacs.html\">Emacs</a></li>")
+            (if (equal (file-name-base filename) "contact")
+                "<li class=\"active\"><a href=\"#\">Contact</a></li>"
+              "<li><a href=\"contact.html\">Contact</a></li>")))
+
+  (defun mk/org-twbs-preamble (filename)
+    (concat mk/org-twbs-pre-nav
+            (mk/org-twbs-nav filename)
+            mk/org-twbs-post-nav))
+
+  (setq mk/org-twbs-postamble "<p class=\"creator\">Mats Kjesrud</p>\n<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js\"></script>
+<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\" integrity=\"sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa\" crossorigin=\"anonymous\"></script>")
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -631,17 +662,27 @@ Navbar for my website
   (defun ask-user-about-lock (file opponent) "Always steal lock." t)
 
   (setq org-publish-project-alist
-        '(("Emacs config"
+        '(("Website main"
+           :base-directory "~/Dropbox/org/web"
+           :publishing-directory "~/Dropbox/pub"
+           :publishing-function mk/org-publish-trustingly)
+          ("Emacs config"
            :base-directory "~/.emacs.d"
            :publishing-directory "~/Dropbox/pub"
-           :publishing-function mk/org-publish-trustingly)))
+           :publishing-function mk/org-publish-trustingly)
+          ("Website" 
+           :components ("Website main"
+                        "Emacs config"))))
 #+END_SRC
 *** Publish without prompting
 Just as [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sasha Chua]], I also want to publish without having to say yes to code blocks all the time.
 #+BEGIN_SRC emacs-lisp
   (defun mk/org-publish-trustingly (plist filename pub-dir)
+(message filename)
     (let ((org-confirm-babel-evaluate nil)
-          (org-twbs-preamble-format (list (list "en" mk/org-twbs-preamble))))
+          (org-twbs-preamble-format (list (list "en" (mk/org-twbs-preamble filename))))
+          (org-twbs-postamble t)
+          (org-twbs-postamble-format (list (list "en" mk/org-twbs-postamble))))
       (org-twbs-publish-to-html plist filename pub-dir)))
 #+END_SRC
 * Development
