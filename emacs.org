@@ -162,7 +162,7 @@ Deactivated while I'm testing out helm
 *** Helm
 #+BEGIN_SRC emacs-lisp
 (use-package helm
-;;  :diminish helm-mode
+  :diminish helm-mode
   :ensure t
   :init
   (progn
@@ -194,6 +194,7 @@ Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-k
 #+begin_src emacs-lisp
 (use-package which-key
   :ensure t
+  :diminish which-key-mode
   :config
   (which-key-mode))
 #+end_src
@@ -220,6 +221,7 @@ Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-k
 #+begin_src emacs-lisp
   (use-package auto-complete
     :ensure t
+    :diminish auto-complete-mode
     :init
     (ac-config-default)
     (global-auto-complete-mode t))
@@ -276,6 +278,11 @@ Reload buffers when files change outside emacs.
 #+END_SRC
 
 * Org-mode
+#+BEGIN_SRC emacs-lisp
+(use-package org
+  :diminish org-indent-mode
+  :diminish visual-line-mode)
+#+END_SRC
 ** Visual & highligting
 *** Activate clean indentation
 #+BEGIN_SRC emacs-lisp
@@ -285,7 +292,7 @@ Reload buffers when files change outside emacs.
 
 *** Activate visual line mode
 #+BEGIN_SRC emacs-lisp
-(add-hook 'org-mode-hook (lambda () (visual-line-mode t)))
+  (add-hook 'org-mode-hook (lambda () (visual-line-mode t)))
 #+END_SRC
 
 *** Syntax highlighting in source blocks
