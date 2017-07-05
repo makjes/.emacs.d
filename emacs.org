@@ -7,15 +7,6 @@
 #+HTML_HEAD: <link rel="stylesheet" href="style.css">
 
 * Initialize
-** UTF-8
-#+BEGIN_SRC emacs-lisp
-  (prefer-coding-system 'utf-8)
-#+END_SRC
-Using a norwegian keyboard on linux may cause issues with [[https://www.emacswiki.org/emacs/DeadKeys][dead keys]]. =iso-transl= fixes that.
-#+BEGIN_SRC emacs-lisp
-  (require 'iso-transl)
-#+END_SRC
-
 ** Package manager setup
 Package sources
 #+BEGIN_SRC emacs-lisp
@@ -50,6 +41,14 @@ Setup =use-package=
   (use-package auto-compile
     :config (auto-compile-on-load-mode))
 #+END_SRC
+** UTF-8
+#+BEGIN_SRC emacs-lisp
+  (prefer-coding-system 'utf-8)
+#+END_SRC
+Using a norwegian keyboard on linux may cause issues with [[https://www.emacswiki.org/emacs/DeadKeys][dead keys]]. =iso-transl= fixes that.
+#+BEGIN_SRC emacs-lisp
+  (require 'iso-transl)
+#+END_SRC
 ** Change autosave directory
 #+begin_src emacs-lisp
 (setq emacs-autosave-directory "~/.emacs.d/autosaves/")
@@ -58,7 +57,10 @@ Setup =use-package=
       auto-save-file-name-transforms
       `((".*" ,emacs-autosave-directory t)))
 #+end_src
-
+** Load secrets
+#+BEGIN_SRC emacs-lisp
+  (load "~/Dropbox/secrets.el")
+#+END_SRC
 * Navigation
 ** Hydra
 #+BEGIN_SRC emacs-lisp
