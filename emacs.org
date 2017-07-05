@@ -1,4 +1,4 @@
-#+TITLE: My Emacs configuration
+#+TITLE: Mats Kjesrud - Emacs configuration
 #+STARTUP: indent
 #+DESCRIPTION: Loading emacs config using org-babel
 #+OPTIONS: toc:nil num:nil
