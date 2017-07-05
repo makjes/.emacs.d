@@ -11,12 +11,13 @@
 #+BEGIN_SRC emacs-lisp
   (prefer-coding-system 'utf-8)
 #+END_SRC
-Using a norwegian keyboard on linux may cause issues with [[https://www.emacswiki.org/emacs/DeadKeys][dead keys]]. iso-transl fixes that.
+Using a norwegian keyboard on linux may cause issues with [[https://www.emacswiki.org/emacs/DeadKeys][dead keys]]. =iso-transl= fixes that.
 #+BEGIN_SRC emacs-lisp
   (require 'iso-transl)
 #+END_SRC
 
 ** Package manager setup
+Package sources
 #+BEGIN_SRC emacs-lisp
 (require 'cl)
 (require 'package)
@@ -25,62 +26,143 @@ Using a norwegian keyboard on linux may cause issues with [[https://www.emacswik
 (defvar melpa '("melpa" . "http://melpa.org/packages/"))
 (defvar melpa-stable '("melpa-stable" . "http://stable.melpa.org/packages/"))
 
+(package-initialize)
+
 (setq package-archives nil)
 (add-to-list 'package-archives melpa-stable t)
 (add-to-list 'package-archives melpa t)
 (add-to-list 'package-archives gnu t)
 
-(package-initialize)
 (unless (and (file-exists-p "~/.emacs.d/elpa/archives/gnu")
              (file-exists-p "~/.emacs.d/elpa/archives/melpa")
              (file-exists-p "~/.emacs.d/elpa/archives/melpa-stable"))
   (package-refresh-contents))
 #+END_SRC
 
-At each load the package list will be evaluated and any missing
-packages will be installed. The packages-install function deals with
-this check and takes care of any loading of the packages.
-
+Setup =use-package=
 #+BEGIN_SRC emacs-lisp
-(defun packages-install (&rest packages)
-  (message "running packages-install")
-  (mapc (lambda (package)
-          (let ((name (car package))
-                (repo (cdr package)))
-            (when (not (package-installed-p name))
-              (let ((package-archives (list repo)))
-                (package-initialize)
-                (package-install name)))))
-         packages)
-  (package-initialize)
-  (delete-other-windows))
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+
+  (setq use-package-always-ensure t)
+  (require 'use-package)
+
+  (use-package auto-compile
+    :config (auto-compile-on-load-mode))
 #+END_SRC
-
-Install packages, preferably only use-package
-
-#+begin_src emacs-lisp
-(defun init--install-packages ()
-  (message "Lets install some packages")
-  (packages-install
-    ;; Since use-package, this is the only entry here.
-    ;; ALWAYS try to use use-package!
-    (cons 'use-package melpa)
-    ))
-
-(condition-case nil
-    (init--install-packages)
-  (error
-    (package-refresh-contents)
-    (init--install-packages)))
-#+end_src
-
 ** Change autosave directory
 #+begin_src emacs-lisp
-(defvar emacs-autosave-directory "~/.emacs.d/autosaves/")
+(setq emacs-autosave-directory "~/.emacs.d/autosaves/")
 (setq backup-directory-alist
       `((".*" . ,emacs-autosave-directory))
       auto-save-file-name-transforms
       `((".*" ,emacs-autosave-directory t)))
+#+end_src
+
+* Navigation
+** Hydra
+#+BEGIN_SRC emacs-lisp
+  (use-package hydra
+    :bind ("<f4>" . mk/hydra-macro/body))
+#+END_SRC
+I really want to use macros more, and making a hydra for it will help me remember to use it.
+#+BEGIN_SRC emacs-lisp
+  (defhydra mk/hydra-macro ()
+    "Keyboard Macro"
+    ("d" kmacro-start-macro "Define" :exit t)
+    ("e" kmacro-end-macro "End")
+    ("c" kmacro-call-macro "Call")
+    ("i" kmacro-insert-counter "Insert counter" :exit t))
+#+END_SRC
+** Counsel & Swiper                                               :noexport:
+Deactivated while I'm testing out helm
+#+begin_src emacs-lisp :tangle no
+  (use-package counsel)
+
+  (use-package swiper
+    :bind*
+    (("C-s" . swiper)
+     ("C-c C-r" . ivy-resume)
+     ("M-x" . counsel-M-x)
+     ("C-x C-f" . counsel-find-file)
+     ("C-c h f" . counsel-describe-function)
+     ("C-c h v" . counsel-describe-variable)
+     ("C-c i u" . counsel-unicode-char)
+     ("M-i" . counsel-imenu)
+     ("C-c g" . counsel-git)
+     ("C-c j" . counsel-git-grep)
+     ("C-c l" . counsel-load-theme))
+    :config
+    (progn
+      (ivy-mode 1)
+      (setq ivy-use-virtual-buffers t)
+      (define-key read-expression-map (kbd "C-r") #'counsel-expression-history)
+      (ivy-set-actions 'counsel-find-file
+                       '(("d" (lambda (x) (delete-file (expand-file-name x))) "delete")))
+      (ivy-set-actions 'ivy-switch-buffer
+                       '(("k" (lambda (x)
+                                (kill-buffer x)
+                                (ivy--reset-state ivy-last)) "kill")
+                         ("j" ivy--switch-buffer-other-window-action "other window")))))
+
+  (use-package ivy-hydra)
+#+end_src
+** Helm
+#+BEGIN_SRC emacs-lisp
+  (use-package helm
+    :diminish helm-mode
+    :init
+    (require 'helm-config)
+    (setq helm-ff-skip-boring-files t)
+    (helm-mode)
+    :bind (("C-h a" . helm-apropos)
+           ("C-x C-b" . helm-mini)
+           ("C-x b" . helm-mini)
+           ("M-y" . helm-show-kill-ring)
+           ("C-x C-f" . helm-find-files)
+           ("M-x" . helm-M-x)
+           ("C-s" . helm-occur)))
+
+#+END_SRC
+** Swoop
+#+BEGIN_SRC emacs-lisp
+  (use-package helm-swoop
+    :bind ("C-M-s" . mk/hydra-helm-swoop/body))
+
+  (defhydra mk/hydra-helm-swoop ()
+    "Helm Swoop"
+    ("s" helm-swoop "Swoop" :exit t)
+    ("m" helm-multi-swoop "Multiple buffers" :exit t)
+    ("a" helm-multi-swoop-all "All buffers" :exit t)
+    ("o" helm-multi-swoop-org "All org-mode buffers" :exit t))
+#+END_SRC
+** Which key
+=which-key= is a minor mode for Emacs that displays the key bindings following your currently entered incomplete command (a prefix) in a popup. For example, after enabling the minor mode if you enter =C-x= and wait for the default of 1 second the minibuffer will expand with all of the available key bindings that follow =C-x=
+Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-key]]
+#+begin_src emacs-lisp
+(use-package which-key
+  :diminish which-key-mode
+  :config
+  (which-key-mode))
+#+end_src
+
+** Custom keybindings
+#+begin_src emacs-lisp
+(defvar custom-bindings-map (make-keymap)
+  "A keymap for custom bindings.")
+
+;; Kills active buffer
+(define-key custom-bindings-map (kbd "C-x k") 'kill-this-buffer)
+;; Switch to other window
+(define-key custom-bindings-map (kbd "<C-tab>") 'other-window)
+;; Capture templates
+(define-key custom-bindings-map (kbd "<f3>") 'org-capture)
+;; Magit
+(define-key custom-bindings-map (kbd "C-c m") 'magit-status)
+
+(define-minor-mode custom-bindings-mode
+  "A mode that activates custom-bindings."
+  t nil custom-bindings-map)
 #+end_src
 
 * Look and feel
@@ -100,137 +182,17 @@ Change some general settings
   (setq default-directory (concat (getenv "HOME") "/")) ; Set home directory as default
   (fset 'yes-or-no-p 'y-or-n-p) ; Answer with y/n
 #+END_SRC
-
-** Navigation
-*** Hydra
-#+BEGIN_SRC emacs-lisp
-  (use-package hydra
-    :ensure t
-    :bind ("<f4>" . mk/hydra-macro/body))
-#+END_SRC
-I really want to use macros more, and making a hydra for it will help me remember to use it.
-#+BEGIN_SRC emacs-lisp
-  (defhydra mk/hydra-macro ()
-    "Keyboard Macro"
-    ("d" kmacro-start-macro "Define" :exit t)
-    ("e" kmacro-end-macro "End")
-    ("c" kmacro-call-macro "Call")
-    ("i" kmacro-insert-counter "Insert counter" :exit t))
-#+END_SRC
-*** Counsel & Swiper
-Deactivated while I'm testing out helm
-#+begin_src emacs-lisp
-  ;; (use-package counsel :ensure t)
-
-  ;; (use-package swiper
-  ;;   :ensure t
-  ;;   :bind*
-  ;;   (("C-s" . swiper)
-  ;;    ("C-c C-r" . ivy-resume)
-  ;;    ("M-x" . counsel-M-x)
-  ;;    ("C-x C-f" . counsel-find-file)
-  ;;    ("C-c h f" . counsel-describe-function)
-  ;;    ("C-c h v" . counsel-describe-variable)
-  ;;    ("C-c i u" . counsel-unicode-char)
-  ;;    ("M-i" . counsel-imenu)
-  ;;    ("C-c g" . counsel-git)
-  ;;    ("C-c j" . counsel-git-grep)
-  ;;    ("C-c l" . counsel-load-theme))
-  ;;   :config
-  ;;   (progn
-  ;;     (ivy-mode 1)
-  ;;     (setq ivy-use-virtual-buffers t)
-  ;;     (define-key read-expression-map (kbd "C-r") #'counsel-expression-history)
-  ;;     (ivy-set-actions
-  ;;      'counsel-find-file
-  ;;      '(("d" (lambda (x) (delete-file (expand-file-name x)))
-  ;;         "delete"
-  ;;         )))
-  ;;     (ivy-set-actions
-  ;;      'ivy-switch-buffer
-  ;;      '(("k"
-  ;;         (lambda (x)
-  ;;           (kill-buffer x)
-  ;;           (ivy--reset-state ivy-last))
-  ;;         "kill")
-  ;;        ("j"
-  ;;         ivy--switch-buffer-other-window-action
-  ;;         "other window")))))
-
-  ;; (use-package ivy-hydra :ensure t)
-#+end_src
-*** Helm
-#+BEGIN_SRC emacs-lisp
-(use-package helm
-  :diminish helm-mode
-  :ensure t
-  :init
-  (progn
-    (require 'helm-config)
-    (setq helm-candidate-number-limit 100)
-    ;; From https://gist.github.com/antifuchs/9238468
-    (setq helm-idle-delay 0.0 ; update fast sources immediately (doesn't).
-          helm-input-idle-delay 0.01  ; this actually updates things
-                                        ; reeeelatively quickly.
-          helm-yas-display-key-on-candidate t
-          helm-quick-update t
-          helm-M-x-requires-pattern nil
-          helm-ff-skip-boring-files t)
-    (helm-mode))
-  :bind (("C-h a" . helm-apropos)
-         ("C-x C-b" . helm-buffers-list)
-         ("C-x b" . helm-buffers-list)
-         ("M-y" . helm-show-kill-ring)
-         ("C-x C-f" . helm-find-files)
-         ("M-x" . helm-M-x)
-         ("C-s" . helm-occur)
-         ("C-S" . helm-swoop)))
-
-(use-package helm-swoop :ensure t)
-#+END_SRC
-*** Which key
-=which-key= is a minor mode for Emacs that displays the key bindings following your currently entered incomplete command (a prefix) in a popup. For example, after enabling the minor mode if you enter =C-x= and wait for the default of 1 second the minibuffer will expand with all of the available key bindings that follow =C-x=
-Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-key]]
-#+begin_src emacs-lisp
-(use-package which-key
-  :ensure t
-  :diminish which-key-mode
-  :config
-  (which-key-mode))
-#+end_src
-
-*** Custom keybindings
-#+begin_src emacs-lisp
-(defvar custom-bindings-map (make-keymap)
-  "A keymap for custom bindings.")
-
-;; Kills active buffer
-(define-key custom-bindings-map (kbd "C-x k") 'kill-this-buffer)
-;; Switch to other window
-(define-key custom-bindings-map (kbd "<C-tab>") 'other-window)
-;; Capture templates
-(define-key custom-bindings-map (kbd "<f3>") 'org-capture)
-;; Magit
-(define-key custom-bindings-map (kbd "C-c m") 'magit-status)
-
-(define-minor-mode custom-bindings-mode
-  "A mode that activates custom-bindings."
-  t nil custom-bindings-map)
-#+end_src
 ** Autocomplete
 #+begin_src emacs-lisp
   (use-package auto-complete
-    :ensure t
     :diminish auto-complete-mode
     :init
     (ac-config-default)
     (global-auto-complete-mode t))
 #+end_src
-
 ** Agressive indentation
 #+begin_src emacs-lisp
 (use-package aggressive-indent
-  :ensure t
   :config
   (global-aggressive-indent-mode 1))
 #+end_src
@@ -240,7 +202,6 @@ Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-k
 I use an Emacs version of [[https://github.com/ChrisKempson/Tomorrow-Theme][Chris Kempson's "Tomorrow" themes]], with much more extensive face definitions than the "official" Emacs variant.
 #+begin_src emacs-lisp
   (use-package color-theme-sanityinc-tomorrow
-    :ensure t
     :config (color-theme-sanityinc-tomorrow-night)
     :bind ("C-c t" . mk/hydra-theme/body))
 
@@ -258,16 +219,15 @@ My preferred font is Ubuntu Mono. Download it from [[https://fonts.google.com/sp
 *** Load fonts
 #+begin_src emacs-lisp
   (cond ((member "Ubuntu Mono" (font-family-list))
-         (set-face-attribute 'default nil :font "Ubuntu Mono-12"))
-	    ((member "Consolas" (font-family-list))
-	     (set-face-attribute 'default nil :font "Consolas")))
+         (set-face-attribute 'default nil :font "Ubuntu Mono-13"))
+        ((member "Consolas" (font-family-list))
+         (set-face-attribute 'default nil :font "Consolas")))
 #+end_src
-
 ** Removed "ding"
 Thanks to [[https://www.buildfunthings.com][Arjen Wiersma]] for showing how to remove the ever annoying *ding*.
 #+BEGIN_SRC emacs-lisp
-  (defun my-ding-function ())
-  (setq ring-bell-function 'my-ding-function)
+  (defun mk/ring-bell-function ())
+  (setq ring-bell-function 'mk/ring-bell-function)
   (setq visible-bell nil)
 #+END_SRC
 
@@ -279,34 +239,29 @@ Reload buffers when files change outside emacs.
 
 * Org-mode
 #+BEGIN_SRC emacs-lisp
-(use-package org
-  :diminish org-indent-mode
-  :diminish visual-line-mode)
+  (diminish 'org-indent-mode)
+  (diminish 'visual-line-mode)
 #+END_SRC
 ** Visual & highligting
-*** Activate clean indentation
+Activate clean indentation
 #+BEGIN_SRC emacs-lisp
 (setq org-startup-indented t)
 (setq org-startup-truncated nil)
 #+END_SRC
-
-*** Activate visual line mode
+Activate =visual-line-mode=
 #+BEGIN_SRC emacs-lisp
   (add-hook 'org-mode-hook (lambda () (visual-line-mode t)))
 #+END_SRC
-
-*** Syntax highlighting in source blocks
+Syntax highlighting in source blocks
 #+BEGIN_SRC emacs-lisp
 (setq org-src-fontify-natively t)
 #+END_SRC
-
-*** Auto completion
+** Auto completion
 #+BEGIN_SRC emacs-lisp
-(use-package org-ac
-:ensure t
-:init (progn
-(require 'org-ac)
-(org-ac/config-default)))
+  (use-package org-ac
+    :init
+    (require 'org-ac)
+    (org-ac/config-default))
 #+END_SRC
 ** Key bindings
 #+BEGIN_SRC emacs-lisp
@@ -318,42 +273,43 @@ Reload buffers when files change outside emacs.
 ** GTD Setup
 *** Set agenda files
 #+BEGIN_SRC emacs-lisp
-(setq org-agenda-files '("~/Dropbox/org/Privat.org"
-                         "~/Dropbox/org/NG.org"
-                         "~/Dropbox/org/HV.org"
-                         "~/Dropbox/org/UiO.org"
-                         "~/Dropbox/org/Nellon.org"
-                         "~/Dropbox/org/Habits.org"
-                         "~/Dropbox/org/Inbox.org"))
+  (setq org-agenda-files
+        '("~/Dropbox/org/Privat.org"
+          "~/Dropbox/org/NG.org"
+          "~/Dropbox/org/HV.org"
+          "~/Dropbox/org/UiO.org"
+          "~/Dropbox/org/Nellon.org"
+          "~/Dropbox/org/Habits.org"
+          "~/Dropbox/org/Inbox.org"))
 #+END_SRC
 
 *** Set refile targets
 #+BEGIN_SRC emacs-lisp
-(setq org-refile-targets
-  '((nil :todo . "PROJECT")
-    (nil :todo . "GROUP")
-    ("Privat.org" :tag . "refile")
-    ("UiO.org" :tag . "refile")
-    ("NG.org" :tag . "refile")
-    ("HV.org" :tag . "refile")
-    ("Inbox.org" :level . 1)
-    ("Nellon.org" :tag . "refile")
-    ("Habits.org" :tag . "refile")))
+  (setq org-refile-targets
+        '((nil :todo . "PROJECT")
+          (nil :todo . "GROUP")
+          ("Privat.org" :tag . "refile")
+          ("UiO.org" :tag . "refile")
+          ("NG.org" :tag . "refile")
+          ("HV.org" :tag . "refile")
+          ("Inbox.org" :level . 1)
+          ("Nellon.org" :tag . "refile")
+          ("Habits.org" :tag . "refile")))
 #+END_SRC
 
 *** Modify faces for states
 #+BEGIN_SRC emacs-lisp
   (setq org-todo-keyword-faces
-	'(("PROJECT" . (:foreground "lightblue" :weight bold))
-	  ("GROUP" . (:foreground "grey" :weight bold))
-	  ("TODO" . (:foreground "lightyellow" :weight bold))
-    ("WAITING" . (:foreground "lightyellow" :weight bold))
-    ("MATERIAL" . (:foreground "grey" :weight bold))))
+        '(("PROJECT" . (:foreground "lightblue" :weight bold))
+          ("GROUP" . (:foreground "grey" :weight bold))
+          ("TODO" . (:foreground "lightyellow" :weight bold))
+          ("WAITING" . (:foreground "lightyellow" :weight bold))
+          ("MATERIAL" . (:foreground "grey" :weight bold))))
 #+END_SRC
 
 *** Activate logbook-drawer
 #+BEGIN_SRC emacs-lisp
-(setq org-log-into-drawer "LOGBOOK")
+  (setq org-log-into-drawer "LOGBOOK")
 #+END_SRC
 
 *** Capture templates
@@ -363,7 +319,7 @@ A custom capture function for capturing tasks from my meeting minutes document
     (with-current-buffer (org-capture-get :original-buffer)
       (org-element-property :raw-value (org-element-at-point))))
 #+END_SRC
-I have a lot of capture templates. These are just a few of them:
+I have a lot of capture templates. These are just a few of them. To see the complete list, check out my Github [[http://www.github.com/makjes/.emacs.d][repo]].
 #+BEGIN_SRC emacs-lisp :tangle no
   (setq org-capture-templates
         '(("t" "Todo" entry
@@ -512,11 +468,11 @@ These are my actual templates
 *** Custom Agenda views
 **** Todo-items
 #+BEGIN_SRC emacs-lisp
-(defun mk/org-custom-todo (key header type files tags)
-  (list key header 'todo type
-        (list (list 'org-agenda-files files)
-	      (list 'org-agenda-tag-filter-preset (cons 'quote (list tags)))
-	      (list 'org-agenda-overriding-header header))))
+  (defun mk/org-custom-todo (key header type files tags)
+    (list key header 'todo type
+          (list (list 'org-agenda-files files)
+                (list 'org-agenda-tag-filter-preset (cons 'quote (list tags)))
+                (list 'org-agenda-overriding-header header))))
 #+END_SRC
 **** Agenda list
 #+BEGIN_SRC emacs-lisp
@@ -534,31 +490,31 @@ These are my actual templates
 #+END_SRC
 **** Maintenance
 #+BEGIN_SRC emacs-lisp
-  (setq mk/org-custom-refile
-        (list "or" "Refile list" 'tags-todo "+REFILE"
-              (list(list 'org-agenda-overriding-header "Refile list"))))
+  (defvar mk/org-custom-refile
+    (list "or" "Refile list" 'tags-todo "+REFILE"
+          (list(list 'org-agenda-overriding-header "Refile list"))))
 #+END_SRC
 **** File lists
 #+BEGIN_SRC emacs-lisp :results none
-  (setq mk/org-files-private
-        (quote '("~/Dropbox/org/Privat.org"
-                 "~/Dropbox/org/UiO.org"
-                 "~/Dropbox/org/HV.org"
-                 "~/Dropbox/org/Nellon.org"
-                 "~/Dropbox/org/Habits.org")))
+  (defvar mk/org-files-private
+    (quote '("~/Dropbox/org/Privat.org"
+             "~/Dropbox/org/UiO.org"
+             "~/Dropbox/org/HV.org"
+             "~/Dropbox/org/Nellon.org"
+             "~/Dropbox/org/Habits.org")))
 
-  (setq mk/org-files-ng
-        (quote '("~/Dropbox/org/NG.org")))
+  (defvar mk/org-files-ng
+    (quote '("~/Dropbox/org/NG.org")))
 
-  (setq mk/org-files-all
-        (cons 'quote (list (append (cadr mk/org-files-ng)
-                                   (cadr mk/org-files-private)))))
+  (defvar mk/org-files-all
+    (cons 'quote (list (append (cadr mk/org-files-ng)
+                               (cadr mk/org-files-private)))))
 
-  (setq mk/org-files-km
-        (quote '("~/Dropbox/org/km.org")))
+  (defvar mk/org-files-km
+    (quote '("~/Dropbox/org/km.org")))
 
-  (setq mk/org-files-mom
-        (quote '("~/ONEDRI~1/mom.org")))
+  (defvar mk/org-files-mom
+    (quote '("~/ONEDRI~1/mom.org")))
 #+END_SRC
 **** Setup
 #+BEGIN_SRC emacs-lisp :results none
@@ -610,49 +566,52 @@ These are my actual templates
 #+END_SRC
 
 ** Org export
-Setting UTF8 for exports
+Setting UTF-8 for exports
 #+BEGIN_SRC emacs-lisp
   (setq org-export-coding-system 'utf-8)
 #+END_SRC
+=htmlize= ensures syntax highligting for org exports
+#+BEGIN_SRC emacs-lisp
+  (use-package htmlize)
+#+END_SRC
 *** Jira
 #+BEGIN_SRC emacs-lisp
-(use-package ox-jira :ensure t)
+  (use-package ox-jira)
 #+END_SRC
 
 *** Twitter bootstrap
 #+BEGIN_SRC emacs-lisp
-  (use-package ox-twbs :ensure t)
+  (use-package ox-twbs)
 #+END_SRC
 
 ** Org babel settings
 #+BEGIN_SRC emacs-lisp
-  (org-babel-do-load-languages 'org-babel-load-languages
-                               '((python . t)
-                                 (emacs-lisp . t)
-                                 (shell . t)))
+  (org-babel-do-load-languages 'org-babel-load-languages '((python . t)
+                                                           (emacs-lisp . t)
+                                                           (shell . t)))
 
   (setq org-babel-python-command "python3")
 #+END_SRC
-
 ** Publishing
 Boilerplate for bootstrap
 #+BEGIN_SRC emacs-lisp
-  (setq mk/org-twbs-pre-nav "<nav class=\"navbar navbar-inverse navbar-fixed-top\">
-        <div class=\"container\">
-          <div class=\"navbar-header\">
-            <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">
-              <span class=\"sr-only\">Toggle navigation</span>
-              <span class=\"icon-bar\"></span>
-              <span class=\"icon-bar\"></span>
-            </button>
-            <a class=\"navbar-brand\" href=\"index.html\">Mats Kjesrud</a>
-          </div>
-          <div id=\"navbar\" class=\"collapse navbar-collapse\">
-            <ul class=\"nav navbar-nav\">")
-  (setq mk/org-twbs-post-nav "            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </nav>")
+  (defvar mk/org-twbs-pre-nav
+    "<nav class=\"navbar navbar-inverse navbar-fixed-top\">
+          <div class=\"container\">
+            <div class=\"navbar-header\">
+              <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">
+                <span class=\"sr-only\">Toggle navigation</span>
+                <span class=\"icon-bar\"></span>
+                <span class=\"icon-bar\"></span>
+              </button>
+              <a class=\"navbar-brand\" href=\"index.html\">Mats Kjesrud</a>
+            </div>
+            <div id=\"navbar\" class=\"collapse navbar-collapse\">
+              <ul class=\"nav navbar-nav\">")
+
+  (defvar mk/org-twbs-post-nav
+    "</ul>\n</div><!--/.nav-collapse -->
+  </div></nav>")
 
   (defun mk/org-twbs-nav (filename)
     (concat (if (equal (file-name-base filename) "emacs" )
@@ -667,8 +626,10 @@ Boilerplate for bootstrap
             (mk/org-twbs-nav filename)
             mk/org-twbs-post-nav))
 
-  (setq mk/org-twbs-postamble "<p class=\"creator\">Mats Kjesrud</p>\n<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js\"></script>
-<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\" integrity=\"sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa\" crossorigin=\"anonymous\"></script>")
+  (defvar mk/org-twbs-postamble
+    "<p class=\"creator\">Mats Kjesrud</p>
+  <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js\"></script>
+  <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\" integrity=\"sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa\" crossorigin=\"anonymous\"></script>")
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -679,23 +640,22 @@ Boilerplate for bootstrap
   (defun ask-user-about-lock (file opponent) "Always steal lock." t)
 
   (setq org-publish-project-alist
-        '(("Website main"
+        '(("Website"
+           :components ("Website components"
+                        "Emacs config"))
+          ("Website components"
            :base-directory "~/Dropbox/org/web"
            :publishing-directory "~/Dropbox/pub"
            :publishing-function mk/org-publish-trustingly)
           ("Emacs config"
            :base-directory "~/.emacs.d"
            :publishing-directory "~/Dropbox/pub"
-           :publishing-function mk/org-publish-trustingly)
-          ("Website" 
-           :components ("Website main"
-                        "Emacs config"))))
+           :publishing-function mk/org-publish-trustingly)))
 #+END_SRC
 *** Publish without prompting
 Just as [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sasha Chua]], I also want to publish without having to say yes to code blocks all the time.
 #+BEGIN_SRC emacs-lisp
   (defun mk/org-publish-trustingly (plist filename pub-dir)
-(message filename)
     (let ((org-confirm-babel-evaluate nil)
           (org-twbs-preamble-format (list (list "en" (mk/org-twbs-preamble filename))))
           (org-twbs-postamble t)
@@ -707,7 +667,6 @@ Just as [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sasha Chua]], I also w
 *** flycheck
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :ensure t
     :init
     (global-flycheck-mode t)
     (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
@@ -715,14 +674,12 @@ Just as [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sasha Chua]], I also w
 
 ** Magit
 #+begin_src emacs-lisp
-(use-package magit
-  :ensure t)
+  (use-package magit)
 #+end_src
 ** Lisp
 *** Paredit
 #+BEGIN_SRC emacs-lisp
 (use-package paredit
-  :ensure t
   :diminish paredit-mode
   :config
   (add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode)
@@ -732,7 +689,6 @@ Just as [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sasha Chua]], I also w
 Use paredit everywhere
 #+BEGIN_SRC emacs-lisp
 (use-package paredit-everywhere
-  :ensure t
   :diminish paredit-everywhere-mode
   :config
   (add-hook 'prog-mode-hook #'paredit-everywhere-mode))
@@ -742,7 +698,6 @@ Use paredit everywhere
 *** python-mode
 #+BEGIN_SRC emacs-lisp
   (use-package python-mode
-    :ensure t
     :init
     (if (eq system-type 'windows-nt)
         (setq py-shell-name "C:/a/Python/Python35-32/python.exe")
@@ -751,24 +706,34 @@ Use paredit everywhere
     (setq py-split-window-on-execute t))
   (add-hook 'python-mode-hook (setenv "LANG" "en_US.UTF8"))
 #+END_SRC
-Use M-x write-abbrev-file and just hit RET when asked for a filename.
+Use =M-x write-abbrev-file= and just hit =RET= when asked for a filename.
 *** jedi
 #+BEGIN_SRC emacs-lisp
   (use-package jedi
-    :ensure t
     :init
     (add-hook 'python-mode-hook 'jedi:setup)
     (add-hook 'python-mode-hook 'jedi:ac-setup))
 #+END_SRC
-Use M-x jedi:install-server to install jedi server. Python virtual environment required.
+Use =M-x jedi:install-server= to install jedi server. Python virtual environment required.
 #+BEGIN_QUOTE
 [sudo] pip install virtualenv
 #+END_QUOTE
+*** YAML
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :mode "\\.yml\\'" "\\.yaml\\'"
+    :bind (:map yaml-mode-map ("C-c p" . mk/hydra-yaml-tomato/body)))
 
+  (use-package yaml-tomato)
+
+  (defhydra mk/hydra-yaml-tomato ()
+    "Yaml path"
+    ("p" yaml-tomato-show-current-path "Show Path" :exit t)
+    ("c" yaml-tomato-copy "Copy Path" :exit t))
+#+END_SRC
 ** Snippets
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
-  :ensure t
   :diminish yas
   :config
   (yas/global-mode 1)
@@ -778,9 +743,8 @@ Use M-x jedi:install-server to install jedi server. Python virtual environment r
 * Experiments                                                      :noexport:
 ** elfeed and elfeed-org
 *** First I setup elfeed.el
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package elfeed
-  :ensure t
   :config (setq elfeed-search-filter "@6-months-ago") ; I want to show everything, so I removed " +unread"
   :bind ("C-x w" . elfeed))
 #+END_SRC
@@ -796,9 +760,8 @@ Download the dependencies from http://alpha.gnu.org/gnu/emacs/pretest/windows/em
 Unpack both in the same place and try again
 #+END_QUOTE
 *** Next, load elfeed-org.el to read the feed-file in org-mode
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package elfeed-org
-  :ensure t
   :init (setq rmh-elfeed-org-files (list "~/Dropbox/org/rss-feeds.org"))
   :config (elfeed-org))
 #+END_SRC
