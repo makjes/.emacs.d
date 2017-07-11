@@ -4,6 +4,7 @@ autosaves/
 elpa/
 eshell/
 server/
+url/
 .python-environments/
 
 # Extracted or exported emacs.org
