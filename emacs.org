@@ -239,6 +239,30 @@ Reload buffers when files change outside emacs.
   (global-auto-revert-mode t)
 #+END_SRC
 
+* Quality of life
+** Google Translate
+#+BEGIN_SRC emacs-lisp
+  (use-package google-translate
+    :bind ("C-c g" . mk/hydra-translate/body))
+
+  (defhydra mk/hydra-translate ()
+    "Google translate"
+    ("e" (let ((google-translate-default-source-language "en")
+               (google-translate-default-target-language "no"))
+           (progn (google-translate-query-translate)
+                  (select-window (get-buffer-window "*Google Translate*"))))
+     "English to Norwegian" :exit t)
+    ("n" (let ((google-translate-default-source-language "no")
+               (google-translate-default-target-language "en"))
+           (progn (google-translate-query-translate)
+                  (select-window (get-buffer-window "*Google Translate*"))))
+     "Norwegian to English" :exit t)
+    ("p" (let ((google-translate-default-source-language nil)
+               (google-translate-default-target-language nil))
+           (progn (google-translate-query-translate)
+                  (select-window (get-buffer-window "*Google Translate*"))))
+     "Prompt for languages" :exit t))
+#+END_SRC
 * Org-mode
 #+BEGIN_SRC emacs-lisp
   (diminish 'org-indent-mode)
