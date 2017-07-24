@@ -244,15 +244,15 @@ Reload buffers when files change outside emacs.
 #+BEGIN_SRC emacs-lisp
   (use-package google-translate
     :bind ("C-c g" . mk/hydra-translate/body))
+#+END_SRC
 
-  (defhydra mk/hydra-translate (:hint nil)
-    "
-Google translate
-----------------
-_e_: English to Norwegian (_E_: @ point)
-_n_: Norwegian to English (_N_: @ point)
-_p_: Prompt for languages
-"
+#+BEGIN_SRC emacs-lisp
+  (defhydra mk/hydra-translate (:hint nil) "
+  Google translate
+  ----------------
+  _e_: English to Norwegian (_E_: @ point)
+  _n_: Norwegian to English (_N_: @ point)
+  _p_: Prompt for languages"
     ("e" (let ((google-translate-default-source-language "en")
                (google-translate-default-target-language "no"))
            (progn (google-translate-query-translate)
@@ -473,7 +473,7 @@ These are my actual templates
 	   (file+headline "~/Dropbox/org/Gaver.org" "Emilie")
 	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
 	   ("g0" "Pål" entry
-	   (file+headline "~/Dropbox/org/Gaver.org" "Pål")
+	   (file+headline "~/Dropbox/org/Gaver.org" "Paal")
 	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
 	   ("ga" "Lars" entry
 	   (file+headline "~/Dropbox/org/Gaver.org" "Lars")
