@@ -147,7 +147,12 @@ Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-k
   :config
   (which-key-mode))
 #+end_src
-
+** Expand region
+#+BEGIN_SRC emacs-lisp
+  (use-package expand-region
+    :ensure t
+    :bind ("C-å" . er/expand-region))
+#+END_SRC
 ** Custom keybindings
 #+begin_src emacs-lisp
 (defvar custom-bindings-map (make-keymap)
@@ -420,6 +425,9 @@ These are my actual templates
 	   ("nk" "Kilometers driven" entry
 	   (file+headline "~/Dropbox/org/km.org" "New")
 	   (file "~/Dropbox/org/templates/capture-km.org") :immediate-finish t)
+           ("nb" "Beamer template (C-0 as prefix to insert at point)" plain
+           (file "~/beamer.org")
+           (file "~/Dropbox/org/templates/beamer-ng.org"))
      ("ni" "MOM Task -> Inbox" entry
      (file+headline "~/Dropbox/org/Inbox.org" "Inbox")
      (file "~/Dropbox/org/templates/momtoinbox.org") :immediate-finish t)
@@ -801,4 +809,9 @@ Unpack both in the same place and try again
   (use-package elfeed-org
   :init (setq rmh-elfeed-org-files (list "~/Dropbox/org/rss-feeds.org"))
   :config (elfeed-org))
+#+END_SRC
+** ledger
+#+BEGIN_SRC emacs-lisp
+(use-package ledger-mode :ensure t)
+(use-package flycheck-ledger :ensure t)
 #+END_SRC
