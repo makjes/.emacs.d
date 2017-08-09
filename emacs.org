@@ -77,14 +77,6 @@ I really want to use macros more, and making a hydra for it will help me remembe
     ("c" kmacro-call-macro "Call")
     ("i" kmacro-insert-counter "Insert counter" :exit t))
 #+END_SRC
-Indirect buffers
-#+BEGIN_SRC emacs-lisp
-  (defhydra mk/hydra-indirect-buffers ()
-    "Indirect Buffers"
-    ("c" clone-indirect-buffer-other-window "Clone to other window" :exit t)
-    ("t" org-tree-to-indirect-buffer	  "Org tree to indirect buffer" :exit t)
-    ("m" make-indirect-buffer		  "Make indirect buffer" :exit t))
-#+END_SRC
 ** Counsel & Swiper                                               :noexport:
 Deactivated while I'm testing out helm
 #+begin_src emacs-lisp :tangle no
@@ -156,6 +148,11 @@ Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-k
   :config
   (which-key-mode))
 #+end_src
+Sometimes emacs crashes as described here: https://github.com/justbur/emacs-which-key/issues/130
+Testing out workaround
+#+BEGIN_SRC emacs-lisp
+  (setq inhibit-compacting-font-caches nil)
+#+END_SRC
 ** Expand region
 #+BEGIN_SRC emacs-lisp
   (use-package expand-region
@@ -180,7 +177,28 @@ Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-k
   "A mode that activates custom-bindings."
   t nil custom-bindings-map)
 #+end_src
-
+** Indirect buffers
+Minor mode for indirect org-buffers
+#+BEGIN_SRC emacs-lisp
+  (define-minor-mode mk/org-indirect-mode
+    "Toggle Org Indirect Mode"
+    :lighter " mk/OIB"
+    :keymap (let ((map (make-sparse-keymap)))
+              (define-key map [remap kill-this-buffer] 'kill-buffer-and-window)
+              map))
+#+END_SRC
+Hydra for easily create indirect buffers
+#+BEGIN_SRC emacs-lisp
+  (defhydra mk/hydra-indirect-buffers ()
+    "Indirect Buffers"
+    ("c" clone-indirect-buffer-other-window "Clone to other window")
+    ("t" (progn (org-tree-to-indirect-buffer)
+                (shrink-window-horizontally (- (window-size nil t) 50))
+                (other-window 1)
+                (mk/org-indirect-mode)) "Org tree to indirect buffer" :exit t)
+    ("m" make-indirect-buffer "Make indirect buffer")
+    ("s" (shrink-window-horizontally (- (window-size nil t) 50)) "Resize window" :exit t))
+#+END_SRC
 * Look and feel
 ** General emacs settings
 Change some general settings
