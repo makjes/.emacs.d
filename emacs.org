@@ -6,6 +6,8 @@
 #+HTML_HEAD: <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 #+HTML_HEAD: <link rel="stylesheet" href="style.css">
 
+* Information
+The complete repository is available on Github: https://github.com/makjes/.emacs.d
 * Initialize
 ** Package manager setup
 Package sources
