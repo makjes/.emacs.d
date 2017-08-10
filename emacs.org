@@ -509,7 +509,7 @@ These are my actual templates
 	   ("g9" "Emilie" entry
 	   (file+headline "~/Dropbox/org/Gaver.org" "Emilie")
 	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
-	   ("g0" "Pål" entry
+	   ("g0" "Paal" entry
 	   (file+headline "~/Dropbox/org/Gaver.org" "Paal")
 	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
 	   ("ga" "Lars" entry
@@ -523,9 +523,6 @@ These are my actual templates
 	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
 	   ("gd" "Ludvik" entry
 	   (file+headline "~/Dropbox/org/Gaver.org" "Ludvik")
-	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
-	   ("ge" "Kristine" entry
-	   (file+headline "~/Dropbox/org/Gaver.org" "Kristine")
 	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
 	   ))
 #+END_SRC
