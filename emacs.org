@@ -427,13 +427,13 @@ These are my actual templates
 	   (file "~/Dropbox/org/templates/capture-nextaction.org") :immediate-finish t)
 	   ("s" "See or read")
 	   ("sm" "Movie to watch" entry
-	   (file+headline "~/Dropbox/org/Privat.org" "Filmer")
+	   (file+headline "~/Dropbox/org/Privat.org" "Movies")
 	   (file "~/Dropbox/org/templates/capture-movie.org"))
 	   ("sb" "Book to read" entry
-	   (file+headline "~/Dropbox/org/Privat.org" "Bøker")
+	   (file+headline "~/Dropbox/org/Privat.org" "Books")
 	   (file "~/Dropbox/org/templates/capture-book.org"))
 	   ("st" "TV series to watch" entry
-	   (file+headline "~/Dropbox/org/Privat.org" "TV-serier")
+	   (file+headline "~/Dropbox/org/Privat.org" "TV-series")
 	   (file "~/Dropbox/org/templates/capture-tv.org"))
 	   ("n" "NG")
 	   ("nc" "Change Request" plain
