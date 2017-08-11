@@ -64,6 +64,10 @@ Using a norwegian keyboard on linux may cause issues with [[https://www.emacswik
   (load "~/Dropbox/secrets.el")
 #+END_SRC
 * Navigation
+** Ace Window
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-window)
+#+END_SRC
 ** Hydra
 #+BEGIN_SRC emacs-lisp
   (use-package hydra
@@ -163,21 +167,22 @@ Testing out workaround
 #+END_SRC
 ** Custom keybindings
 #+begin_src emacs-lisp
-(defvar custom-bindings-map (make-keymap)
-  "A keymap for custom bindings.")
+  (defvar custom-bindings-map (make-keymap)
+    "A keymap for custom bindings.")
 
-;; Kills active buffer
-(define-key custom-bindings-map (kbd "C-x k") 'kill-this-buffer)
-;; Switch to other window
-(define-key custom-bindings-map (kbd "<C-tab>") 'other-window)
-;; Capture templates
-(define-key custom-bindings-map (kbd "<f3>") 'org-capture)
-;; Magit
-(define-key custom-bindings-map (kbd "C-c m") 'magit-status)
+  ;; Kills active buffer
+  (define-key custom-bindings-map (kbd "C-x k") 'kill-this-buffer)
+  ;; Capture templates
+  (define-key custom-bindings-map (kbd "<f3>") 'org-capture)
+  ;; Magit
+  (define-key custom-bindings-map (kbd "C-c m") 'magit-status)
+  ;; Ace window
+  (define-key custom-bindings-map (kbd "C-<tab>") 'ace-window)
+  (define-key custom-bindings-map [remap other-window] 'ace-window)
 
-(define-minor-mode custom-bindings-mode
-  "A mode that activates custom-bindings."
-  t nil custom-bindings-map)
+  (define-minor-mode custom-bindings-mode
+    "A mode that activates custom-bindings."
+    t nil custom-bindings-map)
 #+end_src
 ** Indirect buffers
 Minor mode for indirect org-buffers
