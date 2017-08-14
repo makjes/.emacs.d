@@ -332,6 +332,17 @@ Syntax highlighting in source blocks
 #+BEGIN_SRC emacs-lisp
 (setq org-src-fontify-natively t)
 #+END_SRC
+Modify faces for states
+#+BEGIN_SRC emacs-lisp
+  (setq org-todo-keyword-faces
+        '(("PROJECT" . (:foreground "black" :background "lightblue"))
+          ("GROUP" . (:foreground "black" :background "lightgrey"))
+          ("TODO" . (:foreground "black" :background "lightyellow"))
+          ("WAITING" . (:foreground "black" :background "pink"))
+          ("MATERIAL" . (:foreground "black" :background "lightgreen"))
+          ("NEXT-ACTION" . (:foreground "black" :background "pink"))
+          ("DONE" . (:foreground "black" :background "lightgreen"))))
+#+END_SRC
 ** Auto completion
 #+BEGIN_SRC emacs-lisp
   (use-package org-ac
@@ -371,16 +382,6 @@ Syntax highlighting in source blocks
           ("Inbox.org" :level . 1)
           ("Nellon.org" :tag . "refile")
           ("Habits.org" :tag . "refile")))
-#+END_SRC
-
-*** Modify faces for states
-#+BEGIN_SRC emacs-lisp
-  (setq org-todo-keyword-faces
-        '(("PROJECT" . (:foreground "lightblue" :weight bold))
-          ("GROUP" . (:foreground "grey" :weight bold))
-          ("TODO" . (:foreground "lightyellow" :weight bold))
-          ("WAITING" . (:foreground "lightyellow" :weight bold))
-          ("MATERIAL" . (:foreground "grey" :weight bold))))
 #+END_SRC
 
 *** Activate logbook-drawer
