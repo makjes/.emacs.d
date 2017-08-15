@@ -72,7 +72,8 @@ Using a norwegian keyboard on linux may cause issues with [[https://www.emacswik
 #+BEGIN_SRC emacs-lisp
   (use-package hydra
     :bind (("<f4>" . mk/hydra-macro/body)
-           ("C-c i" . mk/hydra-indirect-buffers/body)))
+           ("C-c i" . mk/hydra-indirect-buffers/body)
+           ("C-x SPC" . mk/hydra-rectangle/body)))
 #+END_SRC
 I really want to use macros more, and making a hydra for it will help me remember to use it.
 #+BEGIN_SRC emacs-lisp
@@ -82,6 +83,26 @@ I really want to use macros more, and making a hydra for it will help me remembe
     ("e" kmacro-end-macro "End")
     ("c" kmacro-call-macro "Call")
     ("i" kmacro-insert-counter "Insert counter" :exit t))
+#+END_SRC
+Rectangle Mode
+#+BEGIN_SRC emacs-lisp
+  (defhydra mk/hydra-rectangle (:body-pre (rectangle-mark-mode 1) :post (deactivate-mark))
+    "
+    -----          |   ^_p_^   |    _d_elete    _k_ill
+Rectangle Mode     | _b_   _f_ |    _s_tring    _y_ank
+    -----          |   ^_n_^   |    _c_opy      _r_eset"
+    ("p" rectangle-previous-line nil)
+    ("n" rectangle-next-line nil)
+    ("b" rectangle-backward-char nil)
+    ("f" rectangle-forward-char nil)
+    ("d" delete-rectangle nil)
+    ("s" string-rectangle nil :exit t)
+    ("k" kill-rectangle nil)
+    ("y" yank-rectangle nil :exit t)
+    ("c" copy-rectangle-as-kill nil)
+    ("r" (progn (if (region-active-p)
+                    (deactivate-mark))
+                (rectangle-mark-mode 1)) nil))
 #+END_SRC
 ** Counsel & Swiper                                               :noexport:
 Deactivated while I'm testing out helm
