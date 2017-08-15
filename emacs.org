@@ -268,12 +268,14 @@ I use an Emacs version of [[https://github.com/ChrisKempson/Tomorrow-Theme][Chri
     :bind ("C-c t" . mk/hydra-theme/body))
 
   (defhydra mk/hydra-theme ()
-    "Switch theme"
-    ("b" color-theme-sanityinc-tomorrow-blue "Blue" :exit t)
-    ("d" color-theme-sanityinc-tomorrow-day "Day" :exit t)
-    ("n" color-theme-sanityinc-tomorrow-night "Night" :exit t)
-    ("r" color-theme-sanityinc-tomorrow-bright "bRight" :exit t)
-    ("e" color-theme-sanityinc-tomorrow-eighties "Eighties" :exit t))
+    "
+Switch theme: _b_lue  _d_ay  _n_ight  b_r_ight  _e_ighties  E_x_it"
+    ("b" color-theme-sanityinc-tomorrow-blue nil)
+    ("d" color-theme-sanityinc-tomorrow-day nil)
+    ("n" color-theme-sanityinc-tomorrow-night nil)
+    ("r" color-theme-sanityinc-tomorrow-bright nil)
+    ("e" color-theme-sanityinc-tomorrow-eighties nil)
+    ("x" nil nil :exit t))
 #+end_src
 
 *** Download font if neccesary
