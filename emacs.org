@@ -752,15 +752,25 @@ Boilerplate for bootstrap
            :publishing-directory "~/Dropbox/pub"
            :publishing-function mk/org-publish-trustingly)))
 #+END_SRC
-*** Publish without prompting
+*** Publishing function
 Just as [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sasha Chua]], I also want to publish without having to say yes to code blocks all the time.
+Here I also add the bootstrap boilerplate, and make sure the correct theme is active.
 #+BEGIN_SRC emacs-lisp
   (defun mk/org-publish-trustingly (plist filename pub-dir)
     (let ((org-confirm-babel-evaluate nil)
           (org-twbs-preamble-format (list (list "en" (mk/org-twbs-preamble filename))))
           (org-twbs-postamble t)
           (org-twbs-postamble-format (list (list "en" mk/org-twbs-postamble))))
-      (org-twbs-publish-to-html plist filename pub-dir)))
+      (progn (color-theme-sanityinc-tomorrow-day)
+             (org-twbs-publish-to-html plist filename pub-dir)
+             (mk/org-publish-ftp-put filename pub-dir))))
+#+END_SRC
+When the file is published locally, ftp-put it to the webserver
+#+BEGIN_SRC emacs-lisp
+  (defun mk/org-publish-ftp-put (filename pub-dir)
+    (let ((name (concat (file-name-sans-extension(file-name-nondirectory filename)) ".html")))
+      (copy-file (concat pub-dir name)
+                 mk/srv-matskjesrud-pth t)))
 #+END_SRC
 * Development
 ** Common tools
