@@ -73,8 +73,10 @@ Using a norwegian keyboard on linux may cause issues with [[https://www.emacswik
   (use-package hydra
     :bind (("<f4>" . mk/hydra-macro/body)
            ("C-c i" . mk/hydra-indirect-buffers/body)
-           ("C-x SPC" . mk/hydra-rectangle/body)))
+           ("C-x SPC" . mk/hydra-rectangle/body)
+           ("C-c t" . mk/hydra-theme/body)))
 #+END_SRC
+*** Macros
 I really want to use macros more, and making a hydra for it will help me remember to use it.
 #+BEGIN_SRC emacs-lisp
   (defhydra mk/hydra-macro ()
@@ -84,7 +86,7 @@ I really want to use macros more, and making a hydra for it will help me remembe
     ("c" kmacro-call-macro "Call")
     ("i" kmacro-insert-counter "Insert counter" :exit t))
 #+END_SRC
-Rectangle Mode
+*** Rectangle Mode
 #+BEGIN_SRC emacs-lisp
   (defhydra mk/hydra-rectangle (:body-pre (rectangle-mark-mode 1) :post (deactivate-mark))
     "
@@ -261,23 +263,45 @@ Change some general settings
 
 ** Themeing
 *** Load themes
-I use an Emacs version of [[https://github.com/ChrisKempson/Tomorrow-Theme][Chris Kempson's "Tomorrow" themes]], with much more extensive face definitions than the "official" Emacs variant.
 #+begin_src emacs-lisp
-  (use-package color-theme-sanityinc-tomorrow
-    :config (color-theme-sanityinc-tomorrow-night)
-    :bind ("C-c t" . mk/hydra-theme/body))
+  (use-package color-theme-sanityinc-tomorrow)
 
+  (use-package spacemacs-theme)
+  (setq spacemacs-theme-org-height nil)
+
+  (defvar mk/themes '(sanityinc-tomorrow-day
+                      sanityinc-tomorrow-bright
+                      spacemacs-dark))
+
+  ;; Load themes without prompting and enabling
+  (mapc (lambda (x) (load-theme x t t)) mk/themes)
+
+  (defun mk/load-theme (name)
+    "Switch theme"
+    (progn
+      ;; Load theme
+      (if (boundp 'custom-enabled-themes)
+          (custom-set-variables `(custom-enabled-themes '(,name)))
+        (load-theme name t))
+      ;; Fix hidden bullets in org-mode
+      (let ((hide (face-foreground 'org-hide))
+            (background (face-background 'default)))
+        (if (not (equal hide background))
+            (set-face-foreground 'org-hide background)))))
+
+  ;; Load theme at startup
+  (mk/load-theme 'spacemacs-dark)
+#+end_src
+*** Hydra for themes
+#+BEGIN_SRC emacs-lisp
   (defhydra mk/hydra-theme ()
     "
-Switch theme: _b_lue  _d_ay  _n_ight  b_r_ight  _e_ighties  E_x_it"
-    ("b" color-theme-sanityinc-tomorrow-blue nil)
-    ("d" color-theme-sanityinc-tomorrow-day nil)
-    ("n" color-theme-sanityinc-tomorrow-night nil)
-    ("r" color-theme-sanityinc-tomorrow-bright nil)
-    ("e" color-theme-sanityinc-tomorrow-eighties nil)
+  Switch theme: _d_ay _b_right _s_pacemacs E_x_it"
+    ("d" (mk/load-theme 'sanityinc-tomorrow-day) nil)
+    ("b" (mk/load-theme 'sanityinc-tomorrow-bright) nil)
+    ("s" (mk/load-theme 'spacemacs-dark) nil)
     ("x" nil nil :exit t))
-#+end_src
-
+#+END_SRC
 *** Download font if neccesary
 My preferred font is Ubuntu Mono. Download it from [[https://fonts.google.com/specimen/Ubuntu+Mono][Google Fonts]].
 *** Load fonts
