@@ -264,14 +264,15 @@ Change some general settings
 ** Themeing
 *** Load themes
 #+begin_src emacs-lisp
-  (use-package color-theme-sanityinc-tomorrow)
+  (use-package darktooth-theme)
+  (use-package subatomic-theme)
+  (use-package flatui-theme)
+  (use-package hydandata-light-theme)
 
-  (use-package spacemacs-theme)
-  (setq spacemacs-theme-org-height nil)
-
-  (defvar mk/themes '(sanityinc-tomorrow-day
-                      sanityinc-tomorrow-bright
-                      spacemacs-dark))
+  (defvar mk/themes '(darktooth
+                      subatomic
+                      flatui
+                      hydandata-light))
 
   ;; Load themes without prompting and enabling
   (mapc (lambda (x) (load-theme x t t)) mk/themes)
@@ -290,26 +291,42 @@ Change some general settings
             (set-face-foreground 'org-hide background)))))
 
   ;; Load theme at startup
-  (mk/load-theme 'spacemacs-dark)
+  (mk/load-theme 'flatui)
 #+end_src
 *** Hydra for themes
 #+BEGIN_SRC emacs-lisp
   (defhydra mk/hydra-theme ()
     "
-  Switch theme: _d_ay _b_right _s_pacemacs E_x_it"
-    ("d" (mk/load-theme 'sanityinc-tomorrow-day) nil)
-    ("b" (mk/load-theme 'sanityinc-tomorrow-bright) nil)
-    ("s" (mk/load-theme 'spacemacs-dark) nil)
+  Light themes:     Dark themes:      Fonts:            E_x_it
+  ----------------  ----------------  ----------------  ----------------
+  _f_lat UI           _d_arktooth         _m_onospace
+  _h_ydandata light   _s_ubatomic         _w_riting
+  "
+    ("f" (mk/load-theme 'flatui) nil)
+    ("h" (mk/load-theme 'hydandata-light) nil)
+    ("d" (mk/load-theme 'darktooth) nil)
+    ("s" (mk/load-theme 'subatomic) nil)
+    ("m" (mk/set-font 'mono) nil)
+    ("w" (mk/set-font 'write) nil)
     ("x" nil nil :exit t))
 #+END_SRC
 *** Download font if neccesary
-My preferred font is Ubuntu Mono. Download it from [[https://fonts.google.com/specimen/Ubuntu+Mono][Google Fonts]].
+My preferred monospace font is [[https://fonts.google.com/specimen/Ubuntu+Mono][Ubuntu Mono]] and [[https://typekit.com/fonts/futura-pt][Futura PT]] for writing. Install them manually.
 *** Load fonts
 #+begin_src emacs-lisp
-  (cond ((member "Ubuntu Mono" (font-family-list))
-         (set-face-attribute 'default nil :font "Ubuntu Mono-13"))
-        ((member "Consolas" (font-family-list))
-         (set-face-attribute 'default nil :font "Consolas")))
+  (defun mk/set-font (type)
+    (cond ((eq type 'mono)
+           (cond ((member "Ubuntu Mono" (font-family-list))
+                  (set-face-attribute 'default nil :font "Ubuntu Mono-13"))
+                 ((member "Consolas" (font-family-list))
+                  (set-face-attribute 'default nil :font "Consolas"))))
+          ((eq type 'write)
+           (cond ((member "Futura PT Demi" (font-family-list))
+                  (set-face-attribute 'default nil :font "Futura PT Demi-13"))
+                 ((member "Arial" (font-family-list))
+                  (set-face-attribute 'default nil :font "Arial"))))))
+
+  (mk/set-font 'mono)
 #+end_src
 ** Removed "ding"
 Thanks to [[https://www.buildfunthings.com][Arjen Wiersma]] for showing how to remove the ever annoying *ding*.
