@@ -9,6 +9,14 @@
 * Information
 The complete repository is available on Github: https://github.com/makjes/.emacs.d
 * Initialize
+** UTF-8
+#+BEGIN_SRC emacs-lisp
+  (prefer-coding-system 'utf-8)
+#+END_SRC
+Using a norwegian keyboard on linux may cause issues with [[https://www.emacswiki.org/emacs/DeadKeys][dead keys]]. =iso-transl= fixes that.
+#+BEGIN_SRC emacs-lisp
+  (require 'iso-transl)
+#+END_SRC
 ** Package manager setup
 Package sources
 #+BEGIN_SRC emacs-lisp
@@ -42,14 +50,6 @@ Setup =use-package=
 
   (use-package auto-compile
     :config (auto-compile-on-load-mode))
-#+END_SRC
-** UTF-8
-#+BEGIN_SRC emacs-lisp
-  (prefer-coding-system 'utf-8)
-#+END_SRC
-Using a norwegian keyboard on linux may cause issues with [[https://www.emacswiki.org/emacs/DeadKeys][dead keys]]. =iso-transl= fixes that.
-#+BEGIN_SRC emacs-lisp
-  (require 'iso-transl)
 #+END_SRC
 ** Change autosave directory
 #+begin_src emacs-lisp
@@ -315,16 +315,24 @@ My preferred monospace font is [[https://fonts.google.com/specimen/Ubuntu+Mono][
 *** Load fonts
 #+begin_src emacs-lisp
   (defun mk/set-font (type)
+    (if (not (eq type 'mono))
+        (mk/set-mono-faces))
+    (mk/set-font-on-face 'default type))
+
+  (defun mk/set-mono-faces ()
+    (mk/set-font-on-face 'org-table 'mono))
+
+  (defun mk/set-font-on-face (face type)
     (cond ((eq type 'mono)
            (cond ((member "Ubuntu Mono" (font-family-list))
-                  (set-face-attribute 'default nil :font "Ubuntu Mono-13"))
+                  (set-face-attribute face nil :font "Ubuntu Mono-13"))
                  ((member "Consolas" (font-family-list))
-                  (set-face-attribute 'default nil :font "Consolas"))))
+                  (set-face-attribute face nil :font "Consolas"))))
           ((eq type 'write)
            (cond ((member "Futura PT Demi" (font-family-list))
-                  (set-face-attribute 'default nil :font "Futura PT Demi-13"))
+                  (set-face-attribute face nil :font "Futura PT Demi-13"))
                  ((member "Arial" (font-family-list))
-                  (set-face-attribute 'default nil :font "Arial"))))))
+                  (set-face-attribute face nil :font "Arial"))))))
 
   (mk/set-font 'mono)
 #+end_src
