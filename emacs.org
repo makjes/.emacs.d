@@ -125,20 +125,21 @@ Rectangle Mode     | _b_   _f_ |    _s_tring    _y_ank
     --    _w_ : Word   |       --------       _W_ : Word
    Jump   _l_ : Line   |   Multiple Cursors   _L_ : Line
     --    _c_ : Char   |       --------       _C_ : Char
-          _p_ : Pop
+          _p_ : Pop    |                      _s_ : Selected lines
   "
     ("w" ace-jump-word-mode nil :exit t)
     ("l" ace-jump-line-mode nil :exit t)
     ("c" ace-jump-char-mode nil :exit t)
-    ("W" ace-mc-add-multiple-cursors :exit t)
+    ("W" ace-mc-add-multiple-cursors nil :exit t)
     ("L" (progn
            (move-beginning-of-line 1)
            (setq current-prefix-arg '(16)) ; C-u C-u
-           (call-interactively 'ace-mc-add-multiple-cursors)) :exit t)
+           (call-interactively 'ace-mc-add-multiple-cursors)) nil :exit t)
     ("C" (progn
            (setq current-prefix-arg '(4)) ; C-u
-           (call-interactively 'ace-mc-add-multiple-cursors)) :exit t)
-    ("p" ace-jump-mode-pop-mark nil :exit t))
+           (call-interactively 'ace-mc-add-multiple-cursors)) nil :exit t)
+    ("p" ace-jump-mode-pop-mark nil :exit t)
+    ("s" (call-interactively 'mc/edit-lines) nil :exit t))
 #+END_SRC
 
 ** Counsel & Swiper                                               :noexport:
