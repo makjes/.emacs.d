@@ -868,7 +868,7 @@ Here I also add the bootstrap boilerplate, and make sure the correct theme is ac
           (org-twbs-preamble-format (list (list "en" (mk/org-twbs-preamble filename))))
           (org-twbs-postamble t)
           (org-twbs-postamble-format (list (list "en" mk/org-twbs-postamble))))
-      (progn (color-theme-sanityinc-tomorrow-day)
+      (progn (mk/load-theme 'flatui)
              (org-twbs-publish-to-html plist filename pub-dir)
              (mk/org-publish-ftp-put filename pub-dir))))
 #+END_SRC
