@@ -142,40 +142,6 @@ Rectangle Mode     | _b_   _f_ |    _s_tring    _y_ank
     ("s" (call-interactively 'mc/edit-lines) nil :exit t))
 #+END_SRC
 
-** Counsel & Swiper                                               :noexport:
-Deactivated while I'm testing out helm
-#+begin_src emacs-lisp :tangle no
-  (use-package counsel)
-
-  (use-package swiper
-    :bind*
-    (("C-s" . swiper)
-     ("C-c C-r" . ivy-resume)
-     ("M-x" . counsel-M-x)
-     ("C-x C-f" . counsel-find-file)
-     ("C-c h f" . counsel-describe-function)
-     ("C-c h v" . counsel-describe-variable)
-     ("C-c i u" . counsel-unicode-char)
-     ("M-i" . counsel-imenu)
-     ("C-c g" . counsel-git)
-     ("C-c j" . counsel-git-grep)
-     ("C-c l" . counsel-load-theme))
-    :config
-    (progn
-      (ivy-mode 1)
-      (setq ivy-use-virtual-buffers t)
-      (define-key read-expression-map (kbd "C-r") #'counsel-expression-history)
-      (ivy-set-actions 'counsel-find-file
-                       '(("d" (lambda (x) (delete-file (expand-file-name x))) "delete")))
-      (ivy-set-actions 'ivy-switch-buffer
-                       '(("k" (lambda (x)
-                                (kill-buffer x)
-                                (ivy--reset-state ivy-last)) "kill")
-                         ("j" ivy--switch-buffer-other-window-action "other window")))))
-
-  (use-package ivy-hydra)
-#+end_src
-
 ** Helm
 #+BEGIN_SRC emacs-lisp
   (use-package helm
