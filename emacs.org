@@ -17,6 +17,7 @@ Using a norwegian keyboard on linux may cause issues with [[https://www.emacswik
 #+BEGIN_SRC emacs-lisp
   (require 'iso-transl)
 #+END_SRC
+
 ** Package manager setup
 Package sources
 #+BEGIN_SRC emacs-lisp
@@ -59,23 +60,24 @@ Setup =use-package=
       auto-save-file-name-transforms
       `((".*" ,emacs-autosave-directory t)))
 #+end_src
+
 ** Load secrets
 #+BEGIN_SRC emacs-lisp
   (load "~/Dropbox/secrets.el")
 #+END_SRC
+
 * Navigation
-** Ace Window
-#+BEGIN_SRC emacs-lisp
-  (use-package ace-window)
-#+END_SRC
+
 ** Hydra
 #+BEGIN_SRC emacs-lisp
   (use-package hydra
     :bind (("<f4>" . mk/hydra-macro/body)
            ("C-c i" . mk/hydra-indirect-buffers/body)
            ("C-x SPC" . mk/hydra-rectangle/body)
-           ("C-c t" . mk/hydra-theme/body)))
+           ("C-c t" . mk/hydra-theme/body)
+           ("C-c j" . mk/hydra-ace-jump/body)))
 #+END_SRC
+
 *** Macros
 I really want to use macros more, and making a hydra for it will help me remember to use it.
 #+BEGIN_SRC emacs-lisp
@@ -86,6 +88,7 @@ I really want to use macros more, and making a hydra for it will help me remembe
     ("c" kmacro-call-macro "Call")
     ("i" kmacro-insert-counter "Insert counter" :exit t))
 #+END_SRC
+
 *** Rectangle Mode
 #+BEGIN_SRC emacs-lisp
   (defhydra mk/hydra-rectangle (:body-pre (rectangle-mark-mode 1) :post (deactivate-mark))
@@ -106,6 +109,38 @@ Rectangle Mode     | _b_   _f_ |    _s_tring    _y_ank
                     (deactivate-mark))
                 (rectangle-mark-mode 1)) nil))
 #+END_SRC
+
+** Ace Window
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-window)
+#+END_SRC
+
+** Ace Jump & Multiple Cursors
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-jump-mode)
+  (use-package ace-mc)
+
+  (defhydra mk/hydra-ace-jump ()
+    "
+    --    _w_ : Word   |       --------       _W_ : Word
+   Jump   _l_ : Line   |   Multiple Cursors   _L_ : Line
+    --    _c_ : Char   |       --------       _C_ : Char
+          _p_ : Pop
+  "
+    ("w" ace-jump-word-mode nil :exit t)
+    ("l" ace-jump-line-mode nil :exit t)
+    ("c" ace-jump-char-mode nil :exit t)
+    ("W" ace-mc-add-multiple-cursors :exit t)
+    ("L" (progn
+           (move-beginning-of-line 1)
+           (setq current-prefix-arg '(16)) ; C-u C-u
+           (call-interactively 'ace-mc-add-multiple-cursors)) :exit t)
+    ("C" (progn
+           (setq current-prefix-arg '(4)) ; C-u
+           (call-interactively 'ace-mc-add-multiple-cursors)) :exit t)
+    ("p" ace-jump-mode-pop-mark nil :exit t))
+#+END_SRC
+
 ** Counsel & Swiper                                               :noexport:
 Deactivated while I'm testing out helm
 #+begin_src emacs-lisp :tangle no
@@ -139,6 +174,7 @@ Deactivated while I'm testing out helm
 
   (use-package ivy-hydra)
 #+end_src
+
 ** Helm
 #+BEGIN_SRC emacs-lisp
   (use-package helm
@@ -156,6 +192,7 @@ Deactivated while I'm testing out helm
            ("C-s" . helm-occur)))
 
 #+END_SRC
+
 ** Swoop
 #+BEGIN_SRC emacs-lisp
   (use-package helm-swoop
@@ -168,6 +205,7 @@ Deactivated while I'm testing out helm
     ("a" helm-multi-swoop-all "All buffers" :exit t)
     ("o" helm-multi-swoop-org "All org-mode buffers" :exit t))
 #+END_SRC
+
 ** Which key
 =which-key= is a minor mode for Emacs that displays the key bindings following your currently entered incomplete command (a prefix) in a popup. For example, after enabling the minor mode if you enter =C-x= and wait for the default of 1 second the minibuffer will expand with all of the available key bindings that follow =C-x=
 Github repo: [[https://github.com/justbur/emacs-which-key][justbur/emacs-which-key]]
@@ -188,6 +226,7 @@ Testing out workaround
     :ensure t
     :bind ("C-." . er/expand-region))
 #+END_SRC
+
 ** Custom keybindings
 #+begin_src emacs-lisp
   (defvar custom-bindings-map (make-keymap)
@@ -207,6 +246,7 @@ Testing out workaround
     "A mode that activates custom-bindings."
     t nil custom-bindings-map)
 #+end_src
+
 ** Indirect buffers
 Minor mode for indirect org-buffers
 #+BEGIN_SRC emacs-lisp
@@ -229,6 +269,7 @@ Hydra for easily create indirect buffers
     ("m" make-indirect-buffer "Make indirect buffer")
     ("s" (shrink-window-horizontally (- (window-size nil t) 50)) "Resize window" :exit t))
 #+END_SRC
+
 * Look and feel
 ** General emacs settings
 Change some general settings
@@ -246,6 +287,7 @@ Change some general settings
   (setq default-directory (concat (getenv "HOME") "/")) ; Set home directory as default
   (fset 'yes-or-no-p 'y-or-n-p) ; Answer with y/n
 #+END_SRC
+
 ** Autocomplete
 #+begin_src emacs-lisp
   (use-package auto-complete
@@ -254,6 +296,7 @@ Change some general settings
     (ac-config-default)
     (global-auto-complete-mode t))
 #+end_src
+
 ** Agressive indentation
 #+begin_src emacs-lisp
 (use-package aggressive-indent
@@ -293,6 +336,7 @@ Change some general settings
   ;; Load theme at startup
   (mk/load-theme 'flatui)
 #+end_src
+
 *** Hydra for themes
 #+BEGIN_SRC emacs-lisp
   (defhydra mk/hydra-theme ()
@@ -310,6 +354,7 @@ Change some general settings
     ("w" (mk/set-font 'write) nil)
     ("x" nil nil :exit t))
 #+END_SRC
+
 *** Download font if neccesary
 My preferred monospace font is [[https://fonts.google.com/specimen/Ubuntu+Mono][Ubuntu Mono]] and [[https://typekit.com/fonts/futura-pt][Futura PT]] for writing. Install them manually.
 *** Load fonts
@@ -336,6 +381,7 @@ My preferred monospace font is [[https://fonts.google.com/specimen/Ubuntu+Mono][
 
   (mk/set-font 'mono)
 #+end_src
+
 ** Removed "ding"
 Thanks to [[https://www.buildfunthings.com][Arjen Wiersma]] for showing how to remove the ever annoying *ding*.
 #+BEGIN_SRC emacs-lisp
@@ -385,11 +431,13 @@ Reload buffers when files change outside emacs.
            (progn (google-translate-query-translate)
                   (select-window (get-buffer-window "*Google Translate*")))) :exit t))
 #+END_SRC
+
 * Org-mode
 #+BEGIN_SRC emacs-lisp
   (diminish 'org-indent-mode)
   (diminish 'visual-line-mode)
 #+END_SRC
+
 ** Visual & highligting
 Activate clean indentation
 #+BEGIN_SRC emacs-lisp
@@ -415,6 +463,7 @@ Modify faces for states
           ("NEXT-ACTION" . (:foreground "black" :background "pink"))
           ("DONE" . (:foreground "black" :background "lightgreen"))))
 #+END_SRC
+
 ** Auto completion
 #+BEGIN_SRC emacs-lisp
   (use-package org-ac
@@ -422,6 +471,7 @@ Modify faces for states
     (require 'org-ac)
     (org-ac/config-default))
 #+END_SRC
+
 ** Key bindings
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'org
@@ -604,6 +654,7 @@ These are my actual templates
 	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
 	   ))
 #+END_SRC
+
 *** Habits module
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'org-modules 'org-habit)
@@ -623,6 +674,7 @@ These are my actual templates
                 (list 'org-agenda-tag-filter-preset (cons 'quote (list tags)))
                 (list 'org-agenda-overriding-header header))))
 #+END_SRC
+
 **** Agenda list
 #+BEGIN_SRC emacs-lisp
   (defun mk/org-custom-agenda (key name tag)
@@ -630,6 +682,7 @@ These are my actual templates
           (list (list 'org-agenda-tag-filter-preset (quote '("-SOMEDAY" "-ON_HOLD")))
                 (list 'org-agenda-overriding-header (concat "Agenda for " name)))))
 #+END_SRC
+
 **** Contexts
 #+BEGIN_SRC emacs-lisp
   (defun mk/org-custom-context (key name tag)
@@ -637,12 +690,14 @@ These are my actual templates
           (list (list 'org-agenda-tag-filter-preset (quote '("-SOMEDAY" "-ON_HOLD")))
                 (list 'org-agenda-overriding-header (concat "Context: " name)))))
 #+END_SRC
+
 **** Maintenance
 #+BEGIN_SRC emacs-lisp
   (defvar mk/org-custom-refile
     (list "or" "Refile list" 'tags-todo "+REFILE"
           (list(list 'org-agenda-overriding-header "Refile list"))))
 #+END_SRC
+
 **** File lists
 #+BEGIN_SRC emacs-lisp :results none
   (defvar mk/org-files-private
@@ -665,6 +720,7 @@ These are my actual templates
   (defvar mk/org-files-mom
     (quote '("~/ONEDRI~1/mom.org")))
 #+END_SRC
+
 **** Setup
 #+BEGIN_SRC emacs-lisp :results none
   (setq org-agenda-custom-commands
@@ -723,6 +779,7 @@ Setting UTF-8 for exports
 #+BEGIN_SRC emacs-lisp
   (use-package htmlize)
 #+END_SRC
+
 *** Jira
 #+BEGIN_SRC emacs-lisp
   (use-package ox-jira)
@@ -741,6 +798,7 @@ Setting UTF-8 for exports
 
   (setq org-babel-python-command "python3")
 #+END_SRC
+
 ** Publishing
 Boilerplate for bootstrap
 #+BEGIN_SRC emacs-lisp
@@ -835,6 +893,7 @@ When the file is published locally, ftp-put it to the webserver
 #+begin_src emacs-lisp
   (use-package magit)
 #+end_src
+
 ** Lisp
 *** Paredit
 #+BEGIN_SRC emacs-lisp
@@ -890,6 +949,7 @@ Use =M-x jedi:install-server= to install jedi server. Python virtual environment
     ("p" yaml-tomato-show-current-path "Show Path" :exit t)
     ("c" yaml-tomato-copy "Copy Path" :exit t))
 #+END_SRC
+
 ** Snippets
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
@@ -924,6 +984,7 @@ Unpack both in the same place and try again
   :init (setq rmh-elfeed-org-files (list "~/Dropbox/org/rss-feeds.org"))
   :config (elfeed-org))
 #+END_SRC
+
 ** ledger
 #+BEGIN_SRC emacs-lisp
 (use-package ledger-mode :ensure t)
