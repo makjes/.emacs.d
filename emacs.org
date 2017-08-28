@@ -61,6 +61,13 @@ Setup =use-package=
       `((".*" ,emacs-autosave-directory t)))
 #+end_src
 
+** Reload buffers on file change
+Reload buffers when files change outside emacs.
+#+BEGIN_SRC emacs-lisp
+  (global-auto-revert-mode t)
+  (diminish 'auto-revert-mode)
+#+END_SRC
+
 ** Load secrets
 #+BEGIN_SRC emacs-lisp
   (load "~/Dropbox/secrets.el")
@@ -355,12 +362,6 @@ Thanks to [[https://www.buildfunthings.com][Arjen Wiersma]] for showing how to r
   (defun mk/ring-bell-function ())
   (setq ring-bell-function 'mk/ring-bell-function)
   (setq visible-bell nil)
-#+END_SRC
-
-** Reload buffers on file change
-Reload buffers when files change outside emacs.
-#+BEGIN_SRC emacs-lisp
-  (global-auto-revert-mode t)
 #+END_SRC
 
 * Quality of life
@@ -757,6 +758,10 @@ Setting UTF-8 for exports
   (use-package ox-twbs)
 #+END_SRC
 
+*** Github flavored markdown
+#+BEGIN_SRC emacs-lisp
+  (use-package ox-gfm)
+#+END_SRC
 ** Org babel settings
 #+BEGIN_SRC emacs-lisp
   (org-babel-do-load-languages 'org-babel-load-languages '((python . t)
