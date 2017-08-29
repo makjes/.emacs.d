@@ -284,12 +284,10 @@ Change some general settings
   (use-package darktooth-theme)
   (use-package subatomic-theme)
   (use-package flatui-theme)
-  (use-package hydandata-light-theme)
 
   (defvar mk/themes '(darktooth
                       subatomic
-                      flatui
-                      hydandata-light))
+                      flatui))
 
   ;; Load themes without prompting and enabling
   (mapc (lambda (x) (load-theme x t t)) mk/themes)
@@ -318,10 +316,9 @@ Change some general settings
   Light themes:     Dark themes:      Fonts:            E_x_it
   ----------------  ----------------  ----------------  ----------------
   _f_lat UI           _d_arktooth         _m_onospace
-  _h_ydandata light   _s_ubatomic         _w_riting
+  ^^                  _s_ubatomic         _w_riting
   "
     ("f" (mk/load-theme 'flatui) nil)
-    ("h" (mk/load-theme 'hydandata-light) nil)
     ("d" (mk/load-theme 'darktooth) nil)
     ("s" (mk/load-theme 'subatomic) nil)
     ("m" (mk/set-font 'mono) nil)
