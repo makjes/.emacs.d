@@ -264,15 +264,6 @@ Change some general settings
   (fset 'yes-or-no-p 'y-or-n-p) ; Answer with y/n
 #+END_SRC
 
-** Autocomplete
-#+begin_src emacs-lisp
-  (use-package auto-complete
-    :diminish auto-complete-mode
-    :init
-    (ac-config-default)
-    (global-auto-complete-mode t))
-#+end_src
-
 ** Agressive indentation
 #+begin_src emacs-lisp
 (use-package aggressive-indent
@@ -852,18 +843,45 @@ When the file is published locally, ftp-put it to the webserver
 #+END_SRC
 * Development
 ** Common tools
-*** flycheck
+*** Flycheck
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
+    :diminish flycheck-mode
     :init
     (global-flycheck-mode t)
     (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 #+END_SRC
 
-** Magit
+*** Autocomplete
+#+begin_src emacs-lisp
+  (use-package auto-complete
+    :diminish auto-complete-mode
+    :init
+    (setq ac-modes (remove 'org-mode ac-modes))
+    (ac-config-default))
+#+END_SRC
+
+I use org-mode for writing, and auto-complete breaks my workflow. This advice will prevent auto-complete to load in org-mode.
+#+BEGIN_SRC emacs-lisp
+  (defadvice auto-complete-mode (around disable-auto-complete-for-org-mode)
+    (unless (eq major-mode 'org-mode) ad-do-it))
+
+  (ad-activate 'auto-complete-mode)
+#+end_src
+
+*** Magit
 #+begin_src emacs-lisp
   (use-package magit)
 #+end_src
+
+*** Snippets
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :config
+  (yas/global-mode 1)
+  (add-to-list 'yas-snippet-dirs "~/dropbox/snippets"))
+#+END_SRC
 
 ** Lisp
 *** Paredit
@@ -919,15 +937,6 @@ Use =M-x jedi:install-server= to install jedi server. Python virtual environment
     "Yaml path"
     ("p" yaml-tomato-show-current-path "Show Path" :exit t)
     ("c" yaml-tomato-copy "Copy Path" :exit t))
-#+END_SRC
-
-** Snippets
-#+BEGIN_SRC emacs-lisp
-(use-package yasnippet
-  :diminish yas
-  :config
-  (yas/global-mode 1)
-  (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets"))
 #+END_SRC
 
 * Experiments                                                      :noexport:
