@@ -133,6 +133,7 @@ Rectangle Mode     | _b_   _f_ |    _s_tring    _y_ank
    Jump   _l_ : Line   |   Multiple Cursors   _L_ : Line
     --    _c_ : Char   |       --------       _C_ : Char
           _p_ : Pop    |                      _s_ : Selected lines
+          ^^                                  _i_ : iEdit
   "
     ("w" ace-jump-word-mode nil :exit t)
     ("l" ace-jump-line-mode nil :exit t)
@@ -146,6 +147,7 @@ Rectangle Mode     | _b_   _f_ |    _s_tring    _y_ank
            (setq current-prefix-arg '(4)) ; C-u
            (call-interactively 'ace-mc-add-multiple-cursors)) nil :exit t)
     ("p" ace-jump-mode-pop-mark nil :exit t)
+    ("i" iedit-mode :exit t)
     ("s" (call-interactively 'mc/edit-lines) nil :exit t))
 #+END_SRC
 
