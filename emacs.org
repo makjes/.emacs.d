@@ -880,9 +880,8 @@ I use org-mode for writing, and auto-complete breaks my workflow. This advice wi
   :diminish yas-minor-mode
   :config
   (yas/global-mode 1)
-  (add-to-list 'yas-snippet-dirs "~/dropbox/snippets"))
+  (add-to-list 'yas-snippet-dirs "~/Dropbox/snippets"))
 #+END_SRC
-
 ** Lisp
 *** Paredit
 #+BEGIN_SRC emacs-lisp
@@ -907,9 +906,13 @@ You can find the Elpy documentation [[https://elpy.readthedocs.io/en/latest][her
   (use-package elpy
     :init (elpy-enable))
 
-  (add-hook 'python-mode-hook (setenv "LANG" "en_US.UTF8"))
+  ; (add-hook 'python-mode-hook (setenv "LANG" "en_US.UTF8"))
 #+END_SRC
 Run =(elpy-config)= after install.
+Then, install Jedi by running =(jedi:install-server)=
+
+*** Hydra for Python
+
 
 *** YAML
 #+BEGIN_SRC emacs-lisp :tangle no
