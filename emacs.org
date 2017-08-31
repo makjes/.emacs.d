@@ -902,31 +902,17 @@ Use paredit everywhere
 #+END_SRC
 
 ** Python
-*** python-mode
+You can find the Elpy documentation [[https://elpy.readthedocs.io/en/latest][here]].
 #+BEGIN_SRC emacs-lisp
-  (use-package python-mode
-    :init
-    (if (eq system-type 'windows-nt)
-        (setq py-shell-name "C:/a/Python/Python35-32/python.exe")
-        (setq py-shell-name "python3"))
-    :config
-    (setq py-split-window-on-execute t))
+  (use-package elpy
+    :init (elpy-enable))
+
   (add-hook 'python-mode-hook (setenv "LANG" "en_US.UTF8"))
 #+END_SRC
-Use =M-x write-abbrev-file= and just hit =RET= when asked for a filename.
-*** jedi
-#+BEGIN_SRC emacs-lisp
-  (use-package jedi
-    :init
-    (add-hook 'python-mode-hook 'jedi:setup)
-    (add-hook 'python-mode-hook 'jedi:ac-setup))
-#+END_SRC
-Use =M-x jedi:install-server= to install jedi server. Python virtual environment required.
-#+BEGIN_QUOTE
-[sudo] pip install virtualenv
-#+END_QUOTE
+Run =(elpy-config)= after install.
+
 *** YAML
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package yaml-mode
     :mode "\\.yml\\'" "\\.yaml\\'"
     :bind (:map yaml-mode-map ("C-c p" . mk/hydra-yaml-tomato/body)))
@@ -939,6 +925,29 @@ Use =M-x jedi:install-server= to install jedi server. Python virtual environment
     ("c" yaml-tomato-copy "Copy Path" :exit t))
 #+END_SRC
 
+** Python old setup                                               :noexport:
+*** python-mode
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package python-mode
+    :init
+    (if (eq system-type 'windows-nt)
+        (setq py-shell-name "C:/a/Python/Python35-32/python.exe")
+        (setq py-shell-name "python3"))
+    :config
+    (setq py-split-window-on-execute t))
+#+END_SRC
+Use =M-x write-abbrev-file= and just hit =RET= when asked for a filename.
+*** Jedi
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package jedi
+    :init
+    (add-hook 'python-mode-hook 'jedi:setup)
+    (add-hook 'python-mode-hook 'jedi:ac-setup))
+#+END_SRC
+Use =M-x jedi:install-server= to install jedi server. Python virtual environment required.
+#+BEGIN_QUOTE
+[sudo] pip install virtualenv
+#+END_QUOTE
 * Experiments                                                      :noexport:
 ** elfeed and elfeed-org
 *** First I setup elfeed.el
