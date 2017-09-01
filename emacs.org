@@ -82,7 +82,8 @@ Reload buffers when files change outside emacs.
            ("C-c i" . mk/hydra-indirect-buffers/body)
            ("C-x SPC" . mk/hydra-rectangle/body)
            ("C-c t" . mk/hydra-theme/body)
-           ("C-c j" . mk/hydra-ace-jump/body)))
+           ("C-c j" . mk/hydra-ace-jump/body)
+           ("C-c g" . mk/hydra-qol/body)))
 #+END_SRC
 
 *** Macros
@@ -357,17 +358,36 @@ Thanks to [[https://www.buildfunthings.com][Arjen Wiersma]] for showing how to r
 * Quality of life
 ** Google Translate
 #+BEGIN_SRC emacs-lisp
-  (use-package google-translate
-    :bind ("C-c g" . mk/hydra-translate/body))
+  (use-package google-translate)
 #+END_SRC
 
+** Engine mode
 #+BEGIN_SRC emacs-lisp
-  (defhydra mk/hydra-translate (:hint nil) "
-  Google translate
-  ----------------
-  _e_: English to Norwegian (_E_: @ point)
-  _n_: Norwegian to English (_N_: @ point)
-  _p_: Prompt for languages"
+  (use-package engine-mode
+    :config (engine-mode t))
+
+  (defengine google
+    "https://www.google.com/search?q=%s"
+    :keybinding "g")
+
+  (defengine github
+    "https://github.com/search?q=%s"
+    :keybinding "h")
+
+  (defengine ordbok
+    "http://ordbok.uib.no/perl/ordbok.cgi?OPP=+%s"
+    :keybinding "o")
+#+END_SRC
+
+** Hydras for QoL
+#+BEGIN_SRC emacs-lisp
+  (defhydra mk/hydra-qol (:hint nil) "
+    Google translate^^         ^^                  Search engines
+    ----------------^^         ^^                  -----------------
+    _e_: English to Norwegian (_E_: @ point)       _g_: Google
+    _n_: Norwegian to English (_N_: @ point)       _h_: GitHub
+    _p_: Prompt for languages  ^^                  _o_: Ordbok
+  "
     ("e" (let ((google-translate-default-source-language "en")
                (google-translate-default-target-language "no"))
            (progn (google-translate-query-translate)
@@ -387,7 +407,10 @@ Thanks to [[https://www.buildfunthings.com][Arjen Wiersma]] for showing how to r
     ("p" (let ((google-translate-default-source-language nil)
                (google-translate-default-target-language nil))
            (progn (google-translate-query-translate)
-                  (select-window (get-buffer-window "*Google Translate*")))) :exit t))
+                  (select-window (get-buffer-window "*Google Translate*")))) :exit t)
+    ("g" engine/search-google nil :exit t)
+    ("h" engine/search-github nil :exit t)
+    ("o" engine/search-ordbok nil :exit t))
 #+END_SRC
 
 * Org-mode
