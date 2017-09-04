@@ -478,13 +478,13 @@ Modify faces for states
   (setq org-refile-targets
         '((nil :todo . "PRCT")
           (nil :todo . "GROUP")
-          ("Privat.org" :tag . "refile")
-          ("UiO.org" :tag . "refile")
-          ("NG.org" :tag . "refile")
-          ("HV.org" :tag . "refile")
+          ("Privat.org" :tag . "REFILE")
+          ("UiO.org" :tag . "REFILE")
+          ("NG.org" :tag . "REFILE")
+          ("HV.org" :tag . "REFILE")
           ("Inbox.org" :level . 1)
-          ("Nellon.org" :tag . "refile")
-          ("Habits.org" :tag . "refile")))
+          ("Nellon.org" :tag . "REFILE")
+          ("Habits.org" :tag . "REFILE")))
 #+END_SRC
 
 *** Activate logbook-drawer
