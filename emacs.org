@@ -436,13 +436,13 @@ Syntax highlighting in source blocks
 Modify faces for states
 #+BEGIN_SRC emacs-lisp
   (setq org-todo-keyword-faces
-        '(("PROJECT" . (:foreground "black" :background "lightblue"))
-          ("GROUP" . (:foreground "black" :background "lightgrey"))
-          ("TODO" . (:foreground "black" :background "lightyellow"))
-          ("WAITING" . (:foreground "black" :background "pink"))
-          ("MATERIAL" . (:foreground "black" :background "lightgreen"))
-          ("NEXT-ACTION" . (:foreground "black" :background "pink"))
-          ("DONE" . (:foreground "black" :background "lightgreen"))))
+        '(("PRCT" . (:weight bold))
+          ("GROUP" . (:weight bold))
+          ("TODO" . (:weight bold))
+          ("WAIT" . (:weight bold))
+          ("MATR" . (:weight bold))
+          ("NEXT" . (:weight bold))
+          ("DONE" . (:weight bold))))
 #+END_SRC
 
 ** Auto completion
@@ -476,7 +476,7 @@ Modify faces for states
 *** Set refile targets
 #+BEGIN_SRC emacs-lisp
   (setq org-refile-targets
-        '((nil :todo . "PROJECT")
+        '((nil :todo . "PRCT")
           (nil :todo . "GROUP")
           ("Privat.org" :tag . "refile")
           ("UiO.org" :tag . "refile")
@@ -706,25 +706,25 @@ These are my actual templates
 #+BEGIN_SRC emacs-lisp :results none
   (setq org-agenda-custom-commands
         (list '("w" . "Work")
-              (mk/org-custom-todo "wn" "Next Actions"     "NEXT-ACTION" mk/org-files-ng  '("-SOMEDAY" "-ON_HOLD"))
-              (mk/org-custom-todo "wp" "Projects"         "PROJECT"     mk/org-files-ng  '("-SOMEDAY" "-ON_HOLD"))
-              (mk/org-custom-todo "ws" "Someday/Maybe"    "PROJECT"     mk/org-files-ng  '("+SOMEDAY"))
-              (mk/org-custom-todo "wh" "Projects On Hold" "PROJECT"     mk/org-files-ng  '("+ON_HOLD"))
-              (mk/org-custom-todo "ww" "Waiting For"      "WAITING"     mk/org-files-ng  '("-SOMEDAY" "-ON_HOLD"))
-              (mk/org-custom-todo "wk" "Kms to expence"   "TODO"        mk/org-files-km  '())
-              (mk/org-custom-todo "wm" "TODO @ MoM"       "TODO"        mk/org-files-mom '())
+              (mk/org-custom-todo "wn" "Next Actions"     "NEXT" mk/org-files-ng  '("-SOMEDAY" "-ON_HOLD"))
+              (mk/org-custom-todo "wp" "Projects"         "PRCT" mk/org-files-ng  '("-SOMEDAY" "-ON_HOLD"))
+              (mk/org-custom-todo "ws" "Someday/Maybe"    "PRCT" mk/org-files-ng  '("+SOMEDAY"))
+              (mk/org-custom-todo "wh" "Projects On Hold" "PRCT" mk/org-files-ng  '("+ON_HOLD"))
+              (mk/org-custom-todo "ww" "Waiting For"      "WAIT" mk/org-files-ng  '("-SOMEDAY" "-ON_HOLD"))
+              (mk/org-custom-todo "wk" "Kms to expence"   "TODO" mk/org-files-km  '())
+              (mk/org-custom-todo "wm" "TODO @ MoM"       "TODO" mk/org-files-mom '())
               '("p" . "Private")
-              (mk/org-custom-todo "pn" "Next Actions"     "NEXT-ACTION" mk/org-files-private '("-SOMEDAY" "-ON_HOLD"))
-              (mk/org-custom-todo "pp" "Projects"         "PROJECT"     mk/org-files-private '("-SOMEDAY" "-ON_HOLD"))
-              (mk/org-custom-todo "ps" "Someday/Maybe"    "PROJECT"     mk/org-files-private '("+SOMEDAY"))
-              (mk/org-custom-todo "ph" "Projects On Hold" "PROJECT"     mk/org-files-private '("+ON_HOLD"))
-              (mk/org-custom-todo "pw" "Waiting For"      "WAITING"     mk/org-files-private '("-SOMEDAY" "-ON_HOLD"))
+              (mk/org-custom-todo "pn" "Next Actions"     "NEXT" mk/org-files-private '("-SOMEDAY" "-ON_HOLD"))
+              (mk/org-custom-todo "pp" "Projects"         "PRCT" mk/org-files-private '("-SOMEDAY" "-ON_HOLD"))
+              (mk/org-custom-todo "ps" "Someday/Maybe"    "PRCT" mk/org-files-private '("+SOMEDAY"))
+              (mk/org-custom-todo "ph" "Projects On Hold" "PRCT" mk/org-files-private '("+ON_HOLD"))
+              (mk/org-custom-todo "pw" "Waiting For"      "WAIT" mk/org-files-private '("-SOMEDAY" "-ON_HOLD"))
               '("l" . "All")
-              (mk/org-custom-todo "ln" "Next Actions"     "NEXT-ACTION" mk/org-files-all '("-SOMEDAY" "-ON_HOLD"))
-              (mk/org-custom-todo "lp" "Projects"         "PROJECT"     mk/org-files-all '("-SOMEDAY" "-ON_HOLD"))
-              (mk/org-custom-todo "ls" "Someday/Maybe"    "PROJECT"     mk/org-files-all '("+SOMEDAY"))
-              (mk/org-custom-todo "lh" "Projects On Hold" "PROJECT"     mk/org-files-all '("+ON_HOLD"))
-              (mk/org-custom-todo "lw" "Waiting For"      "WAITING"     mk/org-files-all '("-SOMEDAY" "-ON_HOLD"))
+              (mk/org-custom-todo "ln" "Next Actions"     "NEXT" mk/org-files-all '("-SOMEDAY" "-ON_HOLD"))
+              (mk/org-custom-todo "lp" "Projects"         "PRCT" mk/org-files-all '("-SOMEDAY" "-ON_HOLD"))
+              (mk/org-custom-todo "ls" "Someday/Maybe"    "PRCT" mk/org-files-all '("+SOMEDAY"))
+              (mk/org-custom-todo "lh" "Projects On Hold" "PRCT" mk/org-files-all '("+ON_HOLD"))
+              (mk/org-custom-todo "lw" "Waiting For"      "WAIT" mk/org-files-all '("-SOMEDAY" "-ON_HOLD"))
               '("g" . "Agenda lists")
               (mk/org-custom-agenda "p" "Per Olav" "PESPOR")
               (mk/org-custom-agenda "m" "Maria" "MACRIS")
@@ -747,8 +747,8 @@ These are my actual templates
 *** Define stuck projects
 #+BEGIN_SRC emacs-lisp
   (setq org-stuck-projects
-        (quote ("-ON_HOLD-SOMEDAY/+PROJECT"
-                ("NEXT-ACTION" "WAITING") nil "")))
+        (quote ("-ON_HOLD-SOMEDAY/+PRCT"
+                ("NEXT" "WAIT") nil "")))
 #+END_SRC
 
 ** Org export
