@@ -52,6 +52,7 @@ Setup =use-package=
   (use-package auto-compile
     :config (auto-compile-on-load-mode))
 #+END_SRC
+
 ** Change autosave directory
 #+begin_src emacs-lisp
 (setq emacs-autosave-directory "~/.emacs.d/autosaves/")
@@ -415,8 +416,9 @@ Thanks to [[https://www.buildfunthings.com][Arjen Wiersma]] for showing how to r
 
 * Org-mode
 #+BEGIN_SRC emacs-lisp
-  (diminish 'org-indent-mode)
-  (diminish 'visual-line-mode)
+  (with-eval-after-load 'org
+    (diminish 'org-indent-mode)
+    (diminish 'visual-line-mode))
 #+END_SRC
 
 ** Visual & highligting
@@ -632,6 +634,9 @@ These are my actual templates
 	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
 	   ("gd" "Ludvik" entry
 	   (file+headline "~/Dropbox/org/Gaver.org" "Ludvik")
+	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
+	   ("ge" "Rune" entry
+	   (file+headline "~/Dropbox/org/Gaver.org" "Rune")
 	   (file "~/Dropbox/org/templates/capture-generic.org") :immediate-finish t)
 	   ))
 #+END_SRC
@@ -949,6 +954,14 @@ Then, install Jedi by running =(jedi:install-server)=
     "Yaml path"
     ("p" yaml-tomato-show-current-path "Show Path" :exit t)
     ("c" yaml-tomato-copy "Copy Path" :exit t))
+#+END_SRC
+
+** Standard ML
+#+BEGIN_SRC emacs-lisp
+  (use-package sml-mode
+    :init
+    (if (eq system-type 'windows-nt)
+        (setq sml-program-name "c:/a/tools/SMLNJ/bin/sml.bat")))
 #+END_SRC
 
 ** Python old setup                                               :noexport:
