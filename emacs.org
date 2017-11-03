@@ -75,7 +75,6 @@ Reload buffers when files change outside emacs.
 #+END_SRC
 
 * Navigation
-
 ** Hydra
 #+BEGIN_SRC emacs-lisp
   (use-package hydra
@@ -84,9 +83,32 @@ Reload buffers when files change outside emacs.
            ("C-x SPC" . mk/hydra-rectangle/body)
            ("C-c t" . mk/hydra-theme/body)
            ("C-c j" . mk/hydra-ace-jump/body)
-           ("C-c g" . mk/hydra-qol/body)))
+           ("C-c g" . mk/hydra-qol/body)
+           ("C-c u" . mk/hydra-case/body)
+           ("C-c h" . mk/hydra-help/body)))
 #+END_SRC
-
+Hydra helper
+#+BEGIN_SRC emacs-lisp
+  (defhydra mk/hydra-help (:hint nil)
+    "
+    Hydra helper
+    ------------
+    _<f4>_    : Macros
+    C-c _g_   : Google translate & Search engines
+    C-c _i_   : Org indirect buffers
+    C-c _j_   : Jump & Multiple cursors
+    C-c _t_   : Themes
+    C-c _u_   : Capitalization
+    C-x _SPC_ : Rectangle mode
+    "
+    ("<f4>" mk/hydra-macro/body :exit t)
+    ("i" mk/hydra-indirect-buffers/body :exit t)
+    ("SPC" mk/hydra-rectangle/body :exit t)
+    ("t" mk/hydra-theme/body :exit t)
+    ("j" mk/hydra-ace-jump/body :exit t)
+    ("g" mk/hydra-qol/body :exit t)
+    ("u" mk/hydra-case/body :exit t))
+#+END_SRC
 *** Macros
 I really want to use macros more, and making a hydra for it will help me remember to use it.
 #+BEGIN_SRC emacs-lisp
@@ -246,6 +268,23 @@ Hydra for easily create indirect buffers
                 (mk/org-indirect-mode)) "Org tree to indirect buffer" :exit t)
     ("m" make-indirect-buffer "Make indirect buffer")
     ("s" (shrink-window-horizontally (- (window-size nil t) 50)) "Resize window" :exit t))
+#+END_SRC
+
+** Capitalization
+#+BEGIN_SRC emacs-lisp
+  (defhydra mk/hydra-case (:hint nil) "
+                                     Dwim^^   Previous word
+       --------      |   Uppercase:  _u_      _U_
+    Capitalization   |   Lowercase:  _l_      _L_                    E_x_it
+       --------      |   Capitalize: _c_      _C_
+    "
+    ("u" upcase-dwim)
+    ("l" downcase-dwim)
+    ("c" capitalize-dwim)
+    ("U" (upcase-word -1))
+    ("L" (downcase-word -1))
+    ("C" (capitalize-word -1))
+    ("x" nil :exit t))
 #+END_SRC
 
 * Look and feel
@@ -962,6 +1001,9 @@ Then, install Jedi by running =(jedi:install-server)=
     :init
     (if (eq system-type 'windows-nt)
         (setq sml-program-name "c:/a/tools/SMLNJ/bin/sml.bat")))
+  
+  (with-eval-after-load 'sml
+    (aggressive-indent-mode nil))
 #+END_SRC
 
 ** Python old setup                                               :noexport:

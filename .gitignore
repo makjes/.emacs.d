@@ -6,6 +6,7 @@ eshell/
 server/
 url/
 .python-environments/
+hacker-typer/
 
 # Extracted or exported emacs.org
 emacs.*
